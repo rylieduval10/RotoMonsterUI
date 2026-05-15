@@ -7,6 +7,7 @@ namespace RotoMonsterUI
     {
         private List<(string label, string value, bool checked_)> _options;
         private string _id;
+        private string _name;
 
         public CheckboxGroup()
         {
@@ -19,6 +20,12 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public CheckboxGroup WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
         public CheckboxGroup AddOption(string label, string value, bool isChecked = false)
         {
             _options.Add((label, value, isChecked));
@@ -27,29 +34,32 @@ namespace RotoMonsterUI
 
         public string Render()
         {
-            var wrapper = new HtmlTag("div").AddClass("adv-controls");
+            var wrapper = new HtmlTag("div").AddClass("modern-filter-badges");
 
             if (!string.IsNullOrEmpty(_id))
                 wrapper.Attr("id", _id);
 
             foreach (var option in _options)
             {
-                var inputId = $"chk-{option.value}";
+                var badge = new HtmlTag("div")
+                    .AddClass("modern-filter-badge")
+                    .Attr("data-value", option.value);
 
-                var input = new HtmlTag("input")
-                    .Attr("type", "checkbox")
-                    .Attr("id", inputId)
-                    .Attr("value", option.value);
+                if (!string.IsNullOrEmpty(_name))
+                    badge.Attr("data-name", _name);
 
                 if (option.checked_)
-                    input.Attr("checked", "checked");
+                    badge.AddClass("active");
 
-                var label = new HtmlTag("label")
-                    .Attr("for", inputId)
-                    .Text(option.label);
+                var checkmark = new HtmlTag("span")
+                    .Attr("class", "badge-checkmark")
+                    .Attr("style", option.checked_ ? "visibility:visible" : "visibility:hidden")
+                    .Text("✓ ");
 
-                wrapper.Append(input);
-                wrapper.Append(label);
+                badge.Append(checkmark);
+                badge.AppendHtml(option.label);
+
+                wrapper.Append(badge);
             }
 
             return wrapper.ToString();
