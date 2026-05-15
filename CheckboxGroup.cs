@@ -5,13 +5,13 @@ namespace RotoMonsterUI
 {
     public class CheckboxGroup
     {
-        private List<(string label, string value, bool checked_)> _options;
+        private List<(string label, string value, bool checked_, string dataPos)> _options;
         private string _id;
         private string _name;
 
         public CheckboxGroup()
         {
-            _options = new List<(string, string, bool)>();
+            _options = new List<(string, string, bool, string)>();
         }
 
         public CheckboxGroup WithId(string id)
@@ -26,9 +26,9 @@ namespace RotoMonsterUI
             return this;
         }
 
-        public CheckboxGroup AddOption(string label, string value, bool isChecked = false)
+        public CheckboxGroup AddOption(string label, string value, bool isChecked = false, string dataPos = null)
         {
-            _options.Add((label, value, isChecked));
+            _options.Add((label, value, isChecked, dataPos));
             return this;
         }
 
@@ -43,21 +43,17 @@ namespace RotoMonsterUI
             {
                 var badge = new HtmlTag("div")
                     .AddClass("modern-filter-badge")
-                    .Attr("data-value", option.value);
+                    .Attr("data-value", option.value)
+                    .Text(option.label);
 
                 if (!string.IsNullOrEmpty(_name))
                     badge.Attr("data-name", _name);
 
+                if (!string.IsNullOrEmpty(option.dataPos))
+                    badge.Attr("data-pos", option.dataPos);
+
                 if (option.checked_)
                     badge.AddClass("active");
-
-                var checkmark = new HtmlTag("span")
-                    .Attr("class", "badge-checkmark")
-                    .Attr("style", option.checked_ ? "visibility:visible" : "visibility:hidden")
-                    .Text("✓ ");
-
-                badge.Append(checkmark);
-                badge.AppendHtml(option.label);
 
                 wrapper.Append(badge);
             }
