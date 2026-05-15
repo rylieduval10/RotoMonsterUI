@@ -6,26 +6,33 @@ namespace RotoMonsterUI
     public class Dropdown
     {
         private string _label;
-        private List<string> _items;
+        private List<(string text, string value)> _items;
         private BootstrapVersion _version;
         private string _id;
+        private string _selectedValue;
 
         public Dropdown(string label, BootstrapVersion version = BootstrapVersion.V4)
         {
             _label = label;
-            _items = new List<string>();
+            _items = new List<(string, string)>();
             _version = version;
         }
 
-        public Dropdown AddItem(string item)
+        public Dropdown AddItem(string text, string value = null)
         {
-            _items.Add(item);
+            _items.Add((text, value ?? text));
             return this;
         }
 
         public Dropdown WithId(string id)
         {
             _id = id;
+            return this;
+        }
+
+        public Dropdown WithSelectedValue(string value)
+        {
+            _selectedValue = value;
             return this;
         }
 
@@ -36,9 +43,19 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_id))
                 wrapper.Attr("id", _id);
 
+            var selectedText = _label;
+            foreach (var item in _items)
+            {
+                if (item.value == _selectedValue)
+                {
+                    selectedText = item.text;
+                    break;
+                }
+            }
+
             var trigger = new HtmlTag("div")
                 .AddClass("bm-custom-select-trigger")
-                .Text(_label);
+                .Text(selectedText);
 
             var arrow = new HtmlTag("span")
                 .AddClass("bm-custom-select-arrow");
@@ -51,7 +68,12 @@ namespace RotoMonsterUI
             {
                 var option = new HtmlTag("div")
                     .AddClass("bm-custom-select-option")
-                    .Text(item);
+                    .Attr("data-value", item.value)
+                    .Text(item.text);
+
+                if (item.value == _selectedValue)
+                    option.AddClass("selected");
+
                 options.Append(option);
             }
 
