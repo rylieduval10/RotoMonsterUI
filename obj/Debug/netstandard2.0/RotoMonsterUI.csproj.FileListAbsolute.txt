@@ -1,0 +1,10 @@
+/Users/rylieduval/Desktop/RotoMonsterUI/bin/Debug/netstandard2.0/RotoMonsterUI.deps.json
+/Users/rylieduval/Desktop/RotoMonsterUI/bin/Debug/netstandard2.0/RotoMonsterUI.dll
+/Users/rylieduval/Desktop/RotoMonsterUI/bin/Debug/netstandard2.0/RotoMonsterUI.pdb
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.csproj.AssemblyReference.cache
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.AssemblyInfoInputs.cache
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.AssemblyInfo.cs
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.csproj.CoreCompileInputs.cache
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.dll
+/Users/rylieduval/Desktop/RotoMonsterUI/obj/Debug/netstandard2.0/RotoMonsterUI.pdb
