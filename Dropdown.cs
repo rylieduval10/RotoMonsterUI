@@ -8,6 +8,7 @@ namespace RotoMonsterUI
         private string _label;
         private List<string> _items;
         private BootstrapVersion _version;
+        private string _id;
 
         public Dropdown(string label, BootstrapVersion version = BootstrapVersion.V4)
         {
@@ -22,31 +23,40 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public Dropdown WithId(string id)
+        {
+            _id = id;
+            return this;
+        }
+
         public string Render()
         {
-            var wrapper = new HtmlTag("div").AddClass("dropdown");
+            var wrapper = new HtmlTag("div").AddClass("bm-custom-select");
 
-            var toggle = new HtmlTag("button")
-                .AddClass("btn")
-                .AddClass("btn-secondary")
-                .AddClass("dropdown-toggle")
-                .Attr("type", "button")
-                .Attr("data-toggle", "dropdown")
+            if (!string.IsNullOrEmpty(_id))
+                wrapper.Attr("id", _id);
+
+            var trigger = new HtmlTag("div")
+                .AddClass("bm-custom-select-trigger")
                 .Text(_label);
 
-            var menu = new HtmlTag("div").AddClass("dropdown-menu");
+            var arrow = new HtmlTag("span")
+                .AddClass("bm-custom-select-arrow");
+
+            trigger.Append(arrow);
+
+            var options = new HtmlTag("div").AddClass("bm-custom-select-options");
 
             foreach (var item in _items)
             {
-                var link = new HtmlTag("a")
-                    .AddClass("dropdown-item")
-                    .Attr("href", "#")
+                var option = new HtmlTag("div")
+                    .AddClass("bm-custom-select-option")
                     .Text(item);
-                menu.Append(link);
+                options.Append(option);
             }
 
-            wrapper.Append(toggle);
-            wrapper.Append(menu);
+            wrapper.Append(trigger);
+            wrapper.Append(options);
 
             return wrapper.ToString();
         }

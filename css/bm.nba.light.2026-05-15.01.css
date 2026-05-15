@@ -1,0 +1,41 @@
+/* 
+ * Basketball Monster - NBA Colors Override
+ * Version: bm.nba.2025-01-23.01.light.css
+ * Theme: Light
+ * 
+ * Usage: Load AFTER bm.2025-01-23.01.light.css
+ * Example:
+ *   <link rel="stylesheet" href="bm.light.2025-01-23.01.css" />
+ *   <link rel="stylesheet" href="bm.nba.light.2025-01-23.01.css" />
+ */
+
+ :root {
+    /* BASKETBALL BRAND COLORS */
+    --brand-primary: #FF6B00;        /* Basketball orange */
+    --brand-primary-light: #f97316;
+    --brand-primary-dark: #ea580c;
+    --brand-accent: #ff8c42;
+    
+    /* POSITION COLORS - Basketball positions */
+    --pos-pg: #3b82f6;     /* Blue - Point Guard */
+    --pos-sg: #22c55e;     /* Green - Shooting Guard */
+    --pos-sf: #a855f7;     /* Purple - Small Forward */
+    --pos-pf: #ef4444;     /* Red - Power Forward */
+    --pos-c: #06b6d4;      /* Cyan - Center */
+}
+
+/* Update SVG dropdown arrows to orange */
+.modern-filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23FF6B00' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+}
+
+/* Page title with orange background spanning full width */
+.page-title {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-light) 100%);
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 -1rem 2rem -1rem;
+    padding: 1.5rem 1rem;
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.2);
+}

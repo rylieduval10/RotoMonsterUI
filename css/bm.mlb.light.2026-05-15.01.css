@@ -1,0 +1,69 @@
+/* 
+ * Baseball Monster - MLB Colors Override
+ * Version: bm.mlb.2025-01-26.02.light.css
+ * Theme: Light
+ * 
+ * Usage: Load AFTER bm.2025-01-26.02.light.css
+ * Example:
+ *   <link rel="stylesheet" href="bm.light.2025-01-26.02.css" />
+ *   <link rel="stylesheet" href="bm.mlb.light.2025-01-26.02.css" />
+ */
+
+ :root {
+    /* BASEBALL BRAND COLORS */
+    --brand-primary: #2d7a3e;        /* Baseball green */
+    --brand-primary-light: #3d9b4f;
+    --brand-primary-dark: #1e5a2d;
+    --brand-accent: #4ade80;         /* Bright green accent */
+    
+    /* POSITION COLORS - Baseball positions */
+    --pos-c: #0099FF;      /* Cyan - Catcher */
+    --pos-1b: #339900;     /* Green - 1st Base */
+    --pos-2b: #0000cc;     /* Blue - 2nd Base */
+    --pos-ss: #cc0000;     /* Red - Shortstop */
+    --pos-3b: #ff6600;     /* Orange - 3rd Base */
+    --pos-of: #660099;     /* Purple - Outfield */
+    --pos-dh: #1f2937;     /* Dark gray - Designated Hitter */
+    --pos-sp: #683300;     /* Brown/Navy - Starting Pitcher */
+    --pos-rp: #ff0099;     /* Pink - Relief Pitcher */
+    --pos-cl: #ff0099;     /* Pink - Closer */
+    --pos-ph: #6b7280;     /* Gray - Pinch Hitter */
+}
+
+/* Update SVG dropdown arrows to green */
+.modern-filter-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%232d7a3e' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+}
+
+/* Page title with green background spanning full width */
+.page-title {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-light) 100%);
+    color: white;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 2rem 0;
+    padding: 1.5rem 1rem;
+    box-shadow: 0 4px 12px rgba(45, 122, 62, 0.2);
+    border-radius: 8px;
+}
+
+/* Override orange glows with green */
+.navbar-dark {
+    box-shadow: 0 20px 40px rgba(45, 122, 62, 0.2);
+}
+
+.modern-filter-select:focus {
+    box-shadow: 0 0 0 4px rgba(45, 122, 62, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.modern-filter-badge:not([data-pos]):hover {
+    background: rgba(45, 122, 62, 0.05);
+}
+
+.modern-filter-badge:not([data-pos]).active {
+    box-shadow: 0 2px 8px rgba(45, 122, 62, 0.3);
+}
+
+.modern-filter-btn-primary:hover {
+    box-shadow: 0 3px 10px rgba(45, 122, 62, 0.2);
+}

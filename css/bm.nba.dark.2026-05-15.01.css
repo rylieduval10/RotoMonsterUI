@@ -1,0 +1,17 @@
+/* 
+ * Basketball Monster - NBA Colors Override
+ * Version: bm.nba.2025-01-20.01.dark.css
+ * Theme: Dark
+ * 
+ * Usage: Load AFTER bm.2025-01-20.01.dark.css
+ * Example:
+ *   <link rel="stylesheet" href="bm.2025-01-20.01.dark.css" />
+ *   <link rel="stylesheet" href="bm.nba.2025-01-20.01.dark.css" />
+ */
+
+ :root {
+    --brand-primary: #FF6B00;           /* Basketball orange */
+    --brand-primary-light: #f97316;
+    --brand-primary-dark: #ea580c;
+    --brand-accent: #ff8c42;            /* Bright orange accent */
+}

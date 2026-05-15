@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using HtmlTags;
 
 namespace RotoMonsterUI
 {
-    //saying that bootstrap can either be version 4 or version 5
     public enum BootstrapVersion
     {
         V4,
@@ -28,6 +26,7 @@ namespace RotoMonsterUI
         private string _text;
         private ButtonStyle _style;
         private BootstrapVersion _version;
+        private string _id;
 
         public Button(string text, BootstrapVersion version = BootstrapVersion.V4)
         {
@@ -42,14 +41,33 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public Button WithId(string id)
+        {
+            _id = id;
+            return this;
+        }
+
         public string Render()
         {
-            string styleClass = _style.ToString().ToLower();
-            return new HtmlTag("button")
-                .AddClass("btn")
-                .AddClass($"btn-{styleClass}")
-                .Text(_text)
-                .ToString();
+            var tag = new HtmlTag("button").AddClass("modern-filter-btn");
+
+            switch (_style)
+            {
+                case ButtonStyle.Primary:
+                    tag.AddClass("modern-filter-btn-primary");
+                    break;
+                case ButtonStyle.Secondary:
+                    tag.AddClass("modern-filter-btn-secondary");
+                    break;
+                default:
+                    tag.AddClass($"btn btn-{_style.ToString().ToLower()}");
+                    break;
+            }
+
+            if (!string.IsNullOrEmpty(_id))
+                tag.Attr("id", _id);
+
+            return tag.Text(_text).ToString();
         }
     }
 }
