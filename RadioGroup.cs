@@ -1,0 +1,61 @@
+using HtmlTags;
+using System.Collections.Generic;
+
+namespace RotoMonsterUI
+{
+    public class RadioGroup
+    {
+        private string _name;
+        private List<(string label, string value, bool selected)> _options;
+        private string _id;
+
+        public RadioGroup(string name)
+        {
+            _name = name;
+            _options = new List<(string, string, bool)>();
+        }
+
+        public RadioGroup WithId(string id)
+        {
+            _id = id;
+            return this;
+        }
+
+        public RadioGroup AddOption(string label, string value, bool isSelected = false)
+        {
+            _options.Add((label, value, isSelected));
+            return this;
+        }
+
+        public string Render()
+        {
+            var wrapper = new HtmlTag("div").AddClass("adv-controls");
+
+            if (!string.IsNullOrEmpty(_id))
+                wrapper.Attr("id", _id);
+
+            foreach (var option in _options)
+            {
+                var inputId = $"{_name}-{option.value}";
+
+                var input = new HtmlTag("input")
+                    .Attr("type", "radio")
+                    .Attr("name", _name)
+                    .Attr("id", inputId)
+                    .Attr("value", option.value);
+
+                if (option.selected)
+                    input.Attr("checked", "checked");
+
+                var label = new HtmlTag("label")
+                    .Attr("for", inputId)
+                    .Text(option.label);
+
+                wrapper.Append(input);
+                wrapper.Append(label);
+            }
+
+            return wrapper.ToString();
+        }
+    }
+}
