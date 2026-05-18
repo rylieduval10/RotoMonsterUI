@@ -43,9 +43,8 @@ namespace RotoMonsterUI
             {
                 var input = new HtmlTag("input")
                     .Attr("type", "checkbox")
-                    .Attr("value", option.value)
-                    .Attr("id", $"{option.value}")
-                    .Attr("name", $"{option.value}");
+                    .Attr("id", $"{_id}{option.value}")
+                    .Attr("name", $"{_id}{option.value}");
 
                 if (!string.IsNullOrEmpty(option.dataPos))
                     input.Attr("data-pos", option.dataPos);
@@ -54,7 +53,7 @@ namespace RotoMonsterUI
                     input.Attr("checked", "checked");
 
                 var label = new HtmlTag("label")
-                    .Attr("for", $"{option.value}")
+                    .Attr("for", $"{_id}{option.value}")
                     .AddClass("modern-filter-badge")
                     .Text(option.label);
 
