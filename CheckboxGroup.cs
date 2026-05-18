@@ -41,15 +41,11 @@ namespace RotoMonsterUI
 
             foreach (var option in _options)
             {
-                // REMOVED: var container = new HtmlTag("div").AddClass("modern-filter-badge-wrapper");
-
                 var input = new HtmlTag("input")
                     .Attr("type", "checkbox")
                     .Attr("value", option.value)
-                    .Attr("id", $"{_name}_{option.value}");
-
-                if (!string.IsNullOrEmpty(_name))
-                    input.Attr("name", _name);
+                    .Attr("id", $"{option.value}")
+                    .Attr("name", $"{option.value}");
 
                 if (!string.IsNullOrEmpty(option.dataPos))
                     input.Attr("data-pos", option.dataPos);
@@ -58,11 +54,13 @@ namespace RotoMonsterUI
                     input.Attr("checked", "checked");
 
                 var label = new HtmlTag("label")
-                    .Attr("for", $"{_name}_{option.value}")
+                    .Attr("for", $"{option.value}")
                     .AddClass("modern-filter-badge")
                     .Text(option.label);
 
-                // Append directly to the top-level modern-filter-badges wrapper
+                if (option.checked_)
+                    label.AddClass("active");
+
                 wrapper.Append(input);
                 wrapper.Append(label);
             }
