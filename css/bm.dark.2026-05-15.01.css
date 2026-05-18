@@ -791,6 +791,10 @@ body {
     flex-wrap: wrap;
 }
 
+.modern-filter-badges input[type="checkbox"] {
+    display: none !important;
+}
+
 .modern-filter-badge {
     display: inline-flex;
     align-items: center;
