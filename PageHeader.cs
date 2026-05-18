@@ -32,12 +32,12 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_id))
                 wrapper.Attr("id", _id);
 
-            var title = new HtmlTag("h1").Text(_title);
+            var title = new HtmlTag("h1").AppendHtml(_title);
             wrapper.Append(title);
 
             if (!string.IsNullOrEmpty(_subtitle))
             {
-                var subtitle = new HtmlTag("p").AddClass("subtitle").Text(_subtitle);
+                var subtitle = new HtmlTag("p").AddClass("subtitle").AppendHtml(_subtitle);
                 wrapper.Append(subtitle);
             }
 
