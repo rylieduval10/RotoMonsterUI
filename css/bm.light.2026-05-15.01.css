@@ -240,24 +240,25 @@ body {
 .page-header {
     background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-light) 100%);
     color: white;
-    padding: 3rem 1rem;
-    text-align: center;
-    border-radius: 0 0 30px 30px;
-    margin-bottom: 2rem;
-    box-shadow: 0 20px 40px rgba(255, 107, 0, 0.2);
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-radius: 8px;
+    margin-bottom: 1.25rem;
+    box-shadow: 0 4px 12px rgba(255, 107, 0, 0.15);
 }
 
 .page-header h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0;
+    text-shadow: none;
 }
 
 .page-header .subtitle {
-    font-size: 1.2rem;
+    font-size: 0.85rem;
     opacity: 0.9;
     font-weight: 400;
+    margin-top: 0.15rem;
 }
 
 /* PAGE TITLE - Simple page heading (defined in sport-specific files for color) */
