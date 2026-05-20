@@ -46,9 +46,6 @@ namespace RotoMonsterUI
                     .Attr("id", $"{_id}{option.value}")
                     .Attr("name", $"{_id}{option.value}");
 
-                if (!string.IsNullOrEmpty(option.dataPos))
-                    input.Attr("data-pos", option.dataPos);
-
                 if (option.checked_)
                     input.Attr("checked", "checked");
 
@@ -56,6 +53,9 @@ namespace RotoMonsterUI
                     .Attr("for", $"{_id}{option.value}")
                     .AddClass("modern-filter-badge")
                     .Text(option.label);
+
+                if (!string.IsNullOrEmpty(option.dataPos))
+                    label.Attr("data-pos", option.dataPos);
 
                 if (option.checked_)
                     label.AddClass("active");
