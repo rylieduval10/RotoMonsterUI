@@ -10,18 +10,20 @@
  */
 
  :root {
-    /* BASKETBALL BRAND COLORS */
-    --brand-primary: #FF6B00;        /* Basketball orange */
+    --brand-primary: #FF6B00;
     --brand-primary-light: #f97316;
     --brand-primary-dark: #ea580c;
     --brand-accent: #ff8c42;
-    
-    /* POSITION COLORS - Basketball positions */
-    --pos-pg: #3b82f6;     /* Blue - Point Guard */
-    --pos-sg: #22c55e;     /* Green - Shooting Guard */
-    --pos-sf: #a855f7;     /* Purple - Small Forward */
-    --pos-pf: #ef4444;     /* Red - Power Forward */
-    --pos-c: #06b6d4;      /* Cyan - Center */
+    --brand-primary-rgb: 255, 107, 0;
+
+    /* POSITION COLORS - Basketball */
+    --pos-g: #0099FF;      /* Blue - Guard */
+    --pos-f: #339900;      /* Green - Forward */
+    --pos-c: #0000cc;      /* Dark Blue - Center */
+    --pos-pg: #cc0000;     /* Red - Point Guard */
+    --pos-sg: #ff6600;     /* Orange - Shooting Guard */
+    --pos-sf: #660099;     /* Purple - Small Forward */
+    --pos-pf: #ff0099;     /* Pink - Power Forward */
 }
 
 /* Update SVG dropdown arrows to orange */

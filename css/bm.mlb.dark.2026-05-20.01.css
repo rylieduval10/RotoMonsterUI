@@ -15,6 +15,7 @@
     --brand-primary-light: #3d9b4f;
     --brand-primary-dark: #1e5a2d;
     --brand-accent: #4ade80;         /* Bright green accent */
+    --brand-primary-rgb: 45, 122, 62; 
     
     /* POSITION COLORS - Baseball positions */
     --pos-c: #0099FF;      /* Cyan - Catcher */
