@@ -25,7 +25,7 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_title))
             {
-                var title = new HtmlTag("h5")
+                var title = new HtmlTag("h2")
                     .AddClass("card-title")
                     .Text(_title);
                 card.Append(title);

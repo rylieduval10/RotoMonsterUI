@@ -24,7 +24,7 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_title))
             {
-                var title = new HtmlTag("h3")
+                var title = new HtmlTag("h2")
                     .AddClass("next-games-title")
                     .Text(_title);
                 wrapper.Append(title);
