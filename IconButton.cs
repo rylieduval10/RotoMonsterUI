@@ -10,6 +10,11 @@ namespace RotoMonsterUI
         private ButtonStyle _style;
         private string _id;
 
+        public static string FontAwesome(string classes)
+        {
+            return $"<i class=\"{classes}\"></i>";
+        }
+
         public IconButton(string text, string icon)
         {
             _text = text;
