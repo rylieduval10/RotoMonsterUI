@@ -706,3 +706,9 @@ footer a:hover { color: var(--brand-primary-light); text-shadow: 0 0 10px var(--
     color: var(--color-text-secondary);
     margin-top: 0.1rem;
 }
+
+a.modern-filter-btn,
+a.modern-filter-btn:hover {
+    color: var(--color-text-primary);
+    text-decoration: none;
+}

@@ -16,6 +16,7 @@
     --brand-primary-dark: #1e5a2d;
     --brand-accent: #4ade80;         /* Bright green accent */
     --brand-primary-rgb: 45, 122, 62; 
+    --table-header-bg: #1a4d28;
     
     /* POSITION COLORS - Baseball positions */
     --pos-c: #0099FF;      /* Cyan - Catcher */
@@ -427,3 +428,6 @@ footer a:hover {
     color: #4ade80;
     opacity: 0.8;
 }
+
+.rankings-table a, .modern-stats-table a { color: #a7f3d0; }
+.rankings-table a:hover, .modern-stats-table a:hover { color: #ffffff; text-shadow: none; }
