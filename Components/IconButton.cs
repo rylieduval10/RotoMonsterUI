@@ -40,6 +40,12 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public IconButton WithTitle(string title)
+        {
+            _text = title;
+            return this;
+        }
+
         private string _name;
 
 

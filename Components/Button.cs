@@ -47,6 +47,12 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public Button WithTitle(string title)
+        {
+            _text = title;
+            return this;
+        }
+
         private string _name;
 
         public Button WithName(string name)
