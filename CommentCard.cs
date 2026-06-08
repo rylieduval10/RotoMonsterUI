@@ -1,0 +1,82 @@
+using HtmlTags;
+
+namespace RotoMonsterUI
+{
+    public class CommentCard
+    {
+        private UserCommentCardInput _input;
+
+        public CommentCard(UserCommentCardInput input)
+        {
+            _input = input;
+        }
+
+        public string Render()
+        {
+            var card = new HtmlTag("div").AddClass("comment-card");
+
+            // Player title row
+            var titleRow = new HtmlTag("div").AddClass("comment-card-title-row");
+            var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(_input.PlayerTitle);
+            var viewAll = new HtmlTag("a")
+                .AddClass("comment-card-viewall")
+                .Attr("href", $"/usercomments.aspx?i={_input.PlayerId}")
+                .Text("view all");
+            titleRow.Append(playerTitle);
+            titleRow.Append(viewAll);
+            card.Append(titleRow);
+
+            // Username
+            var username = new HtmlTag("div").AddClass("comment-card-username").AppendHtml(_input.DisplayedUsername);
+            card.Append(username);
+
+            // Comment text
+            var commentText = new HtmlTag("div").AddClass("comment-card-text").Text(_input.CommentText);
+            card.Append(commentText);
+
+            // Actions row
+            var actionsRow = new HtmlTag("div").AddClass("comment-card-actions");
+
+            if (_input.ShowUpDownControls)
+            {
+                var upBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-up").Text("Up");
+                var downBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-down").Text("Down");
+                var voteCount = new HtmlTag("span").AddClass("comment-card-votes")
+                    .Text($"{_input.UpVoteCount + _input.DownVoteCount} ({_input.UpVoteCount}) UP");
+                actionsRow.Append(upBtn);
+                actionsRow.Append(downBtn);
+                actionsRow.Append(voteCount);
+            }
+
+            if (_input.UserCanDelete)
+            {
+                var deleteBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-delete").Text("delete");
+                actionsRow.Append(deleteBtn);
+            }
+
+            if (_input.UserCanPostComment)
+            {
+                var expandBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-expand");
+                expandBtn.AppendHtml("<i class='fas fa-reply'></i>");
+                actionsRow.Append(expandBtn);
+            }
+
+            card.Append(actionsRow);
+
+            // Comment input area (if expanded)
+            if (_input.IsCommentExpanded)
+            {
+                var expandedArea = new HtmlTag("div").AddClass("comment-card-expanded");
+                var textarea = new HtmlTag("textarea")
+                    .AddClass("comment-card-textarea")
+                    .Text(_input.CurrentCommentText ?? "");
+                var postBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-post").Text("Post");
+                expandedArea.Append(textarea);
+                expandedArea.Append(postBtn);
+                card.Append(expandedArea);
+            }
+
+            return card.ToString();
+        }
+    }
+}

@@ -90,4 +90,8 @@
     opacity: 0.9;
 }
 
-.card-based h2 { color: #2d7a3e; }
+.rankings-table a, .modern-stats-table a { color: #1a4d28; }
+.rankings-table a:hover, .modern-stats-table a:hover { color: #2d7a3e; text-shadow: none; }
+
+.card-based h2 { color: #1a4d28; }
+.card-based h3 { color: #2d7a3e; }
