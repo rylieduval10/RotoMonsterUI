@@ -289,8 +289,8 @@ body {
     color: var(--brand-accent);
     transform: translateY(-1px);
 }
-.adv-controls input[type="radio"]:checked + label,
-.adv-controls input[type="checkbox"]:checked + label {
+.adv-controls input[type="radio"]:checked + label:hover,
+.adv-controls input[type="checkbox"]:checked + label:hover {
     background: var(--brand-primary);
     border-color: var(--brand-primary);
     color: white;

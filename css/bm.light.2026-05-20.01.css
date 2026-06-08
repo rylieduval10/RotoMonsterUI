@@ -383,8 +383,8 @@ body {
     background: rgba(var(--brand-primary-rgb), 0.05);
     border-color: var(--brand-primary); color: var(--brand-primary); transform: translateY(-1px);
 }
-.adv-controls input[type="radio"]:checked + label,
-.adv-controls input[type="checkbox"]:checked + label {
+.adv-controls input[type="radio"]:checked + label:hover,
+.adv-controls input[type="checkbox"]:checked + label:hover {
     background: var(--brand-primary); border-color: var(--brand-primary);
     color: white; box-shadow: 0 2px 8px rgba(var(--brand-primary-rgb), 0.3);
 }
