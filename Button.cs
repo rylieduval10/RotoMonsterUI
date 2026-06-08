@@ -47,6 +47,14 @@ namespace RotoMonsterUI
             return this;
         }
 
+        private string _name;
+
+        public Button WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
         public string Render()
         {
             var tag = new HtmlTag("button").AddClass("modern-filter-btn");
@@ -66,6 +74,9 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_id))
                 tag.Attr("id", _id);
+
+            if (!string.IsNullOrEmpty(_name))
+                tag.Attr("name", _name);
 
             return tag.Text(_text).ToString();
         }

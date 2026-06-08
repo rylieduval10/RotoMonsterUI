@@ -40,6 +40,15 @@ namespace RotoMonsterUI
             return this;
         }
 
+        private string _name;
+
+
+        public IconButton WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+
         public string Render()
         {
             var tag = string.IsNullOrEmpty(_url)
@@ -63,6 +72,9 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_id))
                 tag.Attr("id", _id);
+            
+            if (!string.IsNullOrEmpty(_name))
+                tag.Attr("name", _name);
 
             tag.AppendHtml($"<span style='margin-right:0.35rem;'>{_icon}</span>{_text}");
 
