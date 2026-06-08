@@ -686,3 +686,160 @@ a.modern-filter-btn:hover {
     color: var(--color-text-primary);
     text-decoration: none;
 }
+
+/* ============================================
+   COMMENT CARD
+   ============================================ */
+   .comment-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.comment-card:hover {
+    border-color: rgba(var(--brand-primary-rgb), 0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    transform: translateX(2px);
+}
+
+.comment-card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.comment-card-player {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.comment-card-viewall {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+}
+
+.comment-card-viewall:hover {
+    color: var(--brand-primary);
+}
+
+.comment-card-username {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    margin-bottom: 0.25rem;
+}
+
+.comment-card-text {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.comment-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.comment-card-btn {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    transition: all 0.15s ease;
+}
+
+.comment-card-btn-up:hover {
+    background: var(--status-success);
+    border-color: var(--status-success);
+    color: white;
+}
+
+.comment-card-btn-down:hover {
+    background: var(--status-error);
+    border-color: var(--status-error);
+    color: white;
+}
+
+.comment-card-btn-delete {
+    background: transparent;
+    border: none;
+    color: var(--status-error);
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.comment-card-btn-delete:hover {
+    color: #dc2626;
+    text-decoration: underline;
+    background: transparent;
+}
+
+.comment-card-btn-expand {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+}
+
+.comment-card-btn-expand:hover {
+    background: rgba(var(--brand-primary-rgb), 0.1);
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+.comment-card-btn-post {
+    background: var(--brand-primary);
+    color: white;
+    border-color: var(--brand-primary);
+    width: auto;
+    align-self: flex-start;
+    box-shadow: 0 0 10px rgba(var(--brand-primary-rgb), 0.2);
+}
+
+.comment-card-btn-post:hover {
+    background: var(--brand-primary-light);
+    box-shadow: 0 0 20px rgba(var(--brand-primary-rgb), 0.3);
+    transform: translateY(-1px);
+}
+
+.comment-card-votes {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+}
+
+.comment-card-expanded {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.comment-card-textarea {
+    width: 100%;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    min-height: 80px;
+    resize: vertical;
+}
+
+.comment-card-textarea:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.2);
+}

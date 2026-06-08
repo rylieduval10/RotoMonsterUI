@@ -1,9 +1,11 @@
+using System.Collections.Generic;
+
 namespace RotoMonsterUI
 {
     public class UserCommentCardInput
     {
-        public string PlayerTitle { get; set; }
-        public int PlayerId { get; set; }
+        public DisplayPlayerInput Player { get; set; }
+        public DisplayPlayerInput DisplayPlayer { get; set; }
         public string DisplayedUsername { get; set; }
         public string CommentText { get; set; }
         public bool ShowUpDownControls { get; set; }

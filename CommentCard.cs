@@ -1,3 +1,4 @@
+using System;
 using HtmlTags;
 
 namespace RotoMonsterUI
@@ -17,10 +18,11 @@ namespace RotoMonsterUI
 
             // Player title row
             var titleRow = new HtmlTag("div").AddClass("comment-card-title-row");
-            var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(_input.PlayerTitle);
+            var playerDisplay = new DisplayPlayer(_input.Player).Render();
+            var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(playerDisplay);
             var viewAll = new HtmlTag("a")
                 .AddClass("comment-card-viewall")
-                .Attr("href", $"/usercomments.aspx?i={_input.PlayerId}")
+                .Attr("href", $"/usercomments.aspx?i={_input.Player.PlayerId}")
                 .Text("view all");
             titleRow.Append(playerTitle);
             titleRow.Append(viewAll);
@@ -41,8 +43,10 @@ namespace RotoMonsterUI
             {
                 var upBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-up").Text("Up");
                 var downBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-down").Text("Down");
+                var total = _input.UpVoteCount + _input.DownVoteCount;
+                var percent = total > 0 ? (int)Math.Round((double)_input.UpVoteCount / total * 100) : 0;
                 var voteCount = new HtmlTag("span").AddClass("comment-card-votes")
-                    .Text($"{_input.UpVoteCount + _input.DownVoteCount} ({_input.UpVoteCount}) UP");
+                    .Text($"{percent}% ({total}) UP");
                 actionsRow.Append(upBtn);
                 actionsRow.Append(downBtn);
                 actionsRow.Append(voteCount);
@@ -54,7 +58,7 @@ namespace RotoMonsterUI
                 actionsRow.Append(deleteBtn);
             }
 
-            if (_input.UserCanPostComment)
+            if (_input.UserCanPostComment && !_input.IsCommentExpanded)
             {
                 var expandBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-expand");
                 expandBtn.AppendHtml("<i class='fas fa-reply'></i>");
