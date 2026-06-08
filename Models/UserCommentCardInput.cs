@@ -4,8 +4,7 @@ namespace RotoMonsterUI
 {
     public class UserCommentCardInput
     {
-        public DisplayPlayerInput Player { get; set; }
-        public DisplayPlayerInput DisplayPlayer { get; set; }
+        public DisplayPlayerInput DisplayPlayerInput { get; set; }
         public string DisplayedUsername { get; set; }
         public string CommentText { get; set; }
         public bool ShowUpDownControls { get; set; }

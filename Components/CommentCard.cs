@@ -18,11 +18,11 @@ namespace RotoMonsterUI
 
             // Player title row
             var titleRow = new HtmlTag("div").AddClass("comment-card-title-row");
-            var playerDisplay = new DisplayPlayer(_input.Player).Render();
+            var playerDisplay = new DisplayPlayer(_input.DisplayPlayerInput).Render();
             var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(playerDisplay);
             var viewAll = new HtmlTag("a")
                 .AddClass("comment-card-viewall")
-                .Attr("href", $"/usercomments.aspx?i={_input.Player.PlayerId}")
+                .Attr("href", $"/usercomments.aspx?i={_input.DisplayPlayerInput.PlayerId}")
                 .Text("view all");
             titleRow.Append(playerTitle);
             titleRow.Append(viewAll);
