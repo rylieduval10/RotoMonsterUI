@@ -19,17 +19,17 @@
     --table-header-bg: #1a4d28;
     
     /* POSITION COLORS - Baseball positions */
-    --pos-c: #0099FF;      /* Cyan - Catcher */
-    --pos-1b: #339900;     /* Green - 1st Base */
-    --pos-2b: #0000cc;     /* Blue - 2nd Base */
-    --pos-ss: #cc0000;     /* Red - Shortstop */
-    --pos-3b: #ff6600;     /* Orange - 3rd Base */
-    --pos-of: #660099;     /* Purple - Outfield */
-    --pos-dh: #94a3b8;     /* Light gray - Designated Hitter (lighter for dark mode) */
-    --pos-sp: #a16b3a;     /* Lighter Brown - Starting Pitcher (lighter for dark mode) */
-    --pos-rp: #ff0099;     /* Pink - Relief Pitcher */
-    --pos-cl: #ff0099;     /* Pink - Closer */
-    --pos-ph: #94a3b8;     /* Light gray - Pinch Hitter (lighter for dark mode) */
+    --pos-c: #1aa3ff;
+    --pos-1b: #339900;
+    --pos-2b: #4d4dff;
+    --pos-ss: #cc0000;
+    --pos-3b: #ff6600;
+    --pos-of: #aa00ff;
+    --pos-dh: #94a3b8;
+    --pos-sp: #b35600;
+    --pos-rp: #e6008a;
+    --pos-cl: #e6008a;
+    --pos-ph: #94a3b8;
 }
 
 /* Update SVG dropdown arrows to green */
