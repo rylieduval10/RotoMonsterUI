@@ -44,8 +44,14 @@ namespace RotoMonsterUI
             {
                 if (_input.UserVoteInput == null || !_input.UserVoteInput.HasVoted)
                 {
-                    var upBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-up").Text("Up");
-                    var downBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-down").Text("Down");
+                    var upBtn = new HtmlTag("button")
+                        .AddClass("comment-card-btn comment-card-btn-up")
+                        .Attr("name", $"upvote_{_input.CommentId}")
+                        .Text("Up");
+                    var downBtn = new HtmlTag("button")
+                        .AddClass("comment-card-btn comment-card-btn-down")
+                        .Attr("name", $"downvote_{_input.CommentId}")
+                        .Text("Down");
                     actionsRow.Append(upBtn);
                     actionsRow.Append(downBtn);
                 }
@@ -65,13 +71,18 @@ namespace RotoMonsterUI
 
             if (_input.UserCanDelete)
             {
-                var deleteBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-delete").Text("delete");
+                var deleteBtn = new HtmlTag("button")
+                    .AddClass("comment-card-btn comment-card-btn-delete")
+                    .Attr("name", $"delete_{_input.CommentId}")
+                    .Text("delete");
                 actionsRow.Append(deleteBtn);
             }
 
             if (_input.UserCanPostComment && !_input.IsCommentExpanded)
             {
-                var expandBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-expand");
+                var expandBtn = new HtmlTag("button")
+                    .AddClass("comment-card-btn comment-card-btn-expand")
+                    .Attr("name", $"expand_{_input.CommentId}");
                 expandBtn.AppendHtml("<i class='fas fa-reply'></i>");
                 actionsRow.Append(expandBtn);
             }
@@ -84,8 +95,12 @@ namespace RotoMonsterUI
                 var expandedArea = new HtmlTag("div").AddClass("comment-card-expanded");
                 var textarea = new HtmlTag("textarea")
                     .AddClass("comment-card-textarea")
+                    .Attr("name", $"comment_{_input.CommentId}")
                     .Text(_input.CurrentCommentText ?? "");
-                var postBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-post").Text("Post");
+                var postBtn = new HtmlTag("button")
+                    .AddClass("comment-card-btn comment-card-btn-post")
+                    .Attr("name", $"post_{_input.CommentId}")
+                    .Text("Post");
                 expandedArea.Append(textarea);
                 expandedArea.Append(postBtn);
                 card.Append(expandedArea);
