@@ -22,7 +22,15 @@ namespace RotoMonsterUI
             var badge = new HtmlTag("span")
                 .AddClass("injury-badge")
                 .Attr("style", $"background-color:{NormalizeColor(_input.Color)}")
-                .Text(_input.Text);
+                .AppendHtml(_input.BadgeText);
+
+            if (!string.IsNullOrEmpty(_input.TooltipText))
+            {
+                badge
+                    .Attr("data-toggle", "tooltip")
+                    .Attr("data-placement", "top")
+                    .Attr("title", _input.TooltipText);
+            }
 
             return badge.ToString();
         }
