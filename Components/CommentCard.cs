@@ -29,7 +29,8 @@ namespace RotoMonsterUI
             card.Append(titleRow);
 
             // Username
-            var username = new HtmlTag("div").AddClass("comment-card-username").AppendHtml(_input.DisplayedUsername);
+            var username = new HtmlTag("div").AddClass("comment-card-username")
+                .AppendHtml(new DisplayUsername(_input.DisplayUsernameInput).Render());
             card.Append(username);
 
             // Comment text
@@ -41,15 +42,25 @@ namespace RotoMonsterUI
 
             if (_input.ShowUpDownControls)
             {
-                var upBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-up").Text("Up");
-                var downBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-down").Text("Down");
+                if (_input.UserVoteInput == null || !_input.UserVoteInput.HasVoted)
+                {
+                    var upBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-up").Text("Up");
+                    var downBtn = new HtmlTag("button").AddClass("comment-card-btn comment-card-btn-down").Text("Down");
+                    actionsRow.Append(upBtn);
+                    actionsRow.Append(downBtn);
+                }
+
                 var total = _input.UpVoteCount + _input.DownVoteCount;
                 var percent = total > 0 ? (int)Math.Round((double)_input.UpVoteCount / total * 100) : 0;
                 var voteCount = new HtmlTag("span").AddClass("comment-card-votes")
                     .Text($"{percent}% ({total}) UP");
-                actionsRow.Append(upBtn);
-                actionsRow.Append(downBtn);
                 actionsRow.Append(voteCount);
+
+                if (_input.UserVoteInput != null)
+                {
+                    var userVote = new HtmlTag("span").AppendHtml(new UserVote(_input.UserVoteInput).Render());
+                    actionsRow.Append(userVote);
+                }
             }
 
             if (_input.UserCanDelete)

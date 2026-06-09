@@ -843,3 +843,42 @@ a.modern-filter-btn:hover {
     border-color: var(--brand-primary);
     box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.2);
 }
+.player-link {
+    font-weight: 600;
+    text-decoration: none;
+}
+.player-link:hover {
+    text-decoration: none;
+}
+
+.display-username { font-weight: 700; }
+.username-admin { color: #4ade80; }
+.username-regular { color: var(--brand-primary); }
+
+.user-vote { display: inline-flex; align-items: center; gap: 0.5rem; }
+.user-vote-up {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--status-success);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+.user-vote-down {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--status-error);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+.user-vote-change:hover {
+    background: rgba(var(--brand-primary-rgb), 0.1);
+    border-color: var(--brand-primary);
+    color: var(--color-text-primary);
+}
+
+.player-link { color: #2563eb; }
+.player-link:hover { color: #1d4ed8; }

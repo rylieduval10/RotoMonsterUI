@@ -11,12 +11,18 @@ namespace RotoMonsterUI
             _input = input;
         }
 
+        private string NormalizeColor(string color)
+        {
+            if (string.IsNullOrEmpty(color)) return color;
+            return color.StartsWith("#") ? color : "#" + color;
+        }
+
         public string Render()
         {
             var wrapper = new HtmlTag("span").AddClass("display-player");
 
             var playerLink = new HtmlTag("a")
-                .AddClass("display-player-name")
+                .AddClass("display-player-name player-link")
                 .Attr("href", $"/playerInfo.aspx?i={_input.PlayerId}")
                 .Text(_input.PlayerName);
             wrapper.Append(playerLink);
@@ -28,7 +34,7 @@ namespace RotoMonsterUI
             {
                 var posTag = new HtmlTag("span")
                     .AddClass("display-player-pos")
-                    .Attr("style", $"color:{pos.Color}")
+                    .Attr("style", $"color:{NormalizeColor(pos.Color)}")
                     .Text($" {pos.Abbreviation}");
                 wrapper.Append(posTag);
             }
