@@ -908,3 +908,14 @@ a.modern-filter-btn:hover {
 
 .player-link { color: #38bdf8; }
 .player-link:hover { color: #0ea5e9; text-shadow: 0 0 10px rgba(56,189,248,0.5); }
+
+.injury-badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}

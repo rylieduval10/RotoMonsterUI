@@ -25,8 +25,11 @@ namespace RotoMonsterUI
                 else if (key.StartsWith("expand_") && int.TryParse(key.Replace("expand_", ""), out int expandId))
                     result.ExpandCommentId = expandId;
 
-                else if (key.StartsWith("post_") && int.TryParse(key.Replace("post_", ""), out int _))
+                else if (key.StartsWith("post_") && int.TryParse(key.Replace("post_", ""), out int postId))
+                {
                     result.PostPressed = true;
+                    result.PostCommentId = postId;
+                }
 
                 else if (key.StartsWith("comment_"))
                     result.UserComment = params_[key];
