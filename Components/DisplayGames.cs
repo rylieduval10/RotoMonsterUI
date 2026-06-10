@@ -20,7 +20,7 @@ namespace RotoMonsterUI
             if (game.IsGameFinished) return "Final";
             if (game.IsGameLive) return string.IsNullOrEmpty(game.CurrentInning) ? "Live" : game.CurrentInning;
 
-            var localTime = TimeZoneInfo.ConvertTimeFromUtc(game.GameTimeUtc, TimeZoneInfo.FindSystemTimeZoneById(game.DisplayTimezone));
+            var localTime = TimeZoneInfo.ConvertTimeFromUtc(game.GameTimeUtc, game.DisplayTimezone);
             var timeStr = localTime.ToString("h:mmtt").ToLower();
             var until = game.GameTimeUtc - DateTime.UtcNow;
             var untilStr = until.TotalHours >= 1
@@ -67,8 +67,7 @@ namespace RotoMonsterUI
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-humidity").Text($"H{game.Weather.AvgHumidity}%"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind").Text($"{game.Weather.WindDirection} {game.Weather.WindSpeed}mph"));
-                if (game.Weather.RainChance > 0)
+                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(16).Render()));                if (game.Weather.RainChance > 0)
                 {
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").Text($"{game.Weather.RainChance}%"));

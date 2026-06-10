@@ -14,7 +14,7 @@ namespace RotoMonsterUI
         public bool IsGameFinished { get; set; }
         public bool IsGameLive { get; set; }
         public DateTime GameTimeUtc { get; set; }
-        public string DisplayTimezone { get; set; }
+        public TimeZoneInfo DisplayTimezone { get; set; }
         public string ViewBoxScoreUrl { get; set; }
         public WeatherInput Weather { get; set; }
     }
