@@ -26,6 +26,7 @@ namespace RotoMonsterUI
 
             var changeBtn = new HtmlTag("button")
                 .AddClass("comment-card-btn user-vote-change")
+                .Attr("name", $"changevote_{_input.CommentId}")
                 .Text("Change");
             wrapper.Append(changeBtn);
 

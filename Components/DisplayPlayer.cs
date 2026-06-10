@@ -27,15 +27,19 @@ namespace RotoMonsterUI
                 .Text(_input.PlayerName);
             wrapper.Append(playerLink);
 
-            var team = new HtmlTag("span").AddClass("display-player-team").Text($" {_input.TeamCode}");
+            var team = new HtmlTag("span")
+                .AddClass("ml-2 mr-1")
+                .AddClass("display-player-team")
+                .Text(_input.TeamCode);
             wrapper.Append(team);
 
             foreach (var pos in _input.Positions)
             {
                 var posTag = new HtmlTag("span")
+                    .AddClass("ml-1")
                     .AddClass("display-player-pos")
                     .Attr("style", $"color:{NormalizeColor(pos.Color)}")
-                    .Text($" {pos.Abbreviation}");
+                    .Text(pos.Abbreviation);
                 wrapper.Append(posTag);
             }
 

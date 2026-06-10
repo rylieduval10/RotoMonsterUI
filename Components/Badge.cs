@@ -2,11 +2,11 @@ using HtmlTags;
 
 namespace RotoMonsterUI
 {
-    public class InjuryBadge
+    public class Badge
     {
-        private InjuryBadgeInput _input;
+        private BadgeInput _input;
 
-        public InjuryBadge(InjuryBadgeInput input)
+        public Badge(BadgeInput input)
         {
             _input = input;
         }
@@ -19,10 +19,13 @@ namespace RotoMonsterUI
 
         public string Render()
         {
-            var badge = new HtmlTag("span")
-                .AddClass("injury-badge")
-                .Attr("style", $"background-color:{NormalizeColor(_input.Color)}")
-                .AppendHtml(_input.BadgeText);
+            var badge = new HtmlTag("span").AddClass("badge-pill-custom");
+
+            if (!string.IsNullOrEmpty(_input.ColorClass))
+                badge.AddClass(_input.ColorClass);
+
+            if (!string.IsNullOrEmpty(_input.Color))
+                badge.Attr("style", $"background-color:{NormalizeColor(_input.Color)}");
 
             if (!string.IsNullOrEmpty(_input.TooltipText))
             {
@@ -31,6 +34,8 @@ namespace RotoMonsterUI
                     .Attr("data-placement", "top")
                     .Attr("title", _input.TooltipText);
             }
+
+            badge.AppendHtml(_input.BadgeText);
 
             return badge.ToString();
         }

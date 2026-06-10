@@ -17,21 +17,53 @@ namespace RotoMonsterUI
             var card = new HtmlTag("div").AddClass("comment-card");
 
             // Player title row
-            var titleRow = new HtmlTag("div").AddClass("comment-card-title-row");
-            var playerDisplay = new DisplayPlayer(_input.DisplayPlayerInput).Render();
-            var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(playerDisplay);
-            var viewAll = new HtmlTag("a")
-                .AddClass("comment-card-viewall")
-                .Attr("href", $"/usercomments.aspx?i={_input.DisplayPlayerInput.PlayerId}")
-                .Text("view all");
-            titleRow.Append(playerTitle);
-            titleRow.Append(viewAll);
-            card.Append(titleRow);
+            if (_input.ShowPlayerInfo)
+            {
+                var titleRow = new HtmlTag("div").AddClass("comment-card-title-row d-flex justify-content-between align-items-center");
+                var playerDisplay = new DisplayPlayer(_input.DisplayPlayerInput).Render();
+                var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(playerDisplay);
+                titleRow.Append(playerTitle);
 
-            // Username
-            var username = new HtmlTag("div").AddClass("comment-card-username")
-                .AppendHtml(new DisplayUsername(_input.DisplayUsernameInput).Render());
-            card.Append(username);
+                if (_input.ShowViewAll)
+                {
+                    var viewAll = new HtmlTag("a")
+                        .AddClass("comment-card-viewall")
+                        .Attr("href", $"/usercomments.aspx?i={_input.DisplayPlayerInput.PlayerId}")
+                        .Text("view all");
+                    titleRow.Append(viewAll);
+                }
+
+                if (_input.TimeSinceCreated.HasValue)
+                {
+                    var timeSince = new HtmlTag("span").AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
+                    titleRow.Append(timeSince);
+                }
+
+                card.Append(titleRow);
+            }
+            else if (_input.TimeSinceCreated.HasValue)
+            {
+                var timeRow = new HtmlTag("div").AddClass("comment-card-title-row d-flex justify-content-end");
+                var timeSince = new HtmlTag("span").AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
+                timeRow.Append(timeSince);
+                card.Append(timeRow);
+            }
+
+            // Username row with optional New badge
+            var usernameRow = new HtmlTag("div").AddClass("comment-card-username d-flex align-items-center gap-2");
+            usernameRow.AppendHtml(new DisplayUsername(_input.DisplayUsernameInput).Render());
+
+            if (_input.IsNew)
+            {
+                var newBadge = new Badge(new BadgeInput
+                {
+                    BadgeText = "New",
+                    ColorClass = "badge-new"
+                }).Render();
+                usernameRow.AppendHtml(newBadge);
+            }
+
+            card.Append(usernameRow);
 
             // Comment text
             var commentText = new HtmlTag("div").AddClass("comment-card-text").Text(_input.CommentText);

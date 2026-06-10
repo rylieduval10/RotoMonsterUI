@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace RotoMonsterUI
@@ -16,5 +17,9 @@ namespace RotoMonsterUI
         public bool UserCanPostComment { get; set; }
         public bool IsCommentExpanded { get; set; }
         public string CurrentCommentText { get; set; }
+        public TimeSpan? TimeSinceCreated { get; set; }
+        public bool ShowPlayerInfo { get; set; } = true;
+        public bool ShowViewAll { get; set; } = false;
+        public bool IsNew { get; set; } = false;
     }
 }
