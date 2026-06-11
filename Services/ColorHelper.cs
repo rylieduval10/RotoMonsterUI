@@ -20,11 +20,6 @@ namespace RotoMonsterUI
             return colorHigh ? percent : 100 - percent;
         }
 
-        private static double GetPercent(int value, int low, int high, bool colorHigh)
-        {
-            return GetPercentFloat((float)value, (float)low, (float)high, colorHigh);
-        }
-
         // Float versions (real implementation)
         public static string GetYellowColorCode(float value, float low, float high, bool colorHigh)
         {
