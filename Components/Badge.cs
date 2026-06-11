@@ -24,8 +24,15 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_input.ColorClass))
                 badge.AddClass(_input.ColorClass);
 
-            if (!string.IsNullOrEmpty(_input.Color))
-                badge.Attr("style", $"background-color:{NormalizeColor(_input.Color)}");
+            if (!string.IsNullOrEmpty(_input.Color) || !string.IsNullOrEmpty(_input.TextColor))
+            {
+                var style = "";
+                if (!string.IsNullOrEmpty(_input.Color))
+                    style += $"background-color:{NormalizeColor(_input.Color)};";
+                if (!string.IsNullOrEmpty(_input.TextColor))
+                    style += $"color:{NormalizeColor(_input.TextColor)};";
+                badge.Attr("style", style);
+            }
 
             if (!string.IsNullOrEmpty(_input.TooltipText))
             {
