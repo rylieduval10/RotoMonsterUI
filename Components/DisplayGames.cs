@@ -30,7 +30,7 @@ namespace RotoMonsterUI
             return $"{timeStr} {untilStr}";
         }
 
-        private double GetRuns(double projectedRuns, double currentRuns, bool gameStarted)
+        private float GetRuns(float projectedRuns, float currentRuns, bool gameStarted)
         {
             return gameStarted ? currentRuns : projectedRuns;
         }
