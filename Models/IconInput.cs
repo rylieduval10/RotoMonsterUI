@@ -1,0 +1,20 @@
+namespace RotoMonsterUI
+{
+    public enum IconType
+    {
+        Settings,
+        RefreshRosters,
+        PostponementChanceWarning,
+        Info,
+        Dome,
+        RetractableDome
+    }
+
+    public class IconInput
+    {
+        public IconType Type { get; set; }
+        public int Size { get; set; } = 24;
+        public string Color { get; set; } = "currentColor";
+        public string Fill { get; set; } = "none";
+    }
+}

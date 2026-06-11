@@ -62,13 +62,17 @@ namespace RotoMonsterUI
             // Weather
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
             {
+                var windColor = $"#{ColorHelper.GetRedColorCode(Convert.ToInt32(game.Weather.WindSpeed), 0, 25, true)}";
+                var windBadgeInput = new BadgeInput() { BadgeText = new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(16).WithColor($"#{ColorHelper.Black}").Render(), Color = windColor, TooltipText = $"{game.Weather.WindSpeed}mph" };
+                var windBadge = new Badge(windBadgeInput);
+
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
                 weather.Append(new HtmlTag("span").AddClass("game-date-temp").Text($"{game.Weather.AvgTemp}°"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-humidity").Text($"H{game.Weather.AvgHumidity}%"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(16).Render()));       
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Text($"{game.Weather.WindSpeed}mph"));         
+                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(windBadge.Render()));
+                weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Style("color", windColor).Text($"{game.Weather.WindSpeed}mph"));
                 if (game.Weather.RainChance > 0)
                 {
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));

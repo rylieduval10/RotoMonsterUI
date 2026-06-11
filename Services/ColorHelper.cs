@@ -4,6 +4,9 @@ namespace RotoMonsterUI
 {
     public static class ColorHelper
     {
+        public const string Black = "000000";
+        public const string White = "FFFFFF";
+        
         private static string GetColorCode(int r, int g, int b)
         {
             return r.ToString("X2") + g.ToString("X2") + b.ToString("X2");
