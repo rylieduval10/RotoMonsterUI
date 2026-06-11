@@ -27,7 +27,7 @@ namespace RotoMonsterUI
                 ? $"in {Math.Round(until.TotalHours, 1)}h"
                 : $"in {until.Minutes}m";
 
-            return $"{localTime.DayOfWeek.ToString().Substring(0, 3)} {timeStr} {untilStr}";
+            return $"{timeStr} {untilStr}";
         }
 
         private double GetRuns(double projectedRuns, double currentRuns, bool gameStarted)
@@ -60,14 +60,16 @@ namespace RotoMonsterUI
             row.Append(home);
 
             // Weather
-            if (game.Weather != null)
+            if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
             {
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
                 weather.Append(new HtmlTag("span").AddClass("game-date-temp").Text($"{game.Weather.AvgTemp}°"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-humidity").Text($"H{game.Weather.AvgHumidity}%"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(16).Render()));                if (game.Weather.RainChance > 0)
+                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(16).Render()));       
+                weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Text($"{game.Weather.WindSpeed}mph"));         
+                if (game.Weather.RainChance > 0)
                 {
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").Text($"{game.Weather.RainChance}%"));
