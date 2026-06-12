@@ -80,6 +80,18 @@ namespace RotoMonsterUI
             return cell;
         }
 
+        private string GetPostponementColor(string chance)
+        {
+            if (string.IsNullOrEmpty(chance)) return null;
+            switch (chance.ToLower())
+            {
+                case "low": return "#d97706";
+                case "medium": return "#ea580c";
+                case "high": return "#dc2626";
+                default: return null;
+            }
+        }
+
         private HtmlTag BuildGameRow(DisplayGameInput game)
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
@@ -140,6 +152,7 @@ namespace RotoMonsterUI
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(windBadge.Render()));
                 weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Style("color", windColor).Text($"{game.Weather.WindSpeed}mph"));
+
                 if (game.Weather.RainChance > 0)
                 {
                     var rainIcon = new Icon(new IconInput { Type = IconType.Rain, Color = "#378ADD" }).Render();
@@ -147,6 +160,15 @@ namespace RotoMonsterUI
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(rainIcon));
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").Text($"{game.Weather.RainChance}%"));
                 }
+
+                var postponeColor = GetPostponementColor(game.Weather.ChanceOfPostponement);
+                if (postponeColor != null)
+                {
+                    var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor }).Render();
+                    weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+                    weather.Append(new HtmlTag("span").AddClass("game-date-postpone").AppendHtml(postponeIcon));
+                }
+
                 row.Append(weather);
             }
 

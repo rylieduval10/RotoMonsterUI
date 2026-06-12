@@ -8,7 +8,7 @@ namespace RotoMonsterUI
         public double AvgHumidity { get; set; }
         public double WindFieldDegrees { get; set; }
         public double WindSpeed { get; set; }
-        public double ChanceOfPostponement { get; set; }
+        public string ChanceOfPostponement { get; set; }
         public double RainChance { get; set; }
         public string StadiumType { get; set; } // indoor, outdoor, retractable
     }
