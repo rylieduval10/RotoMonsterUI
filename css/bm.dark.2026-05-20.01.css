@@ -1094,13 +1094,17 @@ a.modern-filter-btn:hover {
 .game-team-cell {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.25rem 0.6rem;
+    gap: 0.35rem;
+    padding: 0.2rem 0.5rem;
     border-radius: 6px;
-    min-width: 80px;
-    border: 2px solid transparent;
+    min-width: 75px;
+    border: 3px solid transparent;
 }
 
+.game-team-cell.winner {
+    border-color: var(--game-winner-border) !important;
+    border-width: 3px !important;
+}
 .game-team-code {
     font-weight: 700;
     color: #000000;
