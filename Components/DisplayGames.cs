@@ -142,7 +142,9 @@ namespace RotoMonsterUI
                 weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Style("color", windColor).Text($"{game.Weather.WindSpeed}mph"));
                 if (game.Weather.RainChance > 0)
                 {
+                    var rainIcon = new Icon(new IconInput { Type = IconType.Rain, Color = "#378ADD" }).Render();
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(rainIcon));
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").Text($"{game.Weather.RainChance}%"));
                 }
                 row.Append(weather);

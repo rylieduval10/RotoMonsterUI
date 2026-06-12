@@ -7,7 +7,8 @@ namespace RotoMonsterUI
         PostponementChanceWarning,
         Info,
         Dome,
-        RetractableDome
+        RetractableDome, 
+        Rain
     }
 
     public class IconInput
