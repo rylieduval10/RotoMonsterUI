@@ -69,6 +69,17 @@ namespace RotoMonsterUI
             return gameStarted ? currentRuns : projectedRuns;
         }
 
+        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted)
+        {
+            var cell = new HtmlTag("div").AddClass("game-team-cell");
+            if (isWinner && gameStarted)
+                cell.AddClass("winner");
+            cell.Attr("style", $"background-color:#{bgColor};");
+            cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
+            cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.#")));
+            return cell;
+        }
+
         private HtmlTag BuildGameRow(DisplayGameInput game)
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
@@ -78,17 +89,42 @@ namespace RotoMonsterUI
             // Game state
             row.Append(BuildGameState(game));
 
-            // Away team
-            var away = new HtmlTag("div").AddClass("game-date-team game-date-away");
-            away.Append(new HtmlTag("span").AddClass("game-date-team-code").Text(game.AwayTeamCode));
-            away.Append(new HtmlTag("span").AddClass("game-date-runs").Text(GetRuns(game.AwayTeamProjectedRuns, game.AwayTeamCurrentRuns, gameStarted).ToString()));
-            row.Append(away);
+            // Team cells
+            float awayRuns = GetRuns(game.AwayTeamProjectedRuns, game.AwayTeamCurrentRuns, gameStarted);
+            float homeRuns = GetRuns(game.HomeTeamProjectedRuns, game.HomeTeamCurrentRuns, gameStarted);
 
-            // Home team
-            var home = new HtmlTag("div").AddClass("game-date-team game-date-home");
-            home.Append(new HtmlTag("span").AddClass("game-date-team-code").Text(game.HomeTeamCode));
-            home.Append(new HtmlTag("span").AddClass("game-date-runs").Text(GetRuns(game.HomeTeamProjectedRuns, game.HomeTeamCurrentRuns, gameStarted).ToString()));
-            row.Append(home);
+            string awayColor, homeColor;
+            bool awayWinner = false, homeWinner = false;
+
+            if (!gameStarted)
+            {
+                awayColor = ColorHelper.GetGreenColorCode(awayRuns, 3f, 8f, true);
+                homeColor = ColorHelper.GetGreenColorCode(homeRuns, 3f, 8f, true);
+            }
+            else
+            {
+                float diff = Math.Abs(awayRuns - homeRuns);
+                if (awayRuns > homeRuns)
+                {
+                    awayWinner = true;
+                    awayColor = ColorHelper.GetGreenColorCode(diff, 0f, 8f, true);
+                    homeColor = ColorHelper.GetRedColorCode(diff, 0f, 8f, true);
+                }
+                else if (homeRuns > awayRuns)
+                {
+                    homeWinner = true;
+                    homeColor = ColorHelper.GetGreenColorCode(diff, 0f, 8f, true);
+                    awayColor = ColorHelper.GetRedColorCode(diff, 0f, 8f, true);
+                }
+                else
+                {
+                    awayColor = ColorHelper.GetGreenColorCode(0f, 0f, 8f, true);
+                    homeColor = ColorHelper.GetGreenColorCode(0f, 0f, 8f, true);
+                }
+            }
+
+            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted));
+            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted));
 
             // Weather
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")

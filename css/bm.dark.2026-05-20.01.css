@@ -1090,3 +1090,25 @@ a.modern-filter-btn:hover {
     line-height: 22px;
     z-index: 1;
 }
+
+.game-team-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    min-width: 80px;
+    border: 2px solid transparent;
+}
+
+.game-team-code {
+    font-weight: 700;
+    color: #000000;
+    font-size: 0.85rem;
+}
+
+.game-team-runs {
+    font-weight: 600;
+    color: #000000;
+    font-size: 0.85rem;
+}
