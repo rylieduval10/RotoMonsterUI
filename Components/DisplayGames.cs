@@ -15,19 +15,53 @@ namespace RotoMonsterUI
             _id = id;
         }
 
-        private string GetCurrentState(DisplayGameInput game)
+        private int GetInningPercent(int inning)
         {
-            if (game.IsGameFinished) return "Final";
-            if (game.IsGameLive) return string.IsNullOrEmpty(game.CurrentInning) ? "Live" : game.CurrentInning;
+            if (inning <= 0) return 0;
+            if (inning == 9) return 90;
+            if (inning > 9) return 100;
+            return inning * 10;
+        }
 
-            var localTime = TimeZoneInfo.ConvertTimeFromUtc(game.GameTimeUtc, game.DisplayTimezone);
-            var timeStr = localTime.ToString("h:mmtt").ToLower();
-            var until = game.GameTimeUtc - DateTime.UtcNow;
-            var untilStr = until.TotalHours >= 1
-                ? $"in {Math.Round(until.TotalHours, 1)}h"
-                : $"in {until.Minutes}m";
+        private HtmlTag BuildGameState(DisplayGameInput game)
+        {
+            var wrapper = new HtmlTag("div").AddClass("game-state-wrapper");
 
-            return $"{timeStr} {untilStr}";
+            if (game.IsGameFinished)
+            {
+                var final = new HtmlTag("div").AddClass("game-state-final");
+                final.Text("Final");
+                wrapper.Append(final);
+            }
+            else if (game.IsGameLive)
+            {
+                var percent = GetInningPercent(game.CurrentInning);
+                var label = game.CurrentInning == 0 ? "1st" : OrdinalHelper.GetOrdinal(game.CurrentInning);
+
+                var progressWrapper = new HtmlTag("div").AddClass("game-state-progress");
+                var bar = new HtmlTag("div")
+                    .AddClass("game-state-progress-bar")
+                    .Attr("style", $"width:{percent}%");
+                var text = new HtmlTag("span").AddClass("game-state-progress-text").Text(label);
+                progressWrapper.Append(bar);
+                progressWrapper.Append(text);
+                wrapper.Append(progressWrapper);
+            }
+            else
+            {
+                var localTime = TimeZoneInfo.ConvertTimeFromUtc(game.GameTimeUtc, game.DisplayTimezone);
+                var timeStr = localTime.ToString("h:mmtt").ToLower();
+                var until = game.GameTimeUtc - DateTime.UtcNow;
+                var untilStr = until.TotalHours >= 1
+                    ? $"in {Math.Round(until.TotalHours, 1)}h"
+                    : $"in {until.Minutes}m";
+
+                var upcoming = new HtmlTag("div").AddClass("game-state-upcoming");
+                upcoming.Text($"{timeStr} {untilStr}");
+                wrapper.Append(upcoming);
+            }
+
+            return wrapper;
         }
 
         private float GetRuns(float projectedRuns, float currentRuns, bool gameStarted)
@@ -41,11 +75,8 @@ namespace RotoMonsterUI
 
             var row = new HtmlTag("div").AddClass("game-date-row");
 
-            // Current state
-            var state = new HtmlTag("div")
-                .AddClass("game-date-state")
-                .Text(GetCurrentState(game));
-            row.Append(state);
+            // Game state
+            row.Append(BuildGameState(game));
 
             // Away team
             var away = new HtmlTag("div").AddClass("game-date-team game-date-away");

@@ -1036,3 +1036,57 @@ a.modern-filter-btn:hover {
     color: var(--brand-primary-light);
     text-decoration: underline;
 }
+
+/* ============================================
+   GAME STATE
+   ============================================ */
+   .game-state-wrapper {
+    min-width: 130px;
+    max-width: 130px;
+}
+
+.game-state-final {
+    background: #16a34a;
+    color: white;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.game-state-upcoming {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0;
+}
+
+.game-state-progress {
+    position: relative;
+    background: var(--color-border);
+    border-radius: 4px;
+    height: 22px;
+    overflow: hidden;
+}
+
+.game-state-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #3b82f6;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+
+.game-state-progress-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    line-height: 22px;
+    z-index: 1;
+}
