@@ -69,14 +69,18 @@ namespace RotoMonsterUI
             return gameStarted ? currentRuns : projectedRuns;
         }
 
-        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted)
+        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool lineupConfirmed)
         {
             var cell = new HtmlTag("div").AddClass("game-team-cell");
             if (isWinner && gameStarted)
                 cell.AddClass("winner");
             cell.Attr("style", $"background-color:#{bgColor};");
+
+            var dot = new HtmlTag("span").AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty");
+            cell.Append(dot);
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
             cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.#")));
+
             return cell;
         }
 
@@ -135,8 +139,8 @@ namespace RotoMonsterUI
                 }
             }
 
-            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted));
-            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted));
+            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.AwayTeamLineupConfirmed));
+            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.HomeTeamLineupConfirmed));
 
             // Weather
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")

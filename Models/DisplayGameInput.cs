@@ -18,5 +18,8 @@ namespace RotoMonsterUI
         public string ViewBoxScoreUrl { get; set; }
         public WeatherInput Weather { get; set; }
 
+        public bool AwayTeamLineupConfirmed { get; set; }
+        public bool HomeTeamLineupConfirmed { get; set; }
+
     }
 }
