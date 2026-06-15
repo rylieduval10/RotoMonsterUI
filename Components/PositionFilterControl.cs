@@ -24,29 +24,28 @@ namespace RotoMonsterUI
                 .AddClass("modern-filter-badges")
                 .Attr("id", _input.Id);
 
-            // All button
-            if (!string.IsNullOrEmpty(_input.AllButtonId))
+            if (_input.ShowAllButton)
             {
+                var allId = $"{_input.Id}-all";
                 var allBtn = new HtmlTag("button")
                     .AddClass("modern-filter-btn modern-filter-btn-secondary")
-                    .Attr("id", _input.AllButtonId)
-                    .Attr("name", _input.AllButtonId)
+                    .Attr("id", allId)
+                    .Attr("name", allId)
                     .Text("All");
                 wrapper.Append(allBtn);
             }
 
-            // Clear button
-            if (!string.IsNullOrEmpty(_input.ClearButtonId))
+            if (_input.ShowClearButton)
             {
+                var clearId = $"{_input.Id}-clear";
                 var clearBtn = new HtmlTag("button")
                     .AddClass("modern-filter-btn modern-filter-btn-secondary")
-                    .Attr("id", _input.ClearButtonId)
-                    .Attr("name", _input.ClearButtonId)
+                    .Attr("id", clearId)
+                    .Attr("name", clearId)
                     .Text("Clear");
                 wrapper.Append(clearBtn);
             }
 
-            // Position badges
             foreach (var pos in _input.Positions)
             {
                 var isSelected = _input.SelectedPositionIds.Contains(pos.Id);

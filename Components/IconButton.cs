@@ -9,17 +9,30 @@ namespace RotoMonsterUI
         private string _url;
         private ButtonStyle _style;
         private string _id;
+        private string _name;
+
+        public IconInput IconInput { get; set; }
 
         public static string FontAwesome(string classes)
         {
             return $"<i class=\"{classes}\"></i>";
         }
 
+        // Original constructor
         public IconButton(string text, string icon)
         {
             _text = text;
             _icon = icon;
             _style = ButtonStyle.Secondary;
+        }
+
+        // New constructor taking IconType
+        public IconButton(string text, IconType iconType)
+        {
+            _text = text;
+            _style = ButtonStyle.Secondary;
+            IconInput = new IconInput { Type = iconType };
+            _icon = new Icon(IconInput).Render();
         }
 
         public IconButton WithUrl(string url)
@@ -46,9 +59,6 @@ namespace RotoMonsterUI
             return this;
         }
 
-        private string _name;
-
-
         public IconButton WithName(string name)
         {
             _name = name;
@@ -57,6 +67,10 @@ namespace RotoMonsterUI
 
         public string Render()
         {
+            // Re-render icon in case IconInput was modified after construction
+            if (IconInput != null)
+                _icon = new Icon(IconInput).Render();
+
             var tag = string.IsNullOrEmpty(_url)
                 ? new HtmlTag("button")
                 : new HtmlTag("a").Attr("href", _url);
@@ -78,7 +92,7 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_id))
                 tag.Attr("id", _id);
-            
+
             if (!string.IsNullOrEmpty(_name))
                 tag.Attr("name", _name);
 
