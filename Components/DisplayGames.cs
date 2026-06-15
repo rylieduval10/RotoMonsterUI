@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HtmlTags;
 
 namespace RotoMonsterUI
@@ -69,17 +70,23 @@ namespace RotoMonsterUI
             return gameStarted ? currentRuns : projectedRuns;
         }
 
-        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool lineupConfirmed)
+        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool isGameFinished, bool lineupConfirmed)
         {
             var cell = new HtmlTag("div").AddClass("game-team-cell");
-            if (isWinner && gameStarted)
+            if (isWinner && isGameFinished)
                 cell.AddClass("winner");
             cell.Attr("style", $"background-color:#{bgColor};");
 
-            var dot = new HtmlTag("span").AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty");
-            cell.Append(dot);
+            if (!gameStarted)
+            {
+                var dot = new HtmlTag("span").AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty");
+                cell.Append(dot);
+            }
+
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
-            cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.#")));
+
+            if (runs != 0)
+                cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.#")));
 
             return cell;
         }
@@ -89,11 +96,40 @@ namespace RotoMonsterUI
             if (string.IsNullOrEmpty(chance)) return null;
             switch (chance.ToLower())
             {
-                case "low": return "#d97706";
-                case "medium": return "#ea580c";
-                case "high": return "#dc2626";
+                case "low": return "#34D399";
+                case "medium": return "#FBBF24";
+                case "high": return "#FB7185";
                 default: return null;
             }
+        }
+
+        private string BuildRainBars(double rainChance, List<int> hourlyRainChance)
+        {
+            var sb = new System.Text.StringBuilder();
+            sb.Append("<svg width=\"20\" height=\"16\" viewBox=\"0 0 20 16\" xmlns=\"http://www.w3.org/2000/svg\">");
+
+            int barCount = 5;
+            int barWidth = 2;
+            int barGap = 2;
+            int maxHeight = 14;
+
+            for (int i = 0; i < barCount; i++)
+            {
+                float barValue;
+                if (hourlyRainChance != null && hourlyRainChance.Count > i)
+                    barValue = hourlyRainChance[i];
+                else
+                    barValue = (float)(rainChance * ((i + 1.0) / barCount));
+
+                string color = "#" + ColorHelper.GetBlueColorCode(barValue, 0f, 100f, true);
+                int barHeight = Math.Max(2, (int)(maxHeight * (barValue / 100.0)));
+                int x = i * (barWidth + barGap);
+                int y = maxHeight - barHeight;
+                sb.Append($"<rect x=\"{x}\" y=\"{y}\" width=\"{barWidth}\" height=\"{barHeight}\" fill=\"{color}\" rx=\"1\"/>");
+            }
+
+            sb.Append("</svg>");
+            return sb.ToString();
         }
 
         private HtmlTag BuildGameRow(DisplayGameInput game)
@@ -139,8 +175,8 @@ namespace RotoMonsterUI
                 }
             }
 
-            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.AwayTeamLineupConfirmed));
-            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.HomeTeamLineupConfirmed));
+            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed));
+            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed));
 
             // Weather
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
@@ -162,6 +198,7 @@ namespace RotoMonsterUI
                     var rainIcon = new Icon(new IconInput { Type = IconType.Rain, Color = "#378ADD" }).Render();
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(rainIcon));
+                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance)));
                     weather.Append(new HtmlTag("span").AddClass("game-date-rain").Text($"{game.Weather.RainChance}%"));
                 }
 

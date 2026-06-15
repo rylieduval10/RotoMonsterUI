@@ -49,6 +49,19 @@ namespace RotoMonsterUI
             return GetColorCode(otherColor, 255, 255);
         }
 
+        public static string GetBlueColorCode(float value, float low, float high, bool colorHigh)
+        {
+            double percent = GetPercentFloat(value, low, high, colorHigh);
+            int red = (int)Math.Round(255 - (percent / 100.0) * 255, 0);
+            int green = (int)Math.Round(255 - (percent / 100.0) * 204, 0);
+            int blue = (int)Math.Round(255 - (percent / 100.0) * 51, 0);
+            return GetColorCode(red, green, blue);
+        }
+
+        // Int version calling through
+        public static string GetBlueColorCode(int value, int low, int high, bool colorHigh)
+            => GetBlueColorCode((float)value, (float)low, (float)high, colorHigh);
+
         // Int versions (call through to float)
         public static string GetYellowColorCode(int value, int low, int high, bool colorHigh)
             => GetYellowColorCode((float)value, (float)low, (float)high, colorHigh);

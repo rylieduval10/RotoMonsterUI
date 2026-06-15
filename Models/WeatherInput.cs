@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace RotoMonsterUI
 {
@@ -11,5 +12,6 @@ namespace RotoMonsterUI
         public string ChanceOfPostponement { get; set; }
         public double RainChance { get; set; }
         public string StadiumType { get; set; } // indoor, outdoor, retractable
+        public List<int> HourlyRainChance { get; set; }
     }
 }

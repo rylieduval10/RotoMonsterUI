@@ -1102,6 +1102,5 @@ a.modern-filter-btn:hover {
     background: #059669;
 }
 .lineup-dot-empty {
-    background: transparent;
-    border: 1.5px solid #888;
+    background: #ff3300;
 }
