@@ -9,11 +9,13 @@ namespace RotoMonsterUI
     {
         private List<DisplayGameInput> _games;
         private string _id;
+        private bool _showSettingsLink;
 
-        public DisplayGames(List<DisplayGameInput> games, string id = "game-date-control")
+        public DisplayGames(List<DisplayGameInput> games, string id = "game-date-control", bool showSettingsLink = false)
         {
             _games = games;
             _id = id;
+            _showSettingsLink = showSettingsLink;
         }
 
         private int GetInningPercent(int inning)
@@ -205,9 +207,15 @@ namespace RotoMonsterUI
                 var postponeColor = GetPostponementColor(game.Weather.ChanceOfPostponement);
                 if (postponeColor != null)
                 {
-                    var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor }).Render();
+                    var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor, Size = 16 }).Render();
+                    var postponeWrapper = new HtmlTag("span")
+                        .AddClass("game-date-postpone")
+                        .Attr("data-toggle", "tooltip")
+                        .Attr("data-placement", "top")
+                        .Attr("title", $"Postponement chance: {game.Weather.ChanceOfPostponement}")
+                        .AppendHtml(postponeIcon);
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                    weather.Append(new HtmlTag("span").AddClass("game-date-postpone").AppendHtml(postponeIcon));
+                    weather.Append(postponeWrapper);
                 }
 
                 row.Append(weather);
@@ -232,6 +240,20 @@ namespace RotoMonsterUI
 
             foreach (var game in _games)
                 wrapper.Append(BuildGameRow(game));
+
+            if (_games.Count > 0 && _games[0].DisplayTimezone != null)
+            {
+                var tz = _games[0].DisplayTimezone;
+                var tzDisplay = tz.DisplayName;
+                var footer = new HtmlTag("div").AddClass("game-date-timezone");
+
+                if (_showSettingsLink)
+                    footer.AppendHtml($"Times shown in {tzDisplay} &middot; <a href='/usersettings.aspx' class='game-date-tz-link'>Change timezone</a>");
+                else
+                    footer.AppendHtml($"Times shown in {tzDisplay}");
+
+                wrapper.Append(footer);
+            }
 
             return wrapper.ToString();
         }

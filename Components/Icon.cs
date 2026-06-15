@@ -31,6 +31,12 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""10""/><path d=""M12 16v-4""/><path d=""M12 8h.01""/>");
                 case IconType.Dome:
                     return WrapSvg(@"<path d=""M2 22 L2 14 A10 8 0 0 1 22 14 L22 22 L2 22"" stroke-linejoin=""round""/>");
+                case IconType.Trash:
+                    return WrapSvg(@"<polyline points=""3 6 5 6 21 6""/><path d=""M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6""/><path d=""M10 11v6""/><path d=""M14 11v6""/><path d=""M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2""/>");
+                case IconType.Next:
+                    return WrapSvg(@"<polyline points=""9 18 15 12 9 6""/>");
+                case IconType.Previous:
+                    return WrapSvg(@"<polyline points=""15 18 9 12 15 6""/>");
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");
                 case IconType.RetractableDome:

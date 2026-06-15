@@ -1129,3 +1129,18 @@ a.modern-filter-btn:hover {
 .lineup-dot-empty {
     background: #ff3300;
 }
+
+.game-date-timezone {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    margin-top: 0.25rem;
+}
+
+.game-date-tz-link {
+    color: var(--brand-primary);
+    text-decoration: none;
+}
+
+.game-date-tz-link:hover {
+    text-decoration: underline;
+}
