@@ -1120,7 +1120,6 @@ a.modern-filter-btn:hover {
 .game-date-tz-link:hover {
     text-decoration: underline;
 }
-
 .game-state-outs {
     display: flex;
     align-items: center;
@@ -1133,15 +1132,17 @@ a.modern-filter-btn:hover {
 }
 
 .out-circle {
-    width: 12px;
-    height: 12px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
-    border: 2px solid #cc0000;
+    border: 1.5px solid #888;
+    background: transparent;
     display: inline-block;
 }
 
 .out-circle--filled {
-    background: #cc0000;
+    background: #e24b4a;
+    border-color: #e24b4a;
 }
 
 .game-state-inning-label {
@@ -1151,6 +1152,7 @@ a.modern-filter-btn:hover {
     min-width: 28px;
     text-align: center;
 }
+
 
 .badge-checkbox input[type="checkbox"] {
     position: absolute;

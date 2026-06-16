@@ -1164,3 +1164,41 @@ a.modern-filter-btn:hover {
     display: inline-flex;
     align-items: center;
 }
+
+.game-state-outs {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.game-state-outs-half {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.out-circle {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1.5px solid #888;
+    background: transparent;
+    display: inline-block;
+    border-color: #555;
+}
+
+.out-circle--filled {
+    background: #e24b4a;
+    border-color: #e24b4a;
+}
+
+.game-state-inning-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffffff;
+    min-width: 28px;
+    text-align: center;
+}
+
+.game-state-upcoming {
+    color: #000000;
+}
