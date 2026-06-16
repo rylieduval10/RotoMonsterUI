@@ -41,27 +41,30 @@ namespace RotoMonsterUI
 
             foreach (var option in _options)
             {
+                var checkboxId = $"{_id}{option.value}";
+
+                var outerLabel = new HtmlTag("label")
+                    .AddClass("badge-checkbox")
+                    .Attr("for", checkboxId);
+
                 var input = new HtmlTag("input")
                     .Attr("type", "checkbox")
-                    .Attr("id", $"{_id}{option.value}")
-                    .Attr("name", $"{_id}{option.value}");
+                    .Attr("id", checkboxId)
+                    .Attr("name", checkboxId);
 
                 if (option.checked_)
                     input.Attr("checked", "checked");
 
-                var label = new HtmlTag("label")
-                    .Attr("for", $"{_id}{option.value}")
-                    .AddClass("modern-filter-badge")
+                var innerSpan = new HtmlTag("span")
+                    .AddClass("badge-label modern-filter-badge")
                     .Text(option.label);
 
                 if (!string.IsNullOrEmpty(option.dataPos))
-                    label.Attr("data-pos", option.dataPos);
+                    innerSpan.Attr("data-pos", option.dataPos);
 
-                if (option.checked_)
-                    label.AddClass("active");
-
-                wrapper.Append(input);
-                wrapper.Append(label);
+                outerLabel.Append(input);
+                outerLabel.Append(innerSpan);
+                wrapper.Append(outerLabel);
             }
 
             return wrapper.ToString();
