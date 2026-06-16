@@ -87,8 +87,10 @@ namespace RotoMonsterUI
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
 
-            if (runs != 0)
-                cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.#")));
+            if (gameStarted)
+                cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0")));
+            else if (runs != 0)
+                cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.0")));
 
             return cell;
         }
@@ -105,7 +107,7 @@ namespace RotoMonsterUI
             }
         }
 
-        private string BuildRainBars(double rainChance, List<int> hourlyRainChance)
+        private string BuildRainBars(double rainChance, List<int> hourlyRainChance, bool whiteMode)
         {
             var sb = new System.Text.StringBuilder();
             sb.Append("<svg width=\"20\" height=\"16\" viewBox=\"0 0 20 16\" xmlns=\"http://www.w3.org/2000/svg\">");
@@ -123,11 +125,14 @@ namespace RotoMonsterUI
                 else
                     barValue = (float)(rainChance * ((i + 1.0) / barCount));
 
-                string color = "#" + ColorHelper.GetBlueColorCode(barValue, 0f, 100f, true);
+                string color = whiteMode
+                    ? $"rgba(255,255,255,{0.4 + (barValue / 100.0) * 0.6:0.00})"
+                    : "#" + ColorHelper.GetBlueColorCode(barValue, 0f, 100f, true);
+
                 int barHeight = Math.Max(2, (int)(maxHeight * (barValue / 100.0)));
                 int x = i * (barWidth + barGap);
                 int y = maxHeight - barHeight;
-                sb.Append($"<rect x=\"{x}\" y=\"{y}\" width=\"{barWidth}\" height=\"{barHeight}\" fill=\"{color}\" rx=\"1\"/>");
+                sb.Append($"<rect x=\"{x}\" y=\"{y}\" width=\"{barWidth}\" height=\"{barHeight}\" fill=\"{color}\" stroke=\"#4a90d9\" stroke-width=\"0.5\" rx=\"1\"/>");
             }
 
             sb.Append("</svg>");
@@ -184,24 +189,32 @@ namespace RotoMonsterUI
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
             {
                 var windColor = $"#{ColorHelper.GetRedColorCode(Convert.ToInt32(game.Weather.WindSpeed), 0, 25, true)}";
-                var windBadgeInput = new BadgeInput() { BadgeText = new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(16).WithColor($"#{ColorHelper.Black}").Render(), Color = windColor, TooltipText = $"{game.Weather.WindSpeed}mph" };
-                var windBadge = new Badge(windBadgeInput);
+                var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(40).WithColor(windColor).Render();
 
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
                 weather.Append(new HtmlTag("span").AddClass("game-date-temp").Text($"{game.Weather.AvgTemp}°"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-humidity").Text($"H{game.Weather.AvgHumidity}%"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(windBadge.Render()));
+                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(windArrow));
                 weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Style("color", windColor).Text($"{game.Weather.WindSpeed}mph"));
 
                 if (game.Weather.RainChance > 0)
                 {
-                    var rainIcon = new Icon(new IconInput { Type = IconType.Rain, Color = "#378ADD" }).Render();
+                    bool whiteMode = game.Weather.RainChance >= 30;
+                    var rainBars = BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, whiteMode);
+
+                    var textColor = game.Weather.RainChance >= 30 ? "FFFFFF" : "1e3a8a";
+                    var rainIcon = new Icon(new IconInput { Type = IconType.Rain, Color = game.Weather.RainChance >= 30 ? "#FFFFFF" : "#1e3a8a", Size = 18 }).Render();
+                    var badgeBgColor = ColorHelper.GetBlueColorCode((float)game.Weather.RainChance, 0f, 100f, true);
+                    var rainBadge = new Badge(new BadgeInput
+                    {
+                        BadgeText = $"<span style='display:inline-flex;align-items:center;gap:3px;line-height:1;'>{rainIcon}<span>{game.Weather.RainChance}%</span>{rainBars}</span>",
+                        Color = badgeBgColor,
+                        TextColor = textColor
+                    });
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(rainIcon));
-                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance)));
-                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").Text($"{game.Weather.RainChance}%"));
+                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(rainBadge.Render()));
                 }
 
                 var postponeColor = GetPostponementColor(game.Weather.ChanceOfPostponement);
