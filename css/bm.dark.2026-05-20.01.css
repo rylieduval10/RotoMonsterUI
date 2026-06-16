@@ -1145,3 +1145,22 @@ a.modern-filter-btn:hover {
 .game-date-tz-link:hover {
     text-decoration: underline;
 }
+
+.badge-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.badge-checkbox input[type="checkbox"]:checked + .badge-label {
+    background-color: var(--pos-color) !important;
+    border-color: var(--pos-color) !important;
+    color: white !important;
+}
+
+.badge-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}

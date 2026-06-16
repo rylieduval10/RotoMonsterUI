@@ -20,6 +20,7 @@ namespace RotoMonsterUI
 
         public bool AwayTeamLineupConfirmed { get; set; }
         public bool HomeTeamLineupConfirmed { get; set; }
+        public int CurrentOuts { get; set; }
 
     }
 }

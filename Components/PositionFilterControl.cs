@@ -28,9 +28,10 @@ namespace RotoMonsterUI
             {
                 var allId = $"{_input.Id}-all";
                 var allBtn = new HtmlTag("button")
-                    .AddClass("modern-filter-btn modern-filter-btn-secondary")
+                    .AddClass("modern-filter-btn modern-filter-btn-secondary pos-filter-all")
                     .Attr("id", allId)
                     .Attr("name", allId)
+                    .Attr("value", "1")
                     .Text("All");
                 wrapper.Append(allBtn);
             }
@@ -39,9 +40,10 @@ namespace RotoMonsterUI
             {
                 var clearId = $"{_input.Id}-clear";
                 var clearBtn = new HtmlTag("button")
-                    .AddClass("modern-filter-btn modern-filter-btn-secondary")
+                    .AddClass("modern-filter-btn modern-filter-btn-secondary pos-filter-clear")
                     .Attr("id", clearId)
                     .Attr("name", clearId)
+                    .Attr("value", "1")
                     .Text("Clear");
                 wrapper.Append(clearBtn);
             }
@@ -49,19 +51,30 @@ namespace RotoMonsterUI
             foreach (var pos in _input.Positions)
             {
                 var isSelected = _input.SelectedPositionIds.Contains(pos.Id);
+                var checkboxId = $"{_input.Id}_pos_{pos.Id}";
 
-                var badge = new HtmlTag("button")
-                    .AddClass("modern-filter-badge")
-                    .Attr("data-pos", pos.Abbreviation)
-                    .Attr("data-pos-id", pos.Id.ToString())
+                var label = new HtmlTag("label")
+                    .AddClass("badge-checkbox")
+                    .Attr("for", checkboxId);
+
+                var checkbox = new HtmlTag("input")
+                    .Attr("type", "checkbox")
+                    .Attr("id", checkboxId)
                     .Attr("name", $"pos_{pos.Id}")
-                    .Attr("style", $"color:{NormalizeColor(pos.Color)}");
+                    .Attr("value", pos.Id.ToString());
 
                 if (isSelected)
-                    badge.AddClass("active");
+                    checkbox.Attr("checked", "checked");
 
-                badge.Text(pos.Abbreviation);
-                wrapper.Append(badge);
+                var badgeLabel = new HtmlTag("span")
+                    .AddClass("badge-label modern-filter-badge")
+                    .Attr("data-pos", pos.Abbreviation)
+                    .Attr("style", $"--pos-color:{NormalizeColor(pos.Color)};color:{NormalizeColor(pos.Color)};")
+                    .Text(pos.Abbreviation);
+
+                label.Append(checkbox);
+                label.Append(badgeLabel);
+                wrapper.Append(label);
             }
 
             return wrapper.ToString();

@@ -38,17 +38,38 @@ namespace RotoMonsterUI
             }
             else if (game.IsGameLive)
             {
-                var percent = GetInningPercent(game.CurrentInning);
-                var label = game.CurrentInning == 0 ? "1st" : OrdinalHelper.GetOrdinal(game.CurrentInning);
+                int inning = game.CurrentOuts / 6 + 1;
+                int halfInningPos = game.CurrentOuts % 6;
+                bool isBottom = halfInningPos >= 3;
+                int topOuts = isBottom ? 3 : halfInningPos;
+                int bottomOuts = isBottom ? halfInningPos - 3 : 0;
+                string inningLabel = OrdinalHelper.GetOrdinal(inning);
 
-                var progressWrapper = new HtmlTag("div").AddClass("game-state-progress");
-                var bar = new HtmlTag("div")
-                    .AddClass("game-state-progress-bar")
-                    .Attr("style", $"width:{percent}%");
-                var text = new HtmlTag("span").AddClass("game-state-progress-text").Text(label);
-                progressWrapper.Append(bar);
-                progressWrapper.Append(text);
-                wrapper.Append(progressWrapper);
+                var outsWrapper = new HtmlTag("div").AddClass("game-state-outs");
+
+                // Left circles (top of inning)
+                var topHalf = new HtmlTag("div").AddClass("game-state-outs-half");
+                for (int i = 0; i < 3; i++)
+                {
+                    var circle = new HtmlTag("span").AddClass(i < topOuts ? "out-circle out-circle--filled" : "out-circle");
+                    topHalf.Append(circle);
+                }
+
+                // Inning label
+                var inningTag = new HtmlTag("span").AddClass("game-state-inning-label").Text(inningLabel);
+
+                // Right circles (bottom of inning)
+                var bottomHalf = new HtmlTag("div").AddClass("game-state-outs-half");
+                for (int i = 0; i < 3; i++)
+                {
+                    var circle = new HtmlTag("span").AddClass(i < bottomOuts ? "out-circle out-circle--filled" : "out-circle");
+                    bottomHalf.Append(circle);
+                }
+
+                outsWrapper.Append(topHalf);
+                outsWrapper.Append(inningTag);
+                outsWrapper.Append(bottomHalf);
+                wrapper.Append(outsWrapper);
             }
             else
             {
@@ -60,6 +81,15 @@ namespace RotoMonsterUI
                     : $"in {until.Minutes}m";
 
                 var upcoming = new HtmlTag("div").AddClass("game-state-upcoming");
+
+                if (until.TotalHours <= 4 && until.TotalHours >= 0)
+                {
+                    // Brighter yellow the closer to game time (4h = low, 0h = high)
+                    var yellowPercent = (float)(1.0 - until.TotalHours / 4.0);
+                    var bgColor = ColorHelper.GetYellowColorCode(yellowPercent * 100f, 0f, 100f, true);
+                    upcoming.Attr("style", $"background-color:#{bgColor}; border: 1px solid #d1d5db; text-align:center; border-radius:4px; padding: 0.25rem 0.5rem;");
+                }
+
                 upcoming.Text($"{timeStr} {untilStr}");
                 wrapper.Append(upcoming);
             }

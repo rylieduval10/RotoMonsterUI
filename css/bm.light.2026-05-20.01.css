@@ -1120,3 +1120,53 @@ a.modern-filter-btn:hover {
 .game-date-tz-link:hover {
     text-decoration: underline;
 }
+
+.game-state-outs {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.game-state-outs-half {
+    display: flex;
+    gap: 0.2rem;
+}
+
+.out-circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #cc0000;
+    display: inline-block;
+}
+
+.out-circle--filled {
+    background: #cc0000;
+}
+
+.game-state-inning-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    min-width: 28px;
+    text-align: center;
+}
+
+.badge-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.badge-checkbox input[type="checkbox"]:checked + .badge-label {
+    background-color: var(--pos-color) !important;
+    border-color: var(--pos-color) !important;
+    color: white !important;
+}
+
+.badge-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
