@@ -196,8 +196,14 @@ namespace RotoMonsterUI
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-humidity").Text($"H{game.Weather.AvgHumidity}%"));
                 weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind").AppendHtml(windArrow));
-                weather.Append(new HtmlTag("span").AddClass("game-date-wind-speed").Style("color", windColor).Text($"{game.Weather.WindSpeed}mph"));
+
+                var windWrapper = new HtmlTag("span")
+                    .AddClass("game-date-wind")
+                    .Attr("data-toggle", "tooltip")
+                    .Attr("data-placement", "top")
+                    .Attr("title", $"{game.Weather.WindSpeed}mph")
+                    .AppendHtml(windArrow);
+                weather.Append(windWrapper);
 
                 if (game.Weather.RainChance > 0)
                 {
