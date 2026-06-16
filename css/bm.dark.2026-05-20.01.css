@@ -1165,6 +1165,12 @@ a.modern-filter-btn:hover {
     align-items: center;
 }
 
+.badge-checkbox input[type="checkbox"]:checked + .badge-label:not([style*="--pos-color"]) {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: white !important;
+}
+
 .game-state-outs {
     display: flex;
     align-items: center;

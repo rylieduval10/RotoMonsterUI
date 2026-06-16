@@ -1172,3 +1172,9 @@ a.modern-filter-btn:hover {
     display: inline-flex;
     align-items: center;
 }
+
+.badge-checkbox input[type="checkbox"]:checked + .badge-label:not([style*="--pos-color"]) {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: white !important;
+}
