@@ -25,19 +25,21 @@ namespace RotoMonsterUI
 
             // Header with prev/next
             var header = new HtmlTag("div").AddClass("cal-header");
+            var prevIcon = new Icon(new IconInput { Type = IconType.Previous, Size = 16 }).Render();
             header.Append(new HtmlTag("button")
                 .AddClass("cal-nav-btn")
                 .Attr("name", $"{_input.Id}-prev")
                 .Attr("value", "1")
-                .Text("<"));
+                .AppendHtml(prevIcon));
             header.Append(new HtmlTag("span")
                 .AddClass("cal-month-label")
                 .Text($"{selected:MMMM yyyy}"));
+            var nextIcon = new Icon(new IconInput { Type = IconType.Next, Size = 16 }).Render();
             header.Append(new HtmlTag("button")
                 .AddClass("cal-nav-btn")
                 .Attr("name", $"{_input.Id}-next")
                 .Attr("value", "1")
-                .Text(">"));
+                .AppendHtml(nextIcon));
             wrapper.Append(header);
 
             // Day of week labels

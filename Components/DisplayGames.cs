@@ -84,10 +84,13 @@ namespace RotoMonsterUI
 
                 if (until.TotalHours <= 4 && until.TotalHours >= 0)
                 {
-                    // Brighter yellow the closer to game time (4h = low, 0h = high)
                     var yellowPercent = (float)(1.0 - until.TotalHours / 4.0);
                     var bgColor = ColorHelper.GetYellowColorCode(yellowPercent * 100f, 0f, 100f, true);
                     upcoming.Attr("style", $"background-color:#{bgColor}; border: 1px solid #d1d5db; text-align:center; border-radius:4px; padding: 0.25rem 0.5rem;");
+                }
+                else
+                {
+                    upcoming.Attr("style", "border: 1px solid #d1d5db; text-align:center; border-radius:4px; padding: 0.25rem 0.5rem;");
                 }
 
                 upcoming.Text($"{timeStr} {untilStr}");
@@ -111,8 +114,20 @@ namespace RotoMonsterUI
 
             if (!gameStarted)
             {
-                var dot = new HtmlTag("span").AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty");
-                cell.Append(dot);
+                var lineupIcon = new Icon(new IconInput
+                {
+                    Type = lineupConfirmed ? IconType.LineupConfirmed : IconType.LineupNotConfirmed,
+                    Size = 16,
+                    Color = lineupConfirmed ? "#22c55e" : "#d9d9d9"
+                }).Render();
+
+                var iconWrapper = new HtmlTag("span")
+                    .Attr("data-toggle", "tooltip")
+                    .Attr("data-placement", "top")
+                    .Attr("title", lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed")
+                    .AppendHtml(lineupIcon);
+
+                cell.Append(iconWrapper);
             }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));

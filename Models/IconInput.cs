@@ -8,10 +8,12 @@ namespace RotoMonsterUI
         Info,
         Dome,
         RetractableDome,
-        Rain, 
+        Rain,
         Trash,
         Next,
-        Previous
+        Previous,
+        LineupConfirmed,
+        LineupNotConfirmed
     }
 
     public class IconInput

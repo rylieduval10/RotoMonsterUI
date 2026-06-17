@@ -39,6 +39,10 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<polyline points=""15 18 9 12 15 6""/>");
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");
+                case IconType.LineupConfirmed:
+                    return WrapSvg(@"<line x1=""10"" y1=""6"" x2=""21"" y2=""6""/><line x1=""10"" y1=""12"" x2=""21"" y2=""12""/><line x1=""10"" y1=""18"" x2=""21"" y2=""18""/><path d=""M4 6h1v4""/><path d=""M4 10h2""/><path d=""M6 18H4c0-1 2-2 2-3s-1-1.5-2-1""/>");
+                case IconType.LineupNotConfirmed:
+                    return WrapSvg(@"<line x1=""10"" y1=""6"" x2=""21"" y2=""6""/><line x1=""10"" y1=""12"" x2=""21"" y2=""12""/><line x1=""10"" y1=""18"" x2=""21"" y2=""18""/><path d=""M4 6h1v4""/><path d=""M4 10h2""/><path d=""M6 18H4c0-1 2-2 2-3s-1-1.5-2-1""/>");
                 case IconType.RetractableDome:
                     return WrapSvg(@"<line x1=""4"" y1=""16"" x2=""20"" y2=""16""/><line x1=""4"" y1=""16"" x2=""4"" y2=""11""/><line x1=""20"" y1=""16"" x2=""20"" y2=""11""/><path d=""M4 11 A9 9 0 0 1 8.5 4.5""/><path d=""M20 11 A9 9 0 0 0 15.5 4.5""/><path d=""M7 11 A6 6 0 0 1 10 7"" stroke-width=""1""/><path d=""M17 11 A6 6 0 0 0 14 7"" stroke-width=""1""/>");
                 default:
