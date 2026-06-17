@@ -61,6 +61,9 @@
     --pos-ph: #6b7280;
     --pos-g: #0099FF;
     --pos-f: #339900;
+
+    --lineup-confirmed-color: #22c55e;
+    --lineup-unconfirmed-color: #d9d9d9;
 }
 
 body, p, h1, h2, h3, h4, h5, h6, span, div, a, td, th, li,

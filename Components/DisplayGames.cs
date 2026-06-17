@@ -114,20 +114,12 @@ namespace RotoMonsterUI
 
             if (!gameStarted)
             {
-                var lineupIcon = new Icon(new IconInput
-                {
-                    Type = lineupConfirmed ? IconType.LineupConfirmed : IconType.LineupNotConfirmed,
-                    Size = 16,
-                    Color = lineupConfirmed ? "#22c55e" : "#d9d9d9"
-                }).Render();
-
-                var iconWrapper = new HtmlTag("span")
+                var dot = new HtmlTag("span")
+                    .AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty")
                     .Attr("data-toggle", "tooltip")
                     .Attr("data-placement", "top")
-                    .Attr("title", lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed")
-                    .AppendHtml(lineupIcon);
-
-                cell.Append(iconWrapper);
+                    .Attr("title", lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed");
+                cell.Append(dot);
             }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
