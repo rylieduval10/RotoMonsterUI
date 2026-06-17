@@ -180,6 +180,18 @@ namespace RotoMonsterUI
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
 
+            // Auto-detect final if data provider hasn't marked it yet
+            if (!game.IsGameFinished && game.IsGameLive)
+            {
+                bool homeWinning = game.HomeTeamCurrentRuns > game.AwayTeamCurrentRuns;
+                bool tied = game.HomeTeamCurrentRuns == game.AwayTeamCurrentRuns;
+            
+                if (game.CurrentOuts >= 54 && !tied)
+                    game.IsGameFinished = true;
+                else if (game.CurrentOuts >= 51 && homeWinning)
+                    game.IsGameFinished = true;
+            }
+
             var row = new HtmlTag("div").AddClass("game-date-row");
 
             // Game state
