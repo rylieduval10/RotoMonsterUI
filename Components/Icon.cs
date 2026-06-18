@@ -29,8 +29,10 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<path d=""M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z""/><line x1=""4"" y1=""22"" x2=""4"" y2=""15""/>");
                 case IconType.Info:
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""10""/><path d=""M12 16v-4""/><path d=""M12 8h.01""/>");
-                case IconType.Dome:
-                    return WrapSvg(@"<path d=""M2 22 L2 14 A10 8 0 0 1 22 14 L22 22 L2 22"" stroke-linejoin=""round""/>");
+               case IconType.Dome:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""none"" stroke=""{_input.Color}"" stroke-width=""2.5"" stroke-linecap=""round"" stroke-linejoin=""round"">
+                        <path d=""M2 22 L2 14 A10 8 0 0 1 22 14 L22 22 L2 22"" fill=""#888780"" fill-opacity=""0.2"" stroke=""{_input.Color}""/>
+                    </svg>";
                 case IconType.Trash:
                     return WrapSvg(@"<polyline points=""3 6 5 6 21 6""/><path d=""M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6""/><path d=""M10 11v6""/><path d=""M14 11v6""/><path d=""M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2""/>");
                 case IconType.Next:
@@ -43,6 +45,8 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<line x1=""10"" y1=""6"" x2=""21"" y2=""6""/><line x1=""10"" y1=""12"" x2=""21"" y2=""12""/><line x1=""10"" y1=""18"" x2=""21"" y2=""18""/><path d=""M4 6h1v4""/><path d=""M4 10h2""/><path d=""M6 18H4c0-1 2-2 2-3s-1-1.5-2-1""/>");
                 case IconType.LineupNotConfirmed:
                     return WrapSvg(@"<line x1=""10"" y1=""6"" x2=""21"" y2=""6""/><line x1=""10"" y1=""12"" x2=""21"" y2=""12""/><line x1=""10"" y1=""18"" x2=""21"" y2=""18""/><path d=""M4 6h1v4""/><path d=""M4 10h2""/><path d=""M6 18H4c0-1 2-2 2-3s-1-1.5-2-1""/>");
+                case IconType.Weather:
+                    return WrapSvg(@"<path d=""M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z""/><circle cx=""11.5"" cy=""17.5"" r=""2.5"" fill=""#378ADD""/><line x1=""11.5"" y1=""14"" x2=""11.5"" y2=""8"" stroke-width=""2.5""/>");
                 case IconType.RetractableDome:
                     return WrapSvg(@"<line x1=""4"" y1=""16"" x2=""20"" y2=""16""/><line x1=""4"" y1=""16"" x2=""4"" y2=""11""/><line x1=""20"" y1=""16"" x2=""20"" y2=""11""/><path d=""M4 11 A9 9 0 0 1 8.5 4.5""/><path d=""M20 11 A9 9 0 0 0 15.5 4.5""/><path d=""M7 11 A6 6 0 0 1 10 7"" stroke-width=""1""/><path d=""M17 11 A6 6 0 0 0 14 7"" stroke-width=""1""/>");
                 default:

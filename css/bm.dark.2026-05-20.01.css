@@ -1062,10 +1062,9 @@ a.modern-filter-btn:hover {
 .game-state-upcoming {
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     padding: 0.25rem 0;
 }
-
 .game-state-progress {
     position: relative;
     background: var(--color-border);

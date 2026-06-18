@@ -90,7 +90,7 @@ namespace RotoMonsterUI
                 }
                 else
                 {
-                    upcoming.Attr("style", "border: 1px solid #d1d5db; text-align:center; border-radius:4px; padding: 0.25rem 0.5rem;");
+                    upcoming.Attr("style", "border: 1px solid #d1d5db; text-align:center; border-radius:4px; padding: 0.25rem 0.5rem; color: inherit;");
                 }
 
                 upcoming.Text($"{timeStr} {untilStr}");
@@ -137,9 +137,9 @@ namespace RotoMonsterUI
             if (string.IsNullOrEmpty(chance)) return null;
             switch (chance.ToLower())
             {
-                case "low": return "#34D399";
                 case "medium": return "#FBBF24";
                 case "high": return "#FB7185";
+                case "confirmed": return "#dc2626";
                 default: return null;
             }
         }
@@ -180,6 +180,18 @@ namespace RotoMonsterUI
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
 
+            // Auto-detect final if data provider hasn't marked it yet
+            if (!game.IsGameFinished && game.IsGameLive)
+            {
+                bool homeWinning = game.HomeTeamCurrentRuns > game.AwayTeamCurrentRuns;
+                bool tied = game.HomeTeamCurrentRuns == game.AwayTeamCurrentRuns;
+
+                if (game.CurrentOuts >= 54 && !tied)
+                    game.IsGameFinished = true;
+                else if (game.CurrentOuts >= 51 && homeWinning)
+                    game.IsGameFinished = true;
+            }
+
             var row = new HtmlTag("div").AddClass("game-date-row");
 
             // Game state
@@ -194,8 +206,8 @@ namespace RotoMonsterUI
 
             if (!gameStarted)
             {
-                awayColor = ColorHelper.GetGreenColorCode(awayRuns, 3f, 8f, true);
-                homeColor = ColorHelper.GetGreenColorCode(homeRuns, 3f, 8f, true);
+                awayColor = ColorHelper.GetYellowColorCode(awayRuns, 3.5f, 6.5f, true);
+                homeColor = ColorHelper.GetYellowColorCode(homeRuns, 3.5f, 6.5f, true);
             }
             else
             {
@@ -203,19 +215,19 @@ namespace RotoMonsterUI
                 if (awayRuns > homeRuns)
                 {
                     awayWinner = true;
-                    awayColor = ColorHelper.GetGreenColorCode(diff, 0f, 8f, true);
-                    homeColor = ColorHelper.GetRedColorCode(diff, 0f, 8f, true);
+                    awayColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
+                    homeColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
                 }
                 else if (homeRuns > awayRuns)
                 {
                     homeWinner = true;
-                    homeColor = ColorHelper.GetGreenColorCode(diff, 0f, 8f, true);
-                    awayColor = ColorHelper.GetRedColorCode(diff, 0f, 8f, true);
+                    homeColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
+                    awayColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
                 }
                 else
                 {
-                    awayColor = ColorHelper.GetGreenColorCode(0f, 0f, 8f, true);
-                    homeColor = ColorHelper.GetGreenColorCode(0f, 0f, 8f, true);
+                    awayColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
+                    homeColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
                 }
             }
 
@@ -225,53 +237,102 @@ namespace RotoMonsterUI
             // Weather
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
             {
-                var windColor = $"#{ColorHelper.GetRedColorCode(Convert.ToInt32(game.Weather.WindSpeed), 0, 25, true)}";
-                var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees).WithSize(40).WithColor(windColor).Render();
-
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
-                weather.Append(new HtmlTag("span").AddClass("game-date-temp").Text($"{game.Weather.AvgTemp}°"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-humidity").Text($"H{game.Weather.AvgHumidity}%"));
-                weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
 
-                var windWrapper = new HtmlTag("span")
-                    .AddClass("game-date-wind")
+                // Thermometer icon with tooltip
+                var rainBars = game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
+                    ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
+                    : "";
+
+                var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}% · {game.Weather.RainHours}h {rainBars}";
+                var weatherIcon = new Icon(new IconInput { Type = IconType.Weather, Size = 16, Color = "#378ADD" }).Render();
+                var weatherIconWrapper = new HtmlTag("span")
                     .Attr("data-toggle", "tooltip")
                     .Attr("data-placement", "top")
-                    .Attr("title", $"{game.Weather.WindSpeed}mph")
-                    .AppendHtml(windArrow);
-                weather.Append(windWrapper);
+                    .Attr("data-html", "true")
+                    .Attr("title", tooltipContent)
+                    .AppendHtml(weatherIcon);
+                weather.Append(weatherIconWrapper);
 
-                if (game.Weather.RainChance > 0)
+                // Wind only show if WindFactor is not none
+                string windColor;
+                string windStroke;
+                switch (game.Weather.WindFactor?.ToLower())
                 {
-                    bool whiteMode = game.Weather.RainChance >= 30;
-                    var rainBars = BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, whiteMode);
-
-                    var textColor = game.Weather.RainChance >= 30 ? "FFFFFF" : "1e3a8a";
-                    var rainIcon = new Icon(new IconInput { Type = IconType.Rain, Color = game.Weather.RainChance >= 30 ? "#FFFFFF" : "#1e3a8a", Size = 18 }).Render();
-                    var badgeBgColor = ColorHelper.GetBlueColorCode((float)game.Weather.RainChance, 0f, 100f, true);
-                    var rainBadge = new Badge(new BadgeInput
-                    {
-                        BadgeText = $"<span style='display:inline-flex;align-items:center;gap:3px;line-height:1;'>{rainIcon}<span>{game.Weather.RainChance}%</span>{rainBars}</span>",
-                        Color = badgeBgColor,
-                        TextColor = textColor
-                    });
-                    weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                    weather.Append(new HtmlTag("span").AddClass("game-date-rain").AppendHtml(rainBadge.Render()));
+                    case "low": windColor = "#888780"; windStroke = "#5F5E5A"; break;
+                    case "medium": windColor = "#F59E0B"; windStroke = "#D97706"; break;
+                    case "high": windColor = "#E24B4A"; windStroke = "#A32D2D"; break;
+                    default: windColor = null; windStroke = null; break;
                 }
 
-                var postponeColor = GetPostponementColor(game.Weather.ChanceOfPostponement);
+                if (windColor != null)
+                {
+                    var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees)
+                        .WithSize(40)
+                        .WithColor(windColor)
+                        .WithStrokeColor(windStroke)
+                        .Render();
+                    var windWrapper = new HtmlTag("span")
+                        .Attr("data-toggle", "tooltip")
+                        .Attr("data-placement", "top")
+                        .Attr("title", $"{game.Weather.WindSpeed}mph")
+                        .AppendHtml(windArrow);
+                    weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+                    weather.Append(windWrapper);
+                }
+
+
+                // Postponement flag
+                var postponeColor = GetPostponementColor(game.Weather.PostponementFactor);
                 if (postponeColor != null)
                 {
                     var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor, Size = 16 }).Render();
+                    var postponeLabel = string.IsNullOrEmpty(game.Weather.PostponementFactor) ? "" 
+                        : char.ToUpper(game.Weather.PostponementFactor[0]) + game.Weather.PostponementFactor.Substring(1).ToLower();
                     var postponeWrapper = new HtmlTag("span")
                         .AddClass("game-date-postpone")
                         .Attr("data-toggle", "tooltip")
                         .Attr("data-placement", "top")
-                        .Attr("title", $"Postponement chance: {game.Weather.ChanceOfPostponement}")
+                        .Attr("title", $"Postponement Chance: {postponeLabel}")
                         .AppendHtml(postponeIcon);
                     weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                     weather.Append(postponeWrapper);
+                }
+
+                //dome or retractable dome
+                if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
+                {
+                    string domeColor;
+                    switch (game.Weather.DomeFactor.ToLower())
+                    {
+                        case "low": domeColor = "#888780"; break;
+                        case "medium": domeColor = "#F59E0B"; break;
+                        case "high": domeColor = "#FB7185"; break;
+                        case "confirmed": domeColor = "#888780"; break;
+                        default: domeColor = null; break;
+                    }
+
+                    if (domeColor != null)
+                    {
+                        var isConfirmed = game.Weather.DomeFactor.ToLower() == "confirmed";
+                        var domeLabel = string.IsNullOrEmpty(game.Weather.DomeFactor) ? ""
+                            : char.ToUpper(game.Weather.DomeFactor[0]) + game.Weather.DomeFactor.Substring(1).ToLower();
+
+                        var domeIcon = new Icon(new IconInput
+                        {
+                            Type = isConfirmed ? IconType.Dome : IconType.RetractableDome,
+                            Color = domeColor,
+                            Fill = isConfirmed ? domeColor + "26" : "none",
+                            Size = isConfirmed ? 20 : 24
+                        }).Render();
+                        var domeWrapper = new HtmlTag("span")
+                            .Attr("data-toggle", "tooltip")
+                            .Attr("data-placement", "top")
+                            .Attr("title", $"Dome: {domeLabel}")
+                            .AppendHtml(domeIcon);
+                        weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+                        weather.Append(domeWrapper);
+                    }
                 }
 
                 row.Append(weather);

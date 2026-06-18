@@ -13,7 +13,8 @@ namespace RotoMonsterUI
         Next,
         Previous,
         LineupConfirmed,
-        LineupNotConfirmed
+        LineupNotConfirmed, 
+        Weather
     }
 
     public class IconInput
