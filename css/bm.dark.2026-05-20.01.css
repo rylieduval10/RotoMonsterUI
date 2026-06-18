@@ -41,7 +41,7 @@
     --status-error-bg: linear-gradient(135deg, #450a0a 0%, #3f0a0a 100%);
     --status-info-bg: linear-gradient(135deg, #172554 0%, #1e3a8a 100%);
 
-    --table-header-bg: #1e3a8a;
+    --table-header-bg: #2d3748;
     --table-header-link: #dbeafe;
     --table-value-bg: rgba(16, 185, 129, 0.2);
     --table-value-color: #10b981;
@@ -292,8 +292,8 @@ body {
     color: var(--brand-accent);
     transform: translateY(-1px);
 }
-.adv-controls input[type="radio"]:checked + label:hover,
-.adv-controls input[type="checkbox"]:checked + label:hover {
+.adv-controls input[type="radio"]:checked + label,
+.adv-controls input[type="checkbox"]:checked + label {
     background: var(--brand-primary);
     border-color: var(--brand-primary);
     color: white;
@@ -476,7 +476,7 @@ body {
 }
 .rankings-table th, .modern-stats-table th {
     background: var(--table-header-bg); color: white; padding: 0.4rem 0.3rem;
-    font-weight: 600; font-size: 0.75rem; border: none; white-space: nowrap;
+    font-weight: 600; font-size: 0.8rem; border: none; white-space: nowrap;
     text-align: center; text-shadow: 0 0 10px rgba(255,255,255,0.3);
 }
 .rankings-table th:first-child, .modern-stats-table th:first-child { border-radius: 8px 0 0 0; padding-left: 0.5rem; text-align: left; }
@@ -715,7 +715,6 @@ a.modern-filter-btn:hover {
     color: var(--color-text-primary);
     text-decoration: none;
 }
-
 /* ============================================
    COMMENT CARD
    ============================================ */
@@ -812,7 +811,6 @@ a.modern-filter-btn:hover {
 
 .comment-card-btn-delete:hover {
     color: #dc2626;
-    text-decoration: underline;
     background: transparent;
 }
 
@@ -820,12 +818,6 @@ a.modern-filter-btn:hover {
     background: transparent;
     border: 1px solid var(--color-border);
     color: var(--color-text-secondary);
-}
-
-.comment-card-btn-expand:hover {
-    background: rgba(var(--brand-primary-rgb), 0.1);
-    border-color: var(--brand-primary);
-    color: var(--brand-primary);
 }
 
 .comment-card-btn-post {
@@ -858,7 +850,7 @@ a.modern-filter-btn:hover {
 .comment-card-textarea {
     width: 100%;
     border-radius: 6px;
-    border: 1px solid var(--color-border);
+    border: 1px solid #cbd5e1;
     background: var(--color-bg-primary);
     color: var(--color-text-primary);
     padding: 0.5rem;
@@ -872,19 +864,21 @@ a.modern-filter-btn:hover {
     border-color: var(--brand-primary);
     box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.2);
 }
-.player-link {
-    font-weight: 600;
-    text-decoration: none;
-}
-.player-link:hover {
-    text-decoration: none;
+
+.comment-card-btn-delete:hover {
+    color: #dc2626;
+    text-decoration: underline;
+    background: transparent;
 }
 
-.display-username { font-weight: 700; }
-.username-admin { color: #4ade80; }
-.username-regular { color: var(--brand-primary); }
+.comment-card-btn-expand:hover {
+    background: rgba(var(--brand-primary-rgb), 0.1);
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
 
 .user-vote { display: inline-flex; align-items: center; gap: 0.5rem; }
+
 .user-vote-up {
     font-size: 0.7rem;
     font-weight: 700;
@@ -894,6 +888,7 @@ a.modern-filter-btn:hover {
     border-radius: 4px;
     letter-spacing: 0.5px;
 }
+
 .user-vote-down {
     font-size: 0.7rem;
     font-weight: 700;
@@ -903,14 +898,32 @@ a.modern-filter-btn:hover {
     border-radius: 4px;
     letter-spacing: 0.5px;
 }
+
+.user-vote-up {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--status-success);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.user-vote-down {
+    font-size: 0.7rem;
+    font-weight: 700;
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--status-error);
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
 .user-vote-change:hover {
     background: rgba(var(--brand-primary-rgb), 0.1);
     border-color: var(--brand-primary);
     color: var(--color-text-primary);
 }
-
-.player-link { color: #38bdf8; }
-.player-link:hover { color: #0ea5e9; text-shadow: 0 0 10px rgba(56,189,248,0.5); }
 
 .injury-badge {
     display: inline-block;
@@ -919,8 +932,11 @@ a.modern-filter-btn:hover {
     font-size: 0.7rem;
     font-weight: 700;
     color: white;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.5px;
     white-space: nowrap;
+    margin: 0 2px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    text-transform: uppercase;
 }
 
 .display-player-name { font-size: 1.25rem; }
@@ -981,9 +997,7 @@ a.modern-filter-btn:hover {
 }
 
 .game-date-row:hover {
-    border-color: rgba(var(--brand-primary-rgb), 0.4);
-    box-shadow: 0 2px 8px rgba(var(--brand-primary-rgb), 0.1);
-    transform: translateX(2px);
+    background: rgba(var(--brand-primary-rgb), 0.05);
 }
 
 .game-date-state {
@@ -1018,11 +1032,6 @@ a.modern-filter-btn:hover {
     flex: 1;
 }
 
-.game-date-sep {
-    color: var(--color-border);
-    margin: 0 0.15rem;
-}
-
 .game-date-rain {
     color: #378ADD;
     font-weight: 600;
@@ -1037,8 +1046,19 @@ a.modern-filter-btn:hover {
 }
 
 .game-date-view:hover {
-    color: var(--brand-primary-light);
+    color: var(--brand-accent);
     text-decoration: underline;
+}
+
+.game-date-sep {
+    color: var(--color-border);
+    margin: 0 0.15rem;
+}
+
+.game-date-row:hover {
+    border-color: rgba(var(--brand-primary-rgb), 0.4);
+    box-shadow: 0 2px 8px rgba(var(--brand-primary-rgb), 0.1);
+    transform: translateX(2px);
 }
 
 /* ============================================
@@ -1065,6 +1085,7 @@ a.modern-filter-btn:hover {
     color: var(--color-text-primary);
     padding: 0.25rem 0;
 }
+
 .game-state-progress {
     position: relative;
     background: var(--color-border);
@@ -1106,7 +1127,6 @@ a.modern-filter-btn:hover {
 
 .game-team-cell.winner {
     border-color: var(--game-winner-border) !important;
-    border-width: 3px !important;
 }
 .game-team-code {
     font-weight: 700;
@@ -1150,30 +1170,6 @@ a.modern-filter-btn:hover {
     text-decoration: underline;
 }
 
-.badge-checkbox input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.badge-checkbox input[type="checkbox"]:checked + .badge-label {
-    background-color: var(--pos-color) !important;
-    border-color: var(--pos-color) !important;
-    color: white !important;
-}
-
-.badge-checkbox {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-}
-
-.badge-checkbox input[type="checkbox"]:checked + .badge-label:not([style*="--pos-color"]) {
-    background-color: var(--brand-primary) !important;
-    border-color: var(--brand-primary) !important;
-    color: white !important;
-}
 
 .game-state-outs {
     display: flex;
@@ -1212,3 +1208,109 @@ a.modern-filter-btn:hover {
 .game-state-upcoming {
     color: #000000;
 }
+
+.badge-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.badge-checkbox input[type="checkbox"]:checked + .badge-label {
+    background-color: var(--pos-color) !important;
+    border-color: var(--pos-color) !important;
+    color: white !important;
+}
+
+.badge-checkbox {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.badge-checkbox input[type="checkbox"]:checked + .badge-label:not([style*="--pos-color"]) {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+    color: white !important;
+}
+
+.cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.cal-wrapper {
+    width: 280px;
+}
+
+.cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.cal-day-labels {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.cal-day {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    padding: 0.25rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.cal-day:hover {
+    background: rgba(45, 122, 62, 0.1);
+}
+
+.cal-day--selected {
+    background: #2d7a3e;
+    color: white;
+    border-radius: 4px;
+}
+
+.cal-day--today {
+    border: 1.5px solid #2d7a3e;
+    color: #2d7a3e;
+    font-weight: 700;
+}
+
+.cal-nav-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+    padding: 0 0.5rem;
+}
+
+.cal-month-label {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.cal-day--selected:hover {
+    background: #2d7a3e;
+}
+
+.cal-day--empty {
+    background: transparent;
+    border: none;
+    cursor: default;
+}
+
