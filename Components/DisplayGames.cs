@@ -185,7 +185,6 @@ namespace RotoMonsterUI
             {
                 bool homeWinning = game.HomeTeamCurrentRuns > game.AwayTeamCurrentRuns;
                 bool tied = game.HomeTeamCurrentRuns == game.AwayTeamCurrentRuns;
-<<<<<<< HEAD
 
                 if (game.CurrentOuts >= 54 && !tied)
                     game.IsGameFinished = true;
@@ -245,7 +244,7 @@ namespace RotoMonsterUI
                     ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
                     : "";
 
-                var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}% · {game.Weather.RainHours}h {rainBars}";
+                var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}% for {game.Weather.RainHours}h {rainBars}";
                 var weatherIcon = new Icon(new IconInput { Type = IconType.Weather, Size = 16, Color = "#378ADD" }).Render();
                 var weatherIconWrapper = new HtmlTag("span")
                     .Attr("data-toggle", "tooltip")
@@ -269,7 +268,7 @@ namespace RotoMonsterUI
                 if (windColor != null)
                 {
                     var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees)
-                        .WithSize(40)
+                        .WithSize(32)
                         .WithColor(windColor)
                         .WithStrokeColor(windStroke)
                         .Render();
