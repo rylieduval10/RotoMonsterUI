@@ -268,7 +268,7 @@ namespace RotoMonsterUI
                 if (windColor != null)
                 {
                     var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees)
-                        .WithSize(32)
+                        .WithSize(28)
                         .WithColor(windColor)
                         .WithStrokeColor(windStroke)
                         .Render();

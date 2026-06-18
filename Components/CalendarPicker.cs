@@ -18,14 +18,14 @@ namespace RotoMonsterUI
             var selected = _input.SelectedDate;
             var firstOfMonth = new DateTime(selected.Year, selected.Month, 1);
             var daysInMonth = DateTime.DaysInMonth(selected.Year, selected.Month);
-            var startDayOfWeek = (int)firstOfMonth.DayOfWeek;
+           var startDayOfWeek = ((int)firstOfMonth.DayOfWeek + 6) % 7;
             var today = DateTime.Today;
 
             var wrapper = new HtmlTag("div").AddClass("cal-wrapper").Attr("id", _input.Id);
 
             // Header with prev/next
             var header = new HtmlTag("div").AddClass("cal-header");
-            var prevIcon = new Icon(new IconInput { Type = IconType.Previous, Size = 16 }).Render();
+            var prevIcon = new Icon(new IconInput { Type = IconType.Previous, Size = 20 }).Render();
             header.Append(new HtmlTag("button")
                 .AddClass("cal-nav-btn")
                 .Attr("name", $"{_input.Id}-prev")
@@ -34,7 +34,7 @@ namespace RotoMonsterUI
             header.Append(new HtmlTag("span")
                 .AddClass("cal-month-label")
                 .Text($"{selected:MMMM yyyy}"));
-            var nextIcon = new Icon(new IconInput { Type = IconType.Next, Size = 16 }).Render();
+            var nextIcon = new Icon(new IconInput { Type = IconType.Next, Size = 20 }).Render();
             header.Append(new HtmlTag("button")
                 .AddClass("cal-nav-btn")
                 .Attr("name", $"{_input.Id}-next")
@@ -44,7 +44,7 @@ namespace RotoMonsterUI
 
             // Day of week labels
             var dayLabels = new HtmlTag("div").AddClass("cal-day-labels");
-            var days = new[] { "Su", "Mo", "Tu", "We", "Th", "Fr", "Sa" };
+            var days = new[] { "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su" };
             foreach (var d in days)
                 dayLabels.Append(new HtmlTag("span").AddClass("cal-day-label").Text(d));
             wrapper.Append(dayLabels);
