@@ -107,6 +107,7 @@ namespace RotoMonsterUI
                 var deleteBtn = new HtmlTag("button")
                     .AddClass("comment-card-btn comment-card-btn-delete")
                     .Attr("name", $"delete_{_input.CommentId}")
+                    .Attr("style", "margin-left: auto;")
                     .AppendHtml(trashIcon);
                 actionsRow.Append(deleteBtn);
             }
