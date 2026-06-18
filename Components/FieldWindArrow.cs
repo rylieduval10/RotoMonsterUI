@@ -39,16 +39,14 @@ namespace RotoMonsterUI
             _arrowColor = arrowColor;
             return this;
         }
-
         public string Render()
         {
-            var arrowColor = _arrowColor ?? "#FFFFFF";
-            var stroke = _strokeColor ?? "none";
+            var arrowColor = _arrowColor ?? _color;
             return $@"<svg width=""{_size}"" height=""{_size}"" viewBox=""0 0 48 48"" xmlns=""http://www.w3.org/2000/svg"" style=""display:inline-block;"">
-            <path d=""M24 46 L4 22 A24 24 0 0 1 44 22 Z"" fill=""{_color}"" stroke=""{stroke}"" stroke-width=""2""/>
+            <path d=""M6 10 A24 24 0 0 1 42 10"" fill=""none"" stroke=""#888780"" stroke-width=""3"" stroke-linecap=""round""/>
             <g transform=""rotate({_degrees}, 24, 28)"">
-                <line x1=""24"" y1=""36"" x2=""24"" y2=""24"" stroke=""{arrowColor}"" stroke-width=""2"" stroke-linecap=""round""/>
-                <polygon points=""24,20 20,26 28,26"" fill=""{arrowColor}""/>
+                <line x1=""24"" y1=""42"" x2=""24"" y2=""23"" stroke=""{_color}"" stroke-width=""8"" stroke-linecap=""butt""/>
+<polygon points=""24,10 14,26 34,26"" fill=""{_color}""/>
             </g>
         </svg>";
         }

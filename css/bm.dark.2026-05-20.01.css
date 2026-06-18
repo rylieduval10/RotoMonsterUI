@@ -1314,3 +1314,33 @@ a.modern-filter-btn:hover {
     cursor: default;
 }
 
+.date-nav-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.date-nav-btn {
+    background: transparent;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    transition: all 0.15s ease;
+}
+
+.date-nav-btn:hover {
+    background: rgba(45, 122, 62, 0.1);
+    border-color: #2d7a3e;
+}
+
+.date-nav-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    min-width: 120px;
+    text-align: center;
+}

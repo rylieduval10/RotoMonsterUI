@@ -47,7 +47,6 @@ namespace RotoMonsterUI
 
                 var outsWrapper = new HtmlTag("div").AddClass("game-state-outs");
 
-                // Left circles (top of inning)
                 var topHalf = new HtmlTag("div").AddClass("game-state-outs-half");
                 for (int i = 0; i < 3; i++)
                 {
@@ -55,10 +54,8 @@ namespace RotoMonsterUI
                     topHalf.Append(circle);
                 }
 
-                // Inning label
                 var inningTag = new HtmlTag("span").AddClass("game-state-inning-label").Text(inningLabel);
 
-                // Right circles (bottom of inning)
                 var bottomHalf = new HtmlTag("div").AddClass("game-state-outs-half");
                 for (int i = 0; i < 3; i++)
                 {
@@ -94,6 +91,27 @@ namespace RotoMonsterUI
                 }
 
                 upcoming.Text($"{timeStr} {untilStr}");
+
+                // Postponement flag inside time box -- only show pre-game
+                if (game.Weather != null)
+                {
+                    var postponeColor = GetPostponementColor(game.Weather?.PostponementFactor);
+                    if (postponeColor != null)
+                    {
+                        var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor, Size = 18 }).Render();
+                        var postponeLabel = string.IsNullOrEmpty(game.Weather.PostponementFactor) ? ""
+                            : char.ToUpper(game.Weather.PostponementFactor[0]) + game.Weather.PostponementFactor.Substring(1).ToLower();
+                        var postponeWrapper = new HtmlTag("span")
+                            .AddClass("game-date-postpone")
+                            .Attr("data-toggle", "tooltip")
+                            .Attr("data-placement", "top")
+                            .Attr("title", $"Postponement: {postponeLabel}")
+                            .AppendHtml(postponeIcon);
+                        upcoming.AppendHtml("&nbsp;");
+                        upcoming.Append(postponeWrapper);
+                    }
+                }
+
                 wrapper.Append(upcoming);
             }
 
@@ -180,7 +198,6 @@ namespace RotoMonsterUI
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
 
-            // Auto-detect final if data provider hasn't marked it yet
             if (!game.IsGameFinished && game.IsGameLive)
             {
                 bool homeWinning = game.HomeTeamCurrentRuns > game.AwayTeamCurrentRuns;
@@ -194,10 +211,8 @@ namespace RotoMonsterUI
 
             var row = new HtmlTag("div").AddClass("game-date-row");
 
-            // Game state
             row.Append(BuildGameState(game));
 
-            // Team cells
             float awayRuns = GetRuns(game.AwayTeamProjectedRuns, game.AwayTeamCurrentRuns, gameStarted);
             float homeRuns = GetRuns(game.HomeTeamProjectedRuns, game.HomeTeamCurrentRuns, gameStarted);
 
@@ -234,12 +249,10 @@ namespace RotoMonsterUI
             row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed));
             row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed));
 
-            // Weather
             if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
             {
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
 
-                // Thermometer icon with tooltip
                 var rainBars = game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
                     ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
                     : "";
@@ -254,7 +267,6 @@ namespace RotoMonsterUI
                     .AppendHtml(weatherIcon);
                 weather.Append(weatherIconWrapper);
 
-                // Wind only show if WindFactor is not none
                 string windColor;
                 string windStroke;
                 switch (game.Weather.WindFactor?.ToLower())
@@ -281,25 +293,6 @@ namespace RotoMonsterUI
                     weather.Append(windWrapper);
                 }
 
-
-                // Postponement flag
-                var postponeColor = GetPostponementColor(game.Weather.PostponementFactor);
-                if (postponeColor != null)
-                {
-                    var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor, Size = 16 }).Render();
-                    var postponeLabel = string.IsNullOrEmpty(game.Weather.PostponementFactor) ? "" 
-                        : char.ToUpper(game.Weather.PostponementFactor[0]) + game.Weather.PostponementFactor.Substring(1).ToLower();
-                    var postponeWrapper = new HtmlTag("span")
-                        .AddClass("game-date-postpone")
-                        .Attr("data-toggle", "tooltip")
-                        .Attr("data-placement", "top")
-                        .Attr("title", $"Postponement Chance: {postponeLabel}")
-                        .AppendHtml(postponeIcon);
-                    weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                    weather.Append(postponeWrapper);
-                }
-
-                //dome or retractable dome
                 if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
                 {
                     string domeColor;
@@ -338,7 +331,6 @@ namespace RotoMonsterUI
                 row.Append(weather);
             }
 
-            // View box score
             if (!string.IsNullOrEmpty(game.ViewBoxScoreUrl))
             {
                 var viewLink = new HtmlTag("a")
