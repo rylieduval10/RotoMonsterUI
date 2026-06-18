@@ -23,7 +23,7 @@ namespace RotoMonsterUI
             else if (_timeSpan.TotalHours < 24)
                 display = $"{Math.Round(_timeSpan.TotalHours, 1)}h";
             else
-                display = DateTime.Now.Subtract(_timeSpan).ToString("M/d/yy");
+                display = new DisplayDate(new DisplayDateInput { Date = DateTime.Now.Subtract(_timeSpan) }).Render();
 
             var tag = new HtmlTag("span")
                 .AddClass("time-since")

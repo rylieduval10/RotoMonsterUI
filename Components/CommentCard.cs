@@ -103,10 +103,11 @@ namespace RotoMonsterUI
 
             if (_input.UserCanDelete)
             {
+                var trashIcon = new Icon(new IconInput { Type = IconType.Trash, Size = 16, Color = "#ef4444" }).Render();
                 var deleteBtn = new HtmlTag("button")
                     .AddClass("comment-card-btn comment-card-btn-delete")
                     .Attr("name", $"delete_{_input.CommentId}")
-                    .Text("delete");
+                    .AppendHtml(trashIcon);
                 actionsRow.Append(deleteBtn);
             }
 
