@@ -185,6 +185,7 @@ namespace RotoMonsterUI
             {
                 bool homeWinning = game.HomeTeamCurrentRuns > game.AwayTeamCurrentRuns;
                 bool tied = game.HomeTeamCurrentRuns == game.AwayTeamCurrentRuns;
+<<<<<<< HEAD
 
                 if (game.CurrentOuts >= 54 && !tied)
                     game.IsGameFinished = true;
