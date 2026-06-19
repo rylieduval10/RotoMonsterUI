@@ -34,15 +34,10 @@ namespace RotoMonsterUI
                 badge.Attr("style", style);
             }
 
-            if (!string.IsNullOrEmpty(_input.TooltipText))
-            {
-                badge
-                    .Attr("data-toggle", "tooltip")
-                    .Attr("data-placement", "top")
-                    .Attr("title", _input.TooltipText);
-            }
-
             badge.AppendHtml(_input.BadgeText);
+
+            if (!string.IsNullOrEmpty(_input.TooltipText))
+                return new CustomTooltip(badge.ToString(), _input.TooltipText).Render();
 
             return badge.ToString();
         }
