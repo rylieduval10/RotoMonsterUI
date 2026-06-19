@@ -258,7 +258,7 @@ namespace RotoMonsterUI
                 if (!skipWeatherIcon)
                 {
                     var rainHoursText = game.Weather.RainHours > 0 ? $" for {game.Weather.RainHours}h" : "";
-                    var rainBars = game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
+                    var rainBars = game.Weather.RainChance >= 10 && game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
                         ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
                         : "";
                     var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}%{rainHoursText} {rainBars}";
