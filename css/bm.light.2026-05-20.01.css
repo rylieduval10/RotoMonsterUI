@@ -1170,18 +1170,6 @@ a.modern-filter-btn:hover {
     background: rgba(45, 122, 62, 0.1);
 }
 
-.cal-day--selected {
-    background: #2d7a3e;
-    color: white;
-    border-radius: 4px;
-}
-
-.cal-day--today {
-    border: 1.5px solid #2d7a3e;
-    color: #2d7a3e;
-    font-weight: 700;
-}
-
 .cal-nav-btn {
     background: transparent;
     border: none;
@@ -1214,10 +1202,6 @@ a.modern-filter-btn:hover {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-}
-
-.cal-day--selected:hover {
-    background: #2d7a3e;
 }
 
 .game-state-outs-half {
