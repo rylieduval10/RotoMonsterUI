@@ -357,7 +357,14 @@ body {
 .cal-day--other { color: var(--color-border); cursor: default; }
 .cal-day--today { border: 1.5px solid #2d7a3e; color: #2d7a3e; font-weight: 700; }
 .cal-day--today:hover:not(.cal-day--selected) { background: rgba(45,122,62,0.08); }
-.cal-day--selected { background: #2d7a3e; color: white; font-weight: 700; }
+.cal-day.cal-day--selected {
+    background: #2d7a3e;
+    color: white;
+    font-weight: 700;
+}
+.cal-day.cal-day--selected:hover {
+    background: #2d7a3e;
+}
 .cal-day--in-range { background: rgba(45,122,62,0.12); border-radius: 0; color: #2d7a3e; }
 .cal-day--range-start { border-radius: 6px 0 0 6px; }
 .cal-day--range-end { border-radius: 0 6px 6px 0; }
