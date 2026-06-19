@@ -1393,3 +1393,7 @@ a.modern-filter-btn:hover {
     border-bottom: 6px solid #1e293b;
     border-bottom-color: #f8fafc;
 }
+
+.bm-tooltip-content--centered {
+    text-align: center;
+}

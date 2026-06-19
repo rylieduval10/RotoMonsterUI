@@ -286,7 +286,7 @@ namespace RotoMonsterUI
                             .WithStrokeColor(windStroke)
                             .Render();
                         if (!skipWeatherIcon) weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                        weather.AppendHtml(new CustomTooltip(windArrow, $"{game.Weather.WindSpeed}mph").Render());
+                        weather.AppendHtml(new CustomTooltip(windArrow, $"{game.Weather.WindSpeed}mph").WithCentered().Render());
                     }
                 }
 
