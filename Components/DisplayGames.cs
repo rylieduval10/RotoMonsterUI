@@ -106,14 +106,8 @@ namespace RotoMonsterUI
                         var postponeIcon = new Icon(new IconInput { Type = IconType.PostponementChanceWarning, Color = postponeColor, Fill = postponeColor, Size = 18 }).Render();
                         var postponeLabel = string.IsNullOrEmpty(game.Weather.PostponementFactor) ? ""
                             : char.ToUpper(game.Weather.PostponementFactor[0]) + game.Weather.PostponementFactor.Substring(1).ToLower();
-                        var postponeWrapper = new HtmlTag("span")
-                            .AddClass("game-date-postpone")
-                            .Attr("data-toggle", "tooltip")
-                            .Attr("data-placement", "top")
-                            .Attr("title", $"Postponement: {postponeLabel}")
-                            .AppendHtml(postponeIcon);
                         upcoming.AppendHtml("&nbsp;");
-                        upcoming.Append(postponeWrapper);
+                        upcoming.AppendHtml(new CustomTooltip(postponeIcon, $"Postponement: {postponeLabel}").Render());
                     }
                 }
 
@@ -137,12 +131,10 @@ namespace RotoMonsterUI
 
             if (!gameStarted)
             {
-                var dot = new HtmlTag("span")
+                var dotHtml = new HtmlTag("span")
                     .AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty")
-                    .Attr("data-toggle", "tooltip")
-                    .Attr("data-placement", "top")
-                    .Attr("title", lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed");
-                cell.Append(dot);
+                    .ToString();
+                cell.AppendHtml(new CustomTooltip(dotHtml, lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed").Render());
             }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
@@ -271,13 +263,7 @@ namespace RotoMonsterUI
                         : "";
                     var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}%{rainHoursText} {rainBars}";
                     var weatherIcon = new Icon(new IconInput { Type = IconType.Weather, Size = 16, Color = "#378ADD" }).Render();
-                    var weatherIconWrapper = new HtmlTag("span")
-                        .Attr("data-toggle", "tooltip")
-                        .Attr("data-placement", "top")
-                        .Attr("data-html", "true")
-                        .Attr("title", tooltipContent)
-                        .AppendHtml(weatherIcon);
-                    weather.Append(weatherIconWrapper);
+                    weather.AppendHtml(new CustomTooltip(weatherIcon, tooltipContent).Render());
                 }
 
                 if (!isIndoor)
@@ -299,17 +285,11 @@ namespace RotoMonsterUI
                             .WithColor(windColor)
                             .WithStrokeColor(windStroke)
                             .Render();
-                        var windWrapper = new HtmlTag("span")
-                            .Attr("data-toggle", "tooltip")
-                            .Attr("data-placement", "top")
-                            .Attr("title", $"{game.Weather.WindSpeed}mph")
-                            .AppendHtml(windArrow);
                         if (!skipWeatherIcon) weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                        weather.Append(windWrapper);
+                        weather.AppendHtml(new CustomTooltip(windArrow, $"{game.Weather.WindSpeed}mph").Render());
                     }
                 }
 
-                // Dome icon
                 if (isIndoor)
                 {
                     var domeIcon = new Icon(new IconInput
@@ -319,12 +299,7 @@ namespace RotoMonsterUI
                         Fill = "#88878026",
                         Size = 20
                     }).Render();
-                    var domeWrapper = new HtmlTag("span")
-                        .Attr("data-toggle", "tooltip")
-                        .Attr("data-placement", "top")
-                        .Attr("title", "Stadium will be closed.")
-                        .AppendHtml(domeIcon);
-                    weather.Append(domeWrapper);
+                    weather.AppendHtml(new CustomTooltip(domeIcon, "Stadium will be closed.").Render());
                 }
                 else if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
                 {
@@ -364,13 +339,8 @@ namespace RotoMonsterUI
                             Fill = isConfirmed ? domeColor + "26" : "none",
                             Size = isConfirmed ? 20 : 24
                         }).Render();
-                        var domeWrapper = new HtmlTag("span")
-                            .Attr("data-toggle", "tooltip")
-                            .Attr("data-placement", "top")
-                            .Attr("title", domeTooltip)
-                            .AppendHtml(domeIcon);
                         weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                        weather.Append(domeWrapper);
+                        weather.AppendHtml(new CustomTooltip(domeIcon, domeTooltip).Render());
                     }
                 }
 

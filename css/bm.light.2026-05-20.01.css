@@ -1307,3 +1307,58 @@ a.modern-filter-btn:hover {
     box-shadow: none;
 }
 
+/* ============================================
+   CUSTOM TOOLTIP
+   ============================================ */
+   .bm-tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.bm-tooltip-trigger {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.bm-tooltip-content {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    background: #1e293b;
+    color: #e2e8f0;
+    border: 1px solid rgba(100,116,139,0.4);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    pointer-events: none;
+    min-width: 120px;
+}
+
+.bm-tooltip-content.bm-tooltip-visible {
+    display: block;
+}
+
+.bm-tooltip-arrow {
+    position: fixed;
+    width: 0;
+    height: 0;
+    z-index: 10000;
+    pointer-events: none;
+}
+
+.bm-tooltip-arrow--up {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #1e293b;
+}
+
+.bm-tooltip-arrow--down {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #1e293b;
+}
+
