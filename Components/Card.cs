@@ -6,6 +6,7 @@ namespace RotoMonsterUI
     {
         private string _title;
         private string _content;
+        private bool _noHover;
 
         public Card WithTitle(string title)
         {
@@ -19,9 +20,18 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public Card WithNoHover()
+        {
+            _noHover = true;
+            return this;
+        }
+
         public string Render()
         {
             var card = new HtmlTag("div").AddClass("card-based");
+
+            if (_noHover)
+                card.AddClass("card-based--static");
 
             if (!string.IsNullOrEmpty(_title))
             {

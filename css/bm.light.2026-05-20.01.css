@@ -1298,3 +1298,8 @@ a.modern-filter-btn:hover {
     min-width: 120px;
     text-align: center;
 }
+
+.card-based--static:hover {
+    transform: none;
+    box-shadow: none;
+}

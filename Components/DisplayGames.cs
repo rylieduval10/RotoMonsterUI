@@ -253,64 +253,105 @@ namespace RotoMonsterUI
             {
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
 
-                var rainBars = game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
-                    ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
-                    : "";
+                bool isIndoor = game.Weather.StadiumType?.ToLower() == "indoor";
+                bool domeHighOrConfirmed = !string.IsNullOrEmpty(game.Weather.DomeFactor) &&
+                    (game.Weather.DomeFactor.ToLower() == "high" || game.Weather.DomeFactor.ToLower() == "confirmed");
+                bool skipWeatherIcon = isIndoor || domeHighOrConfirmed;
 
-                var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}% for {game.Weather.RainHours}h {rainBars}";
-                var weatherIcon = new Icon(new IconInput { Type = IconType.Weather, Size = 16, Color = "#378ADD" }).Render();
-                var weatherIconWrapper = new HtmlTag("span")
-                    .Attr("data-toggle", "tooltip")
-                    .Attr("data-placement", "top")
-                    .Attr("data-html", "true")
-                    .Attr("title", tooltipContent)
-                    .AppendHtml(weatherIcon);
-                weather.Append(weatherIconWrapper);
-
-                string windColor;
-                string windStroke;
-                switch (game.Weather.WindFactor?.ToLower())
+                if (!skipWeatherIcon)
                 {
-                    case "low": windColor = "#888780"; windStroke = "#5F5E5A"; break;
-                    case "medium": windColor = "#F59E0B"; windStroke = "#D97706"; break;
-                    case "high": windColor = "#E24B4A"; windStroke = "#A32D2D"; break;
-                    default: windColor = null; windStroke = null; break;
-                }
-
-                if (windColor != null)
-                {
-                    var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees)
-                        .WithSize(28)
-                        .WithColor(windColor)
-                        .WithStrokeColor(windStroke)
-                        .Render();
-                    var windWrapper = new HtmlTag("span")
+                    var rainHoursText = game.Weather.RainHours > 0 ? $" for {game.Weather.RainHours}h" : "";
+                    var rainBars = game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
+                        ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
+                        : "";
+                    var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}%{rainHoursText} {rainBars}";
+                    var weatherIcon = new Icon(new IconInput { Type = IconType.Weather, Size = 16, Color = "#378ADD" }).Render();
+                    var weatherIconWrapper = new HtmlTag("span")
                         .Attr("data-toggle", "tooltip")
                         .Attr("data-placement", "top")
-                        .Attr("title", $"{game.Weather.WindSpeed}mph")
-                        .AppendHtml(windArrow);
-                    weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                    weather.Append(windWrapper);
+                        .Attr("data-html", "true")
+                        .Attr("title", tooltipContent)
+                        .AppendHtml(weatherIcon);
+                    weather.Append(weatherIconWrapper);
                 }
 
-                if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
+                if (!isIndoor)
+                {
+                    string windColor;
+                    string windStroke;
+                    switch (game.Weather.WindFactor?.ToLower())
+                    {
+                        case "low": windColor = "#888780"; windStroke = "#5F5E5A"; break;
+                        case "medium": windColor = "#F59E0B"; windStroke = "#D97706"; break;
+                        case "high": windColor = "#E24B4A"; windStroke = "#A32D2D"; break;
+                        default: windColor = null; windStroke = null; break;
+                    }
+
+                    if (windColor != null)
+                    {
+                        var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees)
+                            .WithSize(28)
+                            .WithColor(windColor)
+                            .WithStrokeColor(windStroke)
+                            .Render();
+                        var windWrapper = new HtmlTag("span")
+                            .Attr("data-toggle", "tooltip")
+                            .Attr("data-placement", "top")
+                            .Attr("title", $"{game.Weather.WindSpeed}mph")
+                            .AppendHtml(windArrow);
+                        if (!skipWeatherIcon) weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+                        weather.Append(windWrapper);
+                    }
+                }
+
+                // Dome icon
+                if (isIndoor)
+                {
+                    var domeIcon = new Icon(new IconInput
+                    {
+                        Type = IconType.Dome,
+                        Color = "#888780",
+                        Fill = "#88878026",
+                        Size = 20
+                    }).Render();
+                    var domeWrapper = new HtmlTag("span")
+                        .Attr("data-toggle", "tooltip")
+                        .Attr("data-placement", "top")
+                        .Attr("title", "Stadium will be closed.")
+                        .AppendHtml(domeIcon);
+                    weather.Append(domeWrapper);
+                }
+                else if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
                 {
                     string domeColor;
+                    string domeTooltip;
                     switch (game.Weather.DomeFactor.ToLower())
                     {
-                        case "low": domeColor = "#888780"; break;
-                        case "medium": domeColor = "#F59E0B"; break;
-                        case "high": domeColor = "#FB7185"; break;
-                        case "confirmed": domeColor = "#888780"; break;
-                        default: domeColor = null; break;
+                        case "low":
+                            domeColor = "#888780";
+                            domeTooltip = "Stadium is expected to be open.";
+                            break;
+                        case "medium":
+                            domeColor = "#F59E0B";
+                            domeTooltip = "Stadium may be closed.";
+                            break;
+                        case "high":
+                            domeColor = "#FB7185";
+                            domeTooltip = "Stadium is expected to be closed.";
+                            break;
+                        case "confirmed":
+                            domeColor = "#888780";
+                            domeTooltip = "Stadium will be closed.";
+                            break;
+                        default:
+                            domeColor = null;
+                            domeTooltip = null;
+                            break;
                     }
 
                     if (domeColor != null)
                     {
                         var isConfirmed = game.Weather.DomeFactor.ToLower() == "confirmed";
-                        var domeLabel = string.IsNullOrEmpty(game.Weather.DomeFactor) ? ""
-                            : char.ToUpper(game.Weather.DomeFactor[0]) + game.Weather.DomeFactor.Substring(1).ToLower();
-
                         var domeIcon = new Icon(new IconInput
                         {
                             Type = isConfirmed ? IconType.Dome : IconType.RetractableDome,
@@ -321,7 +362,7 @@ namespace RotoMonsterUI
                         var domeWrapper = new HtmlTag("span")
                             .Attr("data-toggle", "tooltip")
                             .Attr("data-placement", "top")
-                            .Attr("title", $"Dome: {domeLabel}")
+                            .Attr("title", domeTooltip)
                             .AppendHtml(domeIcon);
                         weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
                         weather.Append(domeWrapper);
