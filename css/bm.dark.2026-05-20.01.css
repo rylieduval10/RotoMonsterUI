@@ -988,7 +988,7 @@ a.modern-filter-btn:hover {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.3rem 0.75rem;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -1084,6 +1084,10 @@ a.modern-filter-btn:hover {
     font-weight: 600;
     color: var(--color-text-primary);
     padding: 0.25rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
 }
 
 .game-state-progress {
@@ -1119,7 +1123,7 @@ a.modern-filter-btn:hover {
     display: flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.5rem;
+    padding: 0.05rem 0.5rem;
     border-radius: 6px;
     min-width: 75px;
     border: 3px solid transparent;
@@ -1183,13 +1187,12 @@ a.modern-filter-btn:hover {
 }
 
 .out-circle {
-    width: 13px;
-    height: 13px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    border: 1.5px solid #888;
+    border: 1px solid #888;
     background: transparent;
     display: inline-block;
-    border-color: #555;
 }
 
 .out-circle--filled {

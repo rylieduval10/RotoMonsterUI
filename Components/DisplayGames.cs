@@ -30,6 +30,12 @@ namespace RotoMonsterUI
         {
             var wrapper = new HtmlTag("div").AddClass("game-state-wrapper");
 
+            if (game.IsGameLive)
+            {
+                var progressPercent = Math.Min(100, game.CurrentOuts / 54.0 * 100);
+                wrapper.Attr("style", $"background: linear-gradient(to right, rgba(128,128,128,0.35) {progressPercent:0.0}%, transparent {progressPercent:0.0}%); border-radius: 6px; padding: 3px 6px;");
+            }
+
             if (game.IsGameFinished)
             {
                 var final = new HtmlTag("div").AddClass("game-state-final");
@@ -92,7 +98,6 @@ namespace RotoMonsterUI
 
                 upcoming.Text($"{timeStr} {untilStr}");
 
-                // Postponement flag inside time box -- only show pre-game
                 if (game.Weather != null)
                 {
                     var postponeColor = GetPostponementColor(game.Weather?.PostponementFactor);
