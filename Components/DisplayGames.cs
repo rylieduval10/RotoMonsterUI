@@ -107,7 +107,10 @@ namespace RotoMonsterUI
                         var postponeLabel = string.IsNullOrEmpty(game.Weather.PostponementFactor) ? ""
                             : char.ToUpper(game.Weather.PostponementFactor[0]) + game.Weather.PostponementFactor.Substring(1).ToLower();
                         upcoming.AppendHtml("&nbsp;");
-                        upcoming.AppendHtml(new CustomTooltip(postponeIcon, $"Postponement: {postponeLabel}").Render());
+                        var postponeTooltip = !string.IsNullOrEmpty(game.Weather.PostponementReason)
+                            ? $"Postponement: {postponeLabel} — {game.Weather.PostponementReason}"
+                            : $"Postponement: {postponeLabel}";
+                        upcoming.AppendHtml(new CustomTooltip(postponeIcon, postponeTooltip).Render());
                     }
                 }
 
@@ -246,14 +249,14 @@ namespace RotoMonsterUI
             row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed));
             row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed));
 
-            if (game.Weather != null && game.Weather.StadiumType?.ToUpper() != "D")
+            if (game.Weather != null)
             {
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
 
-                bool isIndoor = game.Weather.StadiumType?.ToLower() == "indoor";
+                bool isIndoor = game.Weather.StadiumType?.ToLower() == "d";
                 bool domeHighOrConfirmed = !string.IsNullOrEmpty(game.Weather.DomeFactor) &&
                     (game.Weather.DomeFactor.ToLower() == "high" || game.Weather.DomeFactor.ToLower() == "confirmed");
-                bool skipWeatherIcon = isIndoor || domeHighOrConfirmed;
+                bool skipWeatherIcon = isIndoor || domeHighOrConfirmed || game.Weather.AvgTemp == 0;
 
                 if (!skipWeatherIcon)
                 {
@@ -286,20 +289,26 @@ namespace RotoMonsterUI
                             .WithStrokeColor(windStroke)
                             .Render();
                         if (!skipWeatherIcon) weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
-                        weather.AppendHtml(new CustomTooltip(windArrow, $"{game.Weather.WindSpeed}mph").WithCentered().Render());
+                        var windTooltipText = !string.IsNullOrEmpty(game.Weather.WindField)
+                            ? $"{game.Weather.WindSpeed}mph {game.Weather.WindField}"
+                            : $"{game.Weather.WindSpeed}mph";
+                        weather.AppendHtml(new CustomTooltip(windArrow, windTooltipText).WithCentered().Render());
                     }
                 }
 
                 if (isIndoor)
                 {
-                    var domeIcon = new Icon(new IconInput
+                    if (isIndoor)
                     {
-                        Type = IconType.Dome,
-                        Color = "#888780",
-                        Fill = "#88878026",
-                        Size = 20
-                    }).Render();
-                    weather.AppendHtml(new CustomTooltip(domeIcon, "Stadium will be closed.").Render());
+                        var domeIcon = new Icon(new IconInput
+                        {
+                            Type = IconType.Dome,
+                            Color = "#FB7185",
+                            Fill = "#FB718526",
+                            Size = 20
+                        }).Render();
+                        weather.AppendHtml(new CustomTooltip(domeIcon, "Stadium is a dome.").Render());
+                    }
                 }
                 else if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
                 {
@@ -320,7 +329,7 @@ namespace RotoMonsterUI
                             domeTooltip = "Stadium is expected to be closed.";
                             break;
                         case "confirmed":
-                            domeColor = "#888780";
+                            domeColor = "#FB7185";
                             domeTooltip = "Stadium will be closed.";
                             break;
                         default:

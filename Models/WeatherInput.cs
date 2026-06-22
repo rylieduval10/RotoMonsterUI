@@ -13,11 +13,12 @@ namespace RotoMonsterUI
         public string StadiumType { get; set; } // indoor, outdoor, retractable
         public List<int> HourlyRainChance { get; set; }
         public string ChanceOfPostponement { get; set; } // kept for backwards compatibility
-
+        public string WindField { get; set; } // e.g. "OUT CF", "IN RF"
 
         // Impact factors
         public string WindFactor { get; set; } // none, low, medium, high
         public string PostponementFactor { get; set; } // none, low, medium, high, confirmed
+        public string PostponementReason { get; set; }
         public string DomeFactor { get; set; } // none, low, medium, high, confirmed (retractable only)
     }
 }

@@ -31,7 +31,7 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""10""/><path d=""M12 16v-4""/><path d=""M12 8h.01""/>");
                case IconType.Dome:
                     return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""none"" stroke=""{_input.Color}"" stroke-width=""2.5"" stroke-linecap=""round"" stroke-linejoin=""round"">
-                        <path d=""M2 22 L2 14 A10 8 0 0 1 22 14 L22 22 L2 22"" fill=""#888780"" fill-opacity=""0.2"" stroke=""{_input.Color}""/>
+                        <path d=""M2 22 L2 14 A10 8 0 0 1 22 14 L22 22 L2 22"" fill=""{_input.Fill}"" stroke=""{_input.Color}""/>
                     </svg>";
                 case IconType.Trash:
                     return WrapSvg(@"<polyline points=""3 6 5 6 21 6""/><path d=""M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6""/><path d=""M10 11v6""/><path d=""M14 11v6""/><path d=""M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2""/>");

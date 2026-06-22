@@ -1003,6 +1003,7 @@ a.modern-filter-btn:hover {
     text-decoration: none;
     font-size: 0.8rem;
     margin-left: auto;
+    white-space: nowrap;
 }
 
 .game-date-view:hover {
