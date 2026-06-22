@@ -36,7 +36,9 @@ namespace RotoMonsterUI
 
             var dateLabel = new HtmlTag("span")
                 .AddClass("date-nav-label")
-                .Text(_input.SelectedDate.ToString("MMMM d, yyyy"));
+                .Text(_input.ShowDayOfWeek
+                    ? _input.SelectedDate.ToString("dddd, MMMM d, yyyy")
+                    : _input.SelectedDate.ToString("MMMM d, yyyy"));
             wrapper.Append(dateLabel);
 
             var nextIcon = new Icon(new IconInput { Type = IconType.Next, Size = 16 }).Render();
