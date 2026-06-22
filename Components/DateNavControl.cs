@@ -47,6 +47,12 @@ namespace RotoMonsterUI
                 .AppendHtml(nextIcon);
             wrapper.Append(next);
 
+            var hiddenDate = new HtmlTag("input")
+                .Attr("type", "hidden")
+                .Attr("name", $"{_input.Id}-date")
+                .Attr("value", _input.SelectedDate.ToString("yyyy-MM-dd"));
+            wrapper.Append(hiddenDate);
+
             return wrapper.ToString();
         }
     }

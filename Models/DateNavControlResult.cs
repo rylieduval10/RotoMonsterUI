@@ -7,5 +7,6 @@ namespace RotoMonsterUI
         public bool PrevDatePressed { get; set; }
         public bool NextDatePressed { get; set; }
         public bool RefreshPressed { get; set; }
+        public DateTime? NewSelectedDate { get; set; }
     }
 }
