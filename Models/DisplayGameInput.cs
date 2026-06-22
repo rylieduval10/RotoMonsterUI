@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace RotoMonsterUI
 {
@@ -21,6 +22,8 @@ namespace RotoMonsterUI
         public bool AwayTeamLineupConfirmed { get; set; }
         public bool HomeTeamLineupConfirmed { get; set; }
         public int CurrentOuts { get; set; }
+        public List<WarningPlayer> WarningPlayers { get; set; } = new List<WarningPlayer>();
+        public PlayerWarningType? WarningPlayersType { get; set; }
 
     }
 }

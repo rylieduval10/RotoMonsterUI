@@ -125,7 +125,7 @@ namespace RotoMonsterUI
             return gameStarted ? currentRuns : projectedRuns;
         }
 
-        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool isGameFinished, bool lineupConfirmed)
+        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool isGameFinished, bool lineupConfirmed, List<WarningPlayer> warningPlayers, PlayerWarningType? warningType)
         {
             var cell = new HtmlTag("div").AddClass("game-team-cell");
             if (isWinner && isGameFinished)
@@ -138,6 +138,18 @@ namespace RotoMonsterUI
                     .AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty")
                     .ToString();
                 cell.AppendHtml(new CustomTooltip(dotHtml, lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed").Render());
+
+                if (lineupConfirmed && warningPlayers != null && warningType.HasValue)
+                {
+                    var teamWarnings = warningPlayers.Where(p => p.TeamCode == teamCode).ToList();
+                    if (teamWarnings.Any())
+                    {
+                        var warningColor = warningType == PlayerWarningType.Alert ? "#FB7185" : "#F59E0B";
+                        var playerNames = string.Join(", ", teamWarnings.Select(p => $"{p.FirstName} {p.LastName}"));
+                        var icon = new Icon(new IconInput { Type = IconType.LineupCard, Color = warningColor, Size = 16 }).Render();
+                        cell.AppendHtml(new CustomTooltip(icon, $"Not in lineup: {playerNames}").Render());
+                    }
+                }
             }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(teamCode));
@@ -246,8 +258,8 @@ namespace RotoMonsterUI
                 }
             }
 
-            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed));
-            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed));
+            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType));
+            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType));
 
             if (game.Weather != null)
             {

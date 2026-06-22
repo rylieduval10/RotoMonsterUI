@@ -39,6 +39,8 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<polyline points=""9 18 15 12 9 6""/>");
                 case IconType.Previous:
                     return WrapSvg(@"<polyline points=""15 18 9 12 15 6""/>");
+                case IconType.LineupCard:
+                    return WrapSvg(@"<rect x=""3"" y=""2"" width=""18"" height=""20"" rx=""2""/><line x1=""7"" y1=""7"" x2=""17"" y2=""7""/><line x1=""7"" y1=""12"" x2=""17"" y2=""12""/><line x1=""7"" y1=""17"" x2=""13"" y2=""17""/>");
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");
                 case IconType.LineupConfirmed:
