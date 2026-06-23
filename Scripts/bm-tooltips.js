@@ -75,3 +75,13 @@
         e.stopPropagation();
     });
 })();
+
+$(document).on('show.bs.collapse', function(e) {
+    var btn = $('[data-target="#' + e.target.id + '"]');
+    btn.find('polyline').attr('points', '18 15 12 9 6 15');
+});
+
+$(document).on('hide.bs.collapse', function(e) {
+    var btn = $('[data-target="#' + e.target.id + '"]');
+    btn.find('polyline').attr('points', '6 9 12 15 18 9');
+});
