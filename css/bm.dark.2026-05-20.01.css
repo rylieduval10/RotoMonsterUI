@@ -1398,3 +1398,19 @@ a.modern-filter-btn:hover {
 .bm-tooltip-content--centered {
     text-align: center;
 }
+
+.modern-filter-badge[data-cat] {
+    color: var(--cat-color);
+}
+
+.modern-filter-badge[data-cat]:hover {
+    background: rgba(0,0,0,0.04);
+    border-color: var(--cat-color);
+    transform: translateY(-1px);
+}
+
+.badge-checkbox input[type="checkbox"]:checked + .badge-label[data-cat] {
+    background-color: var(--cat-color) !important;
+    border-color: var(--cat-color) !important;
+    color: white !important;
+}

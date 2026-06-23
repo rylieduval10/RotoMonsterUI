@@ -11,6 +11,7 @@ namespace RotoMonsterUI
         private string _id;
         private string _selectedValue;
         private string _name;
+        private bool _showLabel;
 
         public Dropdown(string label, BootstrapVersion version = BootstrapVersion.V4)
         {
@@ -43,8 +44,22 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public Dropdown WithLabel()
+        {
+            _showLabel = true;
+            return this;
+        }
+
         public string Render()
         {
+            var outerWrapper = new HtmlTag("div").AddClass("modern-filter-group");
+
+            if (_showLabel && !string.IsNullOrEmpty(_label))
+            {
+                var label = new HtmlTag("div").AddClass("modern-filter-label").Text(_label);
+                outerWrapper.Append(label);
+            }
+
             var wrapper = new HtmlTag("div").AddClass("bm-custom-select");
 
             if (!string.IsNullOrEmpty(_id))
@@ -53,7 +68,6 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_name))
                 wrapper.Attr("data-name", _name);
 
-            // Find selected text
             var selectedText = _label;
             foreach (var item in _items)
             {
@@ -64,14 +78,12 @@ namespace RotoMonsterUI
                 }
             }
 
-            // Trigger with value span
             var trigger = new HtmlTag("div").AddClass("bm-custom-select-trigger");
             var valueSpan = new HtmlTag("span").AddClass("bm-custom-select-value").Text(selectedText);
             var arrow = new HtmlTag("span").AddClass("bm-custom-select-arrow");
             trigger.Append(valueSpan);
             trigger.Append(arrow);
 
-            // Options
             var options = new HtmlTag("div").AddClass("bm-custom-select-options");
             foreach (var item in _items)
             {
@@ -86,7 +98,6 @@ namespace RotoMonsterUI
                 options.Append(option);
             }
 
-            // Hidden select for postback
             var select = new HtmlTag("select");
             if (!string.IsNullOrEmpty(_name))
             {
@@ -112,7 +123,8 @@ namespace RotoMonsterUI
             wrapper.Append(options);
             wrapper.Append(select);
 
-            return wrapper.ToString();
+            outerWrapper.Append(wrapper);
+            return outerWrapper.ToString();
         }
     }
 }

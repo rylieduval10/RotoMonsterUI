@@ -32,6 +32,9 @@
     --pos-ph: #94a3b8;
 
     --game-winner-border: #166534;
+
+    --color-hitter-category: #2563EB;
+    --color-pitcher-category: #D97706;
 }
 
 /* Update SVG dropdown arrows to green */
