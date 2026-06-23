@@ -281,16 +281,17 @@ namespace RotoMonsterUI
                     weather.AppendHtml(new CustomTooltip(weatherIcon, tooltipContent).Render());
                 }
 
+                // Hoist windColor so it's accessible in the dome section
+                string windColor = null;
+                string windStroke = null;
+
                 if (!isIndoor)
                 {
-                    string windColor;
-                    string windStroke;
                     switch (game.Weather.WindFactor?.ToLower())
                     {
                         case "low": windColor = "#888780"; windStroke = "#5F5E5A"; break;
                         case "medium": windColor = "#F59E0B"; windStroke = "#D97706"; break;
                         case "high": windColor = "#E24B4A"; windStroke = "#A32D2D"; break;
-                        default: windColor = null; windStroke = null; break;
                     }
 
                     if (windColor != null)
@@ -310,17 +311,14 @@ namespace RotoMonsterUI
 
                 if (isIndoor)
                 {
-                    if (isIndoor)
+                    var domeIcon = new Icon(new IconInput
                     {
-                        var domeIcon = new Icon(new IconInput
-                        {
-                            Type = IconType.Dome,
-                            Color = "#FB7185",
-                            Fill = "#FB718526",
-                            Size = 20
-                        }).Render();
-                        weather.AppendHtml(new CustomTooltip(domeIcon, "Stadium is a dome.").Render());
-                    }
+                        Type = IconType.Dome,
+                        Color = "#FB7185",
+                        Fill = "#FB718526",
+                        Size = 20
+                    }).Render();
+                    weather.AppendHtml(new CustomTooltip(domeIcon, "Stadium is a dome.").Render());
                 }
                 else if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
                 {
@@ -360,7 +358,11 @@ namespace RotoMonsterUI
                             Fill = isConfirmed ? domeColor + "26" : "none",
                             Size = isConfirmed ? 20 : 24
                         }).Render();
-                        weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+
+                        // Only show dot if there's something before it
+                        if (!skipWeatherIcon || windColor != null)
+                            weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+
                         weather.AppendHtml(new CustomTooltip(domeIcon, domeTooltip).Render());
                     }
                 }
