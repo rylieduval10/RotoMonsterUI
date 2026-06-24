@@ -1419,3 +1419,10 @@ a.modern-filter-btn:hover {
     border: none !important;
     box-shadow: none !important;
 }
+
+.game-row-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}

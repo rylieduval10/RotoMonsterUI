@@ -181,6 +181,162 @@ namespace RotoMonsterUI
             }
         }
 
+        private string BuildGameRowInner(DisplayGameInput game)
+        {
+            bool gameStarted = game.IsGameLive || game.IsGameFinished;
+
+            if (!game.IsGameFinished && game.IsGameLive)
+            {
+                bool homeWinning = game.HomeTeamCurrentRuns > game.AwayTeamCurrentRuns;
+                bool tied = game.HomeTeamCurrentRuns == game.AwayTeamCurrentRuns;
+
+                if (game.CurrentOuts >= 54 && !tied)
+                    game.IsGameFinished = true;
+                else if (game.CurrentOuts >= 51 && homeWinning)
+                    game.IsGameFinished = true;
+            }
+
+            float awayRuns = GetRuns(game.AwayTeamProjectedRuns, game.AwayTeamCurrentRuns, gameStarted);
+            float homeRuns = GetRuns(game.HomeTeamProjectedRuns, game.HomeTeamCurrentRuns, gameStarted);
+
+            string awayColor, homeColor;
+            bool awayWinner = false, homeWinner = false;
+
+            if (!gameStarted)
+            {
+                awayColor = ColorHelper.GetYellowColorCode(awayRuns, 3.5f, 6.5f, true);
+                homeColor = ColorHelper.GetYellowColorCode(homeRuns, 3.5f, 6.5f, true);
+            }
+            else
+            {
+                float diff = Math.Abs(awayRuns - homeRuns);
+                if (awayRuns > homeRuns)
+                {
+                    awayWinner = true;
+                    awayColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
+                    homeColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
+                }
+                else if (homeRuns > awayRuns)
+                {
+                    homeWinner = true;
+                    homeColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
+                    awayColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
+                }
+                else
+                {
+                    awayColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
+                    homeColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
+                }
+            }
+
+            var sb = new System.Text.StringBuilder();
+            sb.Append(BuildGameState(game).ToString());
+            sb.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
+            sb.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
+
+            // Weather
+            if (game.Weather != null)
+            {
+                var weather = new HtmlTag("div").AddClass("game-date-weather");
+                bool isIndoor = game.Weather.StadiumType?.ToLower() == "d";
+                bool domeHighOrConfirmed = !string.IsNullOrEmpty(game.Weather.DomeFactor) &&
+                    (game.Weather.DomeFactor.ToLower() == "high" || game.Weather.DomeFactor.ToLower() == "confirmed");
+                bool skipWeatherIcon = isIndoor || domeHighOrConfirmed || game.Weather.AvgTemp == 0;
+
+                if (!skipWeatherIcon)
+                {
+                    var rainHoursText = game.Weather.RainHours > 0 ? $" for {game.Weather.RainHours}h" : "";
+                    var rainBars = game.Weather.RainChance >= 10 && game.Weather.HourlyRainChance != null && game.Weather.HourlyRainChance.Count > 0
+                        ? BuildRainBars(game.Weather.RainChance, game.Weather.HourlyRainChance, false)
+                        : "";
+                    var tooltipContent = $"{game.Weather.AvgTemp}° · H{game.Weather.AvgHumidity}% · Rain {game.Weather.RainChance}%{rainHoursText} {rainBars}";
+                    var weatherIcon = new Icon(new IconInput { Type = IconType.Weather, Size = 16, Color = "#378ADD" }).Render();
+                    weather.AppendHtml(new CustomTooltip(weatherIcon, tooltipContent).Render());
+                }
+
+                string windColor = null;
+                string windStroke = null;
+
+                if (!isIndoor)
+                {
+                    switch (game.Weather.WindFactor?.ToLower())
+                    {
+                        case "low": windColor = "#888780"; windStroke = "#5F5E5A"; break;
+                        case "medium": windColor = "#F59E0B"; windStroke = "#D97706"; break;
+                        case "high": windColor = "#E24B4A"; windStroke = "#A32D2D"; break;
+                    }
+
+                    if (windColor != null)
+                    {
+                        var windArrow = new FieldWindArrow((int)game.Weather.WindFieldDegrees)
+                            .WithSize(28)
+                            .WithColor(windColor)
+                            .WithStrokeColor(windStroke)
+                            .Render();
+                        if (!skipWeatherIcon) weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+                        var windTooltipText = !string.IsNullOrEmpty(game.Weather.WindField)
+                            ? $"{game.Weather.WindSpeed}mph {game.Weather.WindField}"
+                            : $"{game.Weather.WindSpeed}mph";
+                        weather.AppendHtml(new CustomTooltip(windArrow, windTooltipText).WithCentered().Render());
+                    }
+                }
+
+                if (isIndoor)
+                {
+                    var domeIcon = new Icon(new IconInput { Type = IconType.Dome, Color = "#FB7185", Fill = "#FB718526", Size = 20 }).Render();
+                    weather.AppendHtml(new CustomTooltip(domeIcon, "Stadium is a dome.").Render());
+                }
+                else if (!string.IsNullOrEmpty(game.Weather.DomeFactor) && game.Weather.DomeFactor.ToLower() != "none")
+                {
+                    string domeColor;
+                    string domeTooltip;
+                    switch (game.Weather.DomeFactor.ToLower())
+                    {
+                        case "low": domeColor = "#888780"; domeTooltip = "Stadium is expected to be open."; break;
+                        case "medium": domeColor = "#F59E0B"; domeTooltip = "Stadium may be closed."; break;
+                        case "high": domeColor = "#FB7185"; domeTooltip = "Stadium is expected to be closed."; break;
+                        case "confirmed": domeColor = "#FB7185"; domeTooltip = "Stadium will be closed."; break;
+                        default: domeColor = null; domeTooltip = null; break;
+                    }
+
+                    if (domeColor != null)
+                    {
+                        var isConfirmed = game.Weather.DomeFactor.ToLower() == "confirmed";
+                        var domeIcon = new Icon(new IconInput
+                        {
+                            Type = isConfirmed ? IconType.Dome : IconType.RetractableDome,
+                            Color = domeColor,
+                            Fill = isConfirmed ? domeColor + "26" : "none",
+                            Size = isConfirmed ? 20 : 24
+                        }).Render();
+
+                        if (!skipWeatherIcon || windColor != null)
+                            weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
+
+                        weather.AppendHtml(new CustomTooltip(domeIcon, domeTooltip).Render());
+                    }
+                }
+
+                sb.Append(weather.ToString());
+            }
+
+            if (!string.IsNullOrEmpty(game.ViewBoxScoreUrl))
+            {
+                var viewLink = new HtmlTag("a")
+                    .AddClass("game-date-view")
+                    .Attr("href", game.ViewBoxScoreUrl)
+                    .Text("box score");
+                sb.Append(viewLink.ToString());
+            }
+
+            return sb.ToString();
+        }
+
+        public string RenderSingleGameInner()
+        {
+            return BuildGameRowInner(_games[0]);
+        }
+
         private string BuildRainBars(double rainChance, List<int> hourlyRainChance, bool whiteMode)
         {
             var sb = new System.Text.StringBuilder();
