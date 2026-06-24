@@ -1374,3 +1374,7 @@ a.modern-filter-btn:hover {
     color: white !important;
 }
 
+.game-date-row--no-border {
+    border: none !important;
+    box-shadow: none !important;
+}

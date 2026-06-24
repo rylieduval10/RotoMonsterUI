@@ -18,6 +18,13 @@ namespace RotoMonsterUI
             _showSettingsLink = showSettingsLink;
         }
 
+        public DisplayGames(DisplayGameInput game, string id = "game-date-control", bool showSettingsLink = false)
+        {
+            _games = new List<DisplayGameInput> { game };
+            _id = id;
+            _showSettingsLink = showSettingsLink;
+        }
+
         private int GetInningPercent(int inning)
         {
             if (inning <= 0) return 0;
@@ -206,7 +213,7 @@ namespace RotoMonsterUI
             return sb.ToString();
         }
 
-        private HtmlTag BuildGameRow(DisplayGameInput game)
+        private HtmlTag BuildGameRow(DisplayGameInput game, bool noBorder = false)
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
 
@@ -222,6 +229,8 @@ namespace RotoMonsterUI
             }
 
             var row = new HtmlTag("div").AddClass("game-date-row");
+            if (noBorder)
+                row.AddClass("game-date-row--no-border");
 
             row.Append(BuildGameState(game));
 
@@ -281,7 +290,6 @@ namespace RotoMonsterUI
                     weather.AppendHtml(new CustomTooltip(weatherIcon, tooltipContent).Render());
                 }
 
-                // Hoist windColor so it's accessible in the dome section
                 string windColor = null;
                 string windStroke = null;
 
@@ -359,7 +367,6 @@ namespace RotoMonsterUI
                             Size = isConfirmed ? 20 : 24
                         }).Render();
 
-                        // Only show dot if there's something before it
                         if (!skipWeatherIcon || windColor != null)
                             weather.Append(new HtmlTag("span").AddClass("game-date-sep").Text("·"));
 
@@ -382,9 +389,9 @@ namespace RotoMonsterUI
             return row;
         }
 
-        public string RenderSingleGame(DisplayGameInput game)
+        public string RenderSingleGame()
         {
-            return BuildGameRow(game).ToString();
+            return BuildGameRow(_games[0], noBorder: true).ToString();
         }
 
         public string Render()
