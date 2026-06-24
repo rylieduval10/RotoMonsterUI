@@ -1426,3 +1426,160 @@ a.modern-filter-btn:hover {
     gap: 0.5rem;
     flex-wrap: wrap;
 }
+
+.bigger-wrapper {
+    width: 150%;
+    height: 150%;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    transform: scale(1.5);
+    transform-origin: top left;
+}
+
+
+/* ============================================
+   LINEUP CARD
+   ============================================ */
+   .lineup-card {
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.lineup-card-game-row {
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.lineup-card-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.lineup-card-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.lineup-card-team-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.lineup-card-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.lineup-card-team-code {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--color-text-primary);
+}
+
+.lineup-card-proj-runs {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+}
+
+.lineup-card-odds {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+}
+
+.lineup-card-table-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.lineup-card-col-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.4rem;
+    background: var(--color-bg-secondary);
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.25rem;
+}
+
+.lineup-card-col-num {
+    min-width: 16px;
+}
+
+.lineup-card-player-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.78rem;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.lineup-card-player-row:last-child {
+    border-bottom: none;
+}
+
+.lineup-card-player-num {
+    min-width: 16px;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    font-size: 0.75rem;
+}
+
+.lineup-card-player-name {
+    flex: 1;
+    color: var(--color-text-primary);
+    font-weight: 500;
+}
+
+.lineup-card-player-pos {
+    font-weight: 700;
+    font-size: 0.75rem;
+    min-width: 24px;
+    text-align: right;
+}
+
+.lineup-card-footer {
+    margin-top: 0.4rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.25rem 0.4rem;
+    border-radius: 4px;
+}
+
+.lineup-card-footer--verified {
+    color: #16a34a;
+    border: 1px solid #16a34a;
+    background: rgba(22, 163, 74, 0.08);
+}
+
+.lineup-card-footer--expected {
+    color: var(--color-text-tertiary);
+    border: 1px solid var(--color-border);
+}
+
+.lineup-card-player-hand {
+    color: var(--color-text-tertiary);
+    font-size: 0.75rem;
+    font-weight: 400;
+}

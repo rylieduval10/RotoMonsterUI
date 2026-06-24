@@ -14,8 +14,10 @@ namespace RotoMonsterUI
         Previous,
         LineupConfirmed,
         LineupNotConfirmed,
-        Weather, 
-        LineupCard
+        Weather,
+        LineupCard,
+        ExportCSV,
+        ExportExcel
     }
 
     public class IconInput
