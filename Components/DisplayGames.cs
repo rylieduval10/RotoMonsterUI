@@ -382,6 +382,11 @@ namespace RotoMonsterUI
             return row;
         }
 
+        public string RenderSingleGame(DisplayGameInput game)
+        {
+            return BuildGameRow(game).ToString();
+        }
+
         public string Render()
         {
             var wrapper = new HtmlTag("div").AddClass("game-date-control").Attr("id", _id);
