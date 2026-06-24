@@ -19,9 +19,9 @@ namespace RotoMonsterUI
             var nameRow = new HtmlTag("div").AddClass("lineup-card-name-row");
 
             var teamCode = new HtmlTag("span").AddClass("lineup-card-team-code");
-            var teamColor = !string.IsNullOrEmpty(team.TeamColor) 
+            var teamColor = NormalizeColor(!string.IsNullOrEmpty(team.TeamColor) 
                 ? team.TeamColor 
-                : TeamColorHelper.GetTeamColor(team.TeamCode, _input.IsDarkMode);
+                : TeamColorHelper.GetTeamColor(team.TeamCode, _input.IsDarkMode));
             if (teamColor != null)
                 teamCode.Attr("style", $"color:{teamColor};");
             var teamText = team.TeamCode;
@@ -69,7 +69,7 @@ namespace RotoMonsterUI
 
                 var pos = new HtmlTag("span").AddClass("lineup-card-player-pos");
                 if (!string.IsNullOrEmpty(player.PositionColor))
-                    pos.Attr("style", $"color:{player.PositionColor};");
+                    pos.Attr("style", $"color:{NormalizeColor(player.PositionColor)};");
                 pos.Text(player.Position);
 
                 row.Append(num);
@@ -95,6 +95,12 @@ namespace RotoMonsterUI
                 wrapper.Append(footer);
 
             return wrapper;
+        }
+
+        private string NormalizeColor(string color)
+        {
+            if (string.IsNullOrEmpty(color)) return color;
+            return color.StartsWith("#") ? color : "#" + color;
         }
 
         public string Render()
