@@ -1,4 +1,5 @@
 using HtmlTags;
+using System;
 using System.Collections.Generic;
 
 namespace RotoMonsterUI
@@ -11,27 +12,33 @@ namespace RotoMonsterUI
         {
             _input = input;
         }
-
         private HtmlTag BuildTeamHeader(LineupCardTeamInput team)
         {
             var header = new HtmlTag("div").AddClass("lineup-card-team-header");
 
             var nameRow = new HtmlTag("div").AddClass("lineup-card-name-row");
 
-            var teamCode = new HtmlTag("span").AddClass("lineup-card-team-code");
-            var teamColor = NormalizeColor(!string.IsNullOrEmpty(team.TeamColor) 
-                ? team.TeamColor 
+            // Team code with color and projected runs
+            var teamColor = NormalizeColor(!string.IsNullOrEmpty(team.TeamColor)
+                ? team.TeamColor
                 : TeamColorHelper.GetTeamColor(team.TeamCode, _input.IsDarkMode));
-            if (teamColor != null)
-                teamCode.Attr("style", $"color:{teamColor};");
-            var teamText = team.TeamCode;
-            if (team.Rank.HasValue)
-                teamText += $" ({team.Rank})";
-            if (team.IsHomeTeam)
-                teamText = "@ " + teamText;
-            teamCode.Text(teamText);
 
-            nameRow.Append(teamCode);
+            var teamCodeSpan = new HtmlTag("span").AddClass("lineup-card-team-code");
+            if (teamColor != null)
+                teamCodeSpan.Attr("style", $"color:{teamColor};");
+
+            var teamText = team.IsHomeTeam ? $"@ {team.TeamCode}" : team.TeamCode;
+            if (team.ProjectedRuns > 0)
+                teamText += $" {team.ProjectedRuns:0.0}";
+            teamCodeSpan.Text(teamText);
+            nameRow.Append(teamCodeSpan);
+
+            if (team.Rank.HasValue)
+            {
+                var rank = new HtmlTag("span").AddClass("lineup-card-rank").Text($"#{team.Rank}");
+                nameRow.Append(rank);
+            }
+
             header.Append(nameRow);
 
             if (!string.IsNullOrEmpty(team.OddsLine))
@@ -62,10 +69,18 @@ namespace RotoMonsterUI
                 num.Text(player.IsStartingPitcher ? "" : player.BattingOrder?.ToString() ?? "");
 
                 var name = new HtmlTag("span").AddClass("lineup-card-player-name");
-                    name.AppendHtml($"{player.Name} ");
+                if (player.Player != null)
+                {
+                    var url = $"/playerinfo.aspx?i={player.Player.PlayerId}";
+                    var link = new HtmlTag("a")
+                        .Attr("href", url)
+                        .Text(player.Player.PlayerName);
+                    name.Append(link);
+                    name.AppendHtml(" ");
+                }
 
                 var hand = new HtmlTag("span").AddClass("lineup-card-player-hand").Text(player.Handedness);
-                    name.Append(hand);
+                name.Append(hand);
 
                 var pos = new HtmlTag("span").AddClass("lineup-card-player-pos");
                 if (!string.IsNullOrEmpty(player.PositionColor))
@@ -88,7 +103,7 @@ namespace RotoMonsterUI
             else if (team.LineupExpectedMinutes.HasValue)
             {
                 footer.AddClass("lineup-card-footer--expected");
-                footer.Text($"Lineup Expected {team.LineupExpectedMinutes}m");
+                footer.Text(FormatLineupExpected(team.LineupExpectedMinutes.Value));
             }
 
             if (team.IsVerified || team.LineupExpectedMinutes.HasValue)
@@ -103,6 +118,25 @@ namespace RotoMonsterUI
             return color.StartsWith("#") ? color : "#" + color;
         }
 
+        private string FormatLineupExpected(int minutes)
+        {
+            if (minutes < 0)
+            {
+                var overdue = Math.Abs(minutes);
+                if (overdue >= 1440)
+                    return $"Lineup Overdue by {overdue / 1440}d {(overdue % 1440) / 60}h";
+                if (overdue >= 60)
+                    return $"Lineup Overdue by {overdue / 60}h {overdue % 60}m";
+                return $"Lineup Overdue by {overdue}m";
+            }
+
+            if (minutes >= 1440)
+                return $"Lineup Expected {minutes / 1440}d {(minutes % 1440) / 60}h";
+            if (minutes >= 60)
+                return $"Lineup Expected {minutes / 60}h {minutes % 60}m";
+            return $"Lineup Expected {minutes}m";
+        }
+
         public string Render()
         {
             var card = new HtmlTag("div").AddClass("lineup-card");
@@ -114,7 +148,7 @@ namespace RotoMonsterUI
             if (_input.Game != null)
             {
                 var gameRow = new HtmlTag("div").AddClass("lineup-card-game-row game-row-inner");
-                gameRow.AppendHtml(new DisplayGames(_input.Game).RenderSingleGameInner());
+                gameRow.AppendHtml(new DisplayGames(_input.Game).RenderSingleGameInner(hideTeamCells: true));
                 card.Append(gameRow);
             }
 

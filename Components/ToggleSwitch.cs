@@ -9,6 +9,8 @@ namespace RotoMonsterUI
         private bool _checked;
         private string _id;
 
+        public string Id => _id ?? _name ?? "";
+
         public ToggleSwitch WithLabel(string label)
         {
             _label = label;

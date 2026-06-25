@@ -141,21 +141,16 @@ namespace RotoMonsterUI
 
             if (!gameStarted)
             {
-                var dotHtml = new HtmlTag("span")
-                    .AddClass(lineupConfirmed ? "lineup-dot lineup-dot-confirmed" : "lineup-dot lineup-dot-empty")
-                    .ToString();
-                cell.AppendHtml(new CustomTooltip(dotHtml, lineupConfirmed ? "Lineup Confirmed" : "Lineup Not Confirmed").Render());
+                cell.AppendHtml(new DisplayLineupDot(new DisplayLineupDotInput { IsConfirmed = lineupConfirmed }).Render());
 
                 if (lineupConfirmed && warningPlayers != null && warningType.HasValue)
                 {
-                    var teamWarnings = warningPlayers.Where(p => p.TeamCode == teamCode).ToList();
-                    if (teamWarnings.Any())
+                    cell.AppendHtml(new DisplayWarningIcon(new DisplayWarningIconInput
                     {
-                        var warningColor = warningType == PlayerWarningType.Alert ? "#FB7185" : "#F59E0B";
-                        var playerNames = string.Join(", ", teamWarnings.Select(p => $"{p.FirstName} {p.LastName}"));
-                        var icon = new Icon(new IconInput { Type = IconType.LineupCard, Color = warningColor, Size = 16 }).Render();
-                        cell.AppendHtml(new CustomTooltip(icon, $"Not in lineup: {playerNames}").Render());
-                    }
+                        TeamCode = teamCode,
+                        WarningPlayers = warningPlayers,
+                        WarningType = warningType.Value
+                    }).Render());
                 }
             }
 
@@ -181,7 +176,7 @@ namespace RotoMonsterUI
             }
         }
 
-        private string BuildGameRowInner(DisplayGameInput game)
+        private string BuildGameRowInner(DisplayGameInput game, bool hideTeamCells = false)
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
 
@@ -231,8 +226,11 @@ namespace RotoMonsterUI
 
             var sb = new System.Text.StringBuilder();
             sb.Append(BuildGameState(game).ToString());
-            sb.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
-            sb.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
+            if (!hideTeamCells)
+            {
+                sb.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
+                sb.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
+            }
 
             // Weather
             if (game.Weather != null)
@@ -332,9 +330,9 @@ namespace RotoMonsterUI
             return sb.ToString();
         }
 
-        public string RenderSingleGameInner()
+        public string RenderSingleGameInner(bool hideTeamCells = false)
         {
-            return BuildGameRowInner(_games[0]);
+            return BuildGameRowInner(_games[0], hideTeamCells);
         }
 
         private string BuildRainBars(double rainChance, List<int> hourlyRainChance, bool whiteMode)

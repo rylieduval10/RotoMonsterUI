@@ -21,6 +21,8 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public string Id => _id ?? _name ?? "";
+
         public RadioGroup AddOption(string label, string value, bool isSelected = false)
         {
             _options.Add((label, value, isSelected));

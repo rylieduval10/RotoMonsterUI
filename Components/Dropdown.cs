@@ -50,6 +50,8 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public string Id => _id ?? _name ?? "";
+
         public string Render()
         {
             var outerWrapper = new HtmlTag("div").AddClass("modern-filter-group");

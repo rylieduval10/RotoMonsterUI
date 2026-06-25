@@ -26,6 +26,8 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public string Id => _id ?? _name ?? "";
+
         public CheckboxGroup AddOption(string label, string value, bool isChecked = false, string dataPos = null)
         {
             _options.Add((label, value, isChecked, dataPos));

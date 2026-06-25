@@ -1427,7 +1427,7 @@ a.modern-filter-btn:hover {
     flex-wrap: wrap;
 }
 
-.bigger-wrapper {
+.boxscore-game-row-inner {
     width: 150%;
     height: 150%;
     display: inline-block;
@@ -1435,7 +1435,6 @@ a.modern-filter-btn:hover {
     transform: scale(1.5);
     transform-origin: top left;
 }
-
 
 /* ============================================
    LINEUP CARD
@@ -1582,4 +1581,9 @@ a.modern-filter-btn:hover {
     color: var(--color-text-tertiary);
     font-size: 0.75rem;
     font-weight: 400;
+}
+.date-nav-game-count {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
 }

@@ -34,12 +34,22 @@ namespace RotoMonsterUI
                 .AppendHtml(prevIcon);
             wrapper.Append(prev);
 
+            var dateFormat = _input.ShowDayOfWeek
+                ? (_input.ShowYear ? "dddd, MMMM d, yyyy" : "dddd, MMMM d")
+                : (_input.ShowYear ? "MMMM d, yyyy" : "MMMM d");
+
             var dateLabel = new HtmlTag("span")
                 .AddClass("date-nav-label")
-                .Text(_input.ShowDayOfWeek
-                    ? _input.SelectedDate.ToString("dddd, MMMM d, yyyy")
-                    : _input.SelectedDate.ToString("MMMM d, yyyy"));
+                .Text(_input.SelectedDate.ToString(dateFormat));
             wrapper.Append(dateLabel);
+
+            if (_input.GameCount > 0)
+            {
+                var gameCount = new HtmlTag("span")
+                    .AddClass("date-nav-game-count")
+                    .Text($"{_input.GameCount} Games");
+                wrapper.Append(gameCount);
+            }
 
             var nextIcon = new Icon(new IconInput { Type = IconType.Next, Size = 16 }).Render();
             var next = new HtmlTag("button")

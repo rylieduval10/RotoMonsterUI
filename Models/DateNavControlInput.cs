@@ -8,5 +8,7 @@ namespace RotoMonsterUI
         public DateTime SelectedDate { get; set; } = DateTime.Today;
         public bool ShowRefresh { get; set; } = true;
         public bool ShowDayOfWeek { get; set; } = false;
+        public bool ShowYear { get; set; } = false;
+        public int GameCount { get; set; } = 0;
     }
 }
