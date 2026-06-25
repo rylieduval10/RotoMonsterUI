@@ -36,7 +36,7 @@ namespace RotoMonsterUI
                 }).Render());
             }
 
-            var teamText = team.IsHomeTeam ? $"@ {team.TeamCode}" : team.TeamCode;
+            var teamText = team.TeamCode;
             if (team.ProjectedRuns > 0)
                 teamText += $" {team.ProjectedRuns:0.0}";
             teamCodeSpan.AppendHtml(teamText);
