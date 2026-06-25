@@ -1587,3 +1587,23 @@ a.modern-filter-btn:hover {
     font-weight: 600;
     color: var(--color-text-tertiary);
 }
+
+.game-date-row--selected {
+    border: 2px solid var(--brand-primary) !important;
+    box-shadow: 0 0 10px rgba(var(--brand-primary-rgb), 0.2);
+}
+
+
+.game-date-toggle {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.badge-checkbox input[type="checkbox"]:checked + .game-date-toggle {
+    background-color: var(--brand-primary) !important;
+    border-color: var(--brand-primary) !important;
+}

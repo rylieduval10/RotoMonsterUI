@@ -5,6 +5,9 @@ namespace RotoMonsterUI
 {
     public class DisplayGameInput
     {
+        public int GameId { get; set; }
+        public bool IsSelected { get; set; } = false;
+
         public string AwayTeamCode { get; set; }
         public string HomeTeamCode { get; set; }
         public float AwayTeamProjectedRuns { get; set; }
@@ -24,6 +27,5 @@ namespace RotoMonsterUI
         public int CurrentOuts { get; set; }
         public List<WarningPlayer> WarningPlayers { get; set; } = new List<WarningPlayer>();
         public PlayerWarningType? WarningPlayersType { get; set; }
-
     }
 }

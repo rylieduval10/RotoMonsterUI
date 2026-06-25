@@ -10,19 +10,22 @@ namespace RotoMonsterUI
         private List<DisplayGameInput> _games;
         private string _id;
         private bool _showSettingsLink;
+        private bool _showToggle;
 
-        public DisplayGames(List<DisplayGameInput> games, string id = "game-date-control", bool showSettingsLink = false)
+        public DisplayGames(List<DisplayGameInput> games, string id = "game-date-control", bool showSettingsLink = false, bool showToggle = false)
         {
             _games = games;
             _id = id;
             _showSettingsLink = showSettingsLink;
+            _showToggle = showToggle;
         }
 
-        public DisplayGames(DisplayGameInput game, string id = "game-date-control", bool showSettingsLink = false)
+        public DisplayGames(DisplayGameInput game, string id = "game-date-control", bool showSettingsLink = false, bool showToggle = false)
         {
             _games = new List<DisplayGameInput> { game };
             _id = id;
             _showSettingsLink = showSettingsLink;
+            _showToggle = showToggle;
         }
 
         private int GetInningPercent(int inning)
@@ -176,6 +179,30 @@ namespace RotoMonsterUI
             }
         }
 
+        private HtmlTag BuildGameToggle(DisplayGameInput game)
+        {
+            var checkboxId = $"{_id}-game-{game.GameId}";
+
+            var label = new HtmlTag("label").AddClass("badge-checkbox").Attr("for", checkboxId);
+
+            var checkbox = new HtmlTag("input")
+            .Attr("type", "checkbox")
+            .Attr("id", checkboxId)
+            .Attr("name", checkboxId)
+            .Attr("value", "1")
+            .AddClass("game-date-toggle-checkbox");
+
+            if (game.IsSelected)
+                checkbox.Attr("checked", "checked");
+
+            var toggle = new HtmlTag("span").AddClass("game-date-toggle modern-filter-badge");
+
+            label.Append(checkbox);
+            label.Append(toggle);
+
+            return label;
+        }
+
         private string BuildGameRowInner(DisplayGameInput game, bool hideTeamCells = false)
         {
             bool gameStarted = game.IsGameLive || game.IsGameFinished;
@@ -232,7 +259,6 @@ namespace RotoMonsterUI
                 sb.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
             }
 
-            // Weather
             if (game.Weather != null)
             {
                 var weather = new HtmlTag("div").AddClass("game-date-weather");
@@ -385,6 +411,12 @@ namespace RotoMonsterUI
             var row = new HtmlTag("div").AddClass("game-date-row");
             if (noBorder)
                 row.AddClass("game-date-row--no-border");
+            if (game.IsSelected)
+                row.AddClass("game-date-row--selected");
+
+            // Toggle
+            if (_showToggle)
+                row.Append(BuildGameToggle(game));
 
             row.Append(BuildGameState(game));
 

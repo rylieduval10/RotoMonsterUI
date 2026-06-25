@@ -87,3 +87,12 @@ $(document).on('hide.bs.collapse', function(e) {
     btn.find('polyline').attr('points', '6 9 12 15 18 9');
     $('#' + e.target.id.replace('-content', '-toggle')).val('0');
 });
+
+$(document).on('change', '.game-date-toggle-checkbox', function() {
+    var row = $(this).closest('label').parent();
+    if ($(this).is(':checked')) {
+        row.addClass('game-date-row--selected');
+    } else {
+        row.removeClass('game-date-row--selected');
+    }
+});
