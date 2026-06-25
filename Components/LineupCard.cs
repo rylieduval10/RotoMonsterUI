@@ -24,13 +24,22 @@ namespace RotoMonsterUI
                 : TeamColorHelper.GetTeamColor(team.TeamCode, _input.IsDarkMode));
 
             var teamCodeSpan = new HtmlTag("span").AddClass("lineup-card-team-code");
-            if (teamColor != null)
-                teamCodeSpan.Attr("style", $"color:{teamColor};");
+            var bgColor = ColorHelper.GetYellowColorCode(team.ProjectedRuns, 3.5f, 6.5f, true);
+            teamCodeSpan.Attr("style", $"background-color:#{bgColor}; padding: 0.05rem 0.5rem; border-radius: 6px; color: #000;");
+
+            // Lineup dot inside the colored span
+            if (team.IsLineupConfirmed.HasValue)
+            {
+                teamCodeSpan.AppendHtml(new DisplayLineupDot(new DisplayLineupDotInput
+                {
+                    IsConfirmed = team.IsLineupConfirmed.Value
+                }).Render());
+            }
 
             var teamText = team.IsHomeTeam ? $"@ {team.TeamCode}" : team.TeamCode;
             if (team.ProjectedRuns > 0)
                 teamText += $" {team.ProjectedRuns:0.0}";
-            teamCodeSpan.Text(teamText);
+            teamCodeSpan.AppendHtml(teamText);
             nameRow.Append(teamCodeSpan);
 
             if (team.Rank.HasValue)

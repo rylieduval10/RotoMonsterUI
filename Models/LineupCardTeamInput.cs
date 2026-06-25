@@ -13,6 +13,7 @@ namespace RotoMonsterUI
         public bool IsVerified { get; set; }
         public int? LineupExpectedMinutes { get; set; }
         public bool IsHomeTeam { get; set; }
-        public string TeamColor { get; set; } 
+        public string TeamColor { get; set; }
+        public bool? IsLineupConfirmed { get; set; } 
     }
 }

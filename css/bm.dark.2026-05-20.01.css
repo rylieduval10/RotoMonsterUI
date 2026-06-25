@@ -1430,7 +1430,6 @@ a.modern-filter-btn:hover {
 .boxscore-game-row-inner {
     width: 150%;
     height: 150%;
-    display: inline-block;
     margin-bottom: 1.5rem;
     transform: scale(1.5);
     transform-origin: top left;
