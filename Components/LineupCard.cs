@@ -59,12 +59,14 @@ namespace RotoMonsterUI
             return header;
         }
 
-        private HtmlTag BuildPlayerTable(LineupCardTeamInput team)
+        private HtmlTag BuildPlayerTable(LineupCardTeamInput team, string teamColor)
         {
             var wrapper = new HtmlTag("div").AddClass("lineup-card-table-wrapper");
 
             // Column header
             var colHeader = new HtmlTag("div").AddClass("lineup-card-col-header");
+            if (!string.IsNullOrEmpty(teamColor))
+                colHeader.Attr("style", $"color:{teamColor}; border-bottom: 2px solid {teamColor};");
             colHeader.AppendHtml("<span class='lineup-card-col-num'>#</span>");
             colHeader.AppendHtml($"<span class='lineup-card-col-name'>Player vs. {team.PlayerVsHandedness}</span>");
             wrapper.Append(colHeader);
@@ -75,6 +77,8 @@ namespace RotoMonsterUI
                 var row = new HtmlTag("div").AddClass("lineup-card-player-row");
 
                 var num = new HtmlTag("span").AddClass("lineup-card-player-num");
+                if (!string.IsNullOrEmpty(teamColor))
+                    num.Attr("style", $"color:{teamColor}; font-weight:700;");
                 num.Text(player.IsStartingPitcher ? "" : player.BattingOrder?.ToString() ?? "");
 
                 var name = new HtmlTag("span").AddClass("lineup-card-player-name");
@@ -165,15 +169,23 @@ namespace RotoMonsterUI
             var columns = new HtmlTag("div").AddClass("lineup-card-columns");
 
             // Away team
+            var awayTeamColor = NormalizeColor(!string.IsNullOrEmpty(_input.AwayTeam.TeamColor)
+                ? _input.AwayTeam.TeamColor
+                : TeamColorHelper.GetTeamColor(_input.AwayTeam.TeamCode, _input.IsDarkMode));
+
             var awayCol = new HtmlTag("div").AddClass("lineup-card-col");
             awayCol.Append(BuildTeamHeader(_input.AwayTeam));
-            awayCol.Append(BuildPlayerTable(_input.AwayTeam));
+            awayCol.Append(BuildPlayerTable(_input.AwayTeam, awayTeamColor));
             columns.Append(awayCol);
 
             // Home team
+            var homeTeamColor = NormalizeColor(!string.IsNullOrEmpty(_input.HomeTeam.TeamColor)
+                ? _input.HomeTeam.TeamColor
+                : TeamColorHelper.GetTeamColor(_input.HomeTeam.TeamCode, _input.IsDarkMode));
+
             var homeCol = new HtmlTag("div").AddClass("lineup-card-col");
             homeCol.Append(BuildTeamHeader(_input.HomeTeam));
-            homeCol.Append(BuildPlayerTable(_input.HomeTeam));
+            homeCol.Append(BuildPlayerTable(_input.HomeTeam, homeTeamColor));
             columns.Append(homeCol);
 
             card.Append(columns);
