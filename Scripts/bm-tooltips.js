@@ -148,11 +148,8 @@ document.addEventListener('click', function(e) {
         var svgText = trigger.querySelector('svg text');
         if (svgText) svgText.textContent = date.getDate();
 
-        // Update label text
-        trigger.childNodes.forEach(function(node) {
-            if (node.nodeType === 3) trigger.removeChild(node);
-        });
-        trigger.appendChild(document.createTextNode(formatted));
+        var label = trigger.querySelector('.popup-cal-trigger-label');
+        if (label) label.textContent = formatted;
     }
 
     // Update selected day styling
