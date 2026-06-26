@@ -96,7 +96,6 @@ $(document).on('change', '.game-date-toggle-checkbox', function() {
         row.removeClass('game-date-row--selected');
     }
 });
-
 // Popup Calendar - toggle open/close
 document.addEventListener('click', function(e) {
     var trigger = e.target.closest('[data-popup-cal]');
@@ -125,19 +124,43 @@ document.addEventListener('click', function(e) {
     var day = e.target.closest('[data-popup-cal-date]');
     if (!day) return;
 
+    e.stopPropagation();
+
+    if (day.classList.contains('popup-cal-day--disabled')) return;
+
     var dateVal = day.getAttribute('data-popup-cal-date');
     var panel = day.closest('.popup-cal-panel');
     if (!panel) return;
 
-    // Set hidden input
     var wrapperId = panel.id.replace('-panel', '');
+
+    // Update hidden field
     var hidden = document.getElementById(wrapperId + '-selected');
     if (hidden) hidden.value = dateVal;
 
+    // Update trigger button text and icon
+    var trigger = document.querySelector('[data-popup-cal="' + panel.id + '"]');
+    if (trigger) {
+        var date = new Date(dateVal + 'T00:00:00');
+        var formatted = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        // Update icon day number
+        var svgText = trigger.querySelector('svg text');
+        if (svgText) svgText.textContent = date.getDate();
+
+        // Update label text
+        trigger.childNodes.forEach(function(node) {
+            if (node.nodeType === 3) trigger.removeChild(node);
+        });
+        trigger.appendChild(document.createTextNode(formatted));
+    }
+
+    // Update selected day styling
+    panel.querySelectorAll('.popup-cal-day--selected').forEach(function(d) {
+        d.classList.remove('popup-cal-day--selected');
+    });
+    day.classList.add('popup-cal-day--selected');
+
     // Close panel
     panel.classList.remove('popup-cal-open');
-
-    // Submit parent form
-    var form = panel.closest('form');
-    if (form) form.submit();
 });

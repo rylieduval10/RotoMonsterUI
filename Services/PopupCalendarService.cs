@@ -15,8 +15,8 @@ namespace RotoMonsterUI
             if (formValues.ContainsKey($"{controlId}-next"))
                 result.NextMonthPressed = true;
 
-            if (formValues.TryGetValue($"{controlId}-selected", out var dateStr) && DateTime.TryParse(dateStr, out var date))
-                result.SelectedDate = date;
+            if (formValues.TryGetValue($"{controlId}-selected", out var selectedStr) && DateTime.TryParse(selectedStr, out var selected))
+                result.SelectedDate = selected;
 
             return result;
         }

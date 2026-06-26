@@ -21,26 +21,29 @@ namespace RotoMonsterUI
                 .AddClass("popup-cal-wrapper")
                 .Attr("id", wrapperId);
 
-            // Trigger button
-            var triggerLabel = _input.SelectedDate.HasValue
-                ? _input.SelectedDate.Value.ToString("MMM d, yyyy")
-                : _input.TriggerLabel;
+            // Display values
+            var displayDate = _input.SelectedDate ?? DateTime.Today;
+            var displayDay = displayDate.Day;
+            var triggerLabel = displayDate.ToString("MMM d, yyyy");
 
+            // Calendar icon with day number
+            var calIcon = $@"<svg width=""18"" height=""18"" viewBox=""0 0 24 24"" fill=""none"" stroke=""currentColor"" stroke-width=""2"" stroke-linecap=""round"" stroke-linejoin=""round""><rect x=""3"" y=""4"" width=""18"" height=""18"" rx=""2""/><line x1=""3"" y1=""9"" x2=""21"" y2=""9""/><line x1=""8"" y1=""2"" x2=""8"" y2=""6""/><line x1=""16"" y1=""2"" x2=""16"" y2=""6""/><text x=""12"" y=""19"" text-anchor=""middle"" font-size=""8.5"" font-weight=""bold"" stroke=""none"" fill=""currentColor"" font-family=""system-ui"">{displayDay}</text></svg>";
+
+            // Trigger button
             var trigger = new HtmlTag("button")
                 .AddClass("popup-cal-trigger modern-filter-btn modern-filter-btn-secondary")
                 .Attr("type", "button")
                 .Attr("data-popup-cal", panelId);
-
-            var displayDay = (_input.SelectedDate ?? DateTime.Today).Day;
-            var calIcon = $@"<svg width=""18"" height=""18"" viewBox=""0 0 24 24"" fill=""none"" stroke=""currentColor"" stroke-width=""2"" stroke-linecap=""round"" stroke-linejoin=""round""><rect x=""3"" y=""4"" width=""18"" height=""18"" rx=""2""/><line x1=""3"" y1=""9"" x2=""21"" y2=""9""/><line x1=""8"" y1=""2"" x2=""8"" y2=""6""/><line x1=""16"" y1=""2"" x2=""16"" y2=""6""/><text x=""12"" y=""19"" text-anchor=""middle"" font-size=""8.5"" font-weight=""bold"" stroke=""none"" fill=""currentColor"" font-family=""system-ui"">{displayDay}</text></svg>";            trigger.AppendHtml($"<span style='margin-right:0.35rem'>{calIcon}</span>{triggerLabel}");
+            trigger.AppendHtml($"<span style='margin-right:0.35rem'>{calIcon}</span><span class='popup-cal-trigger-label'>{triggerLabel}</span>");
             wrapper.Append(trigger);
 
             // Hidden input for selected date
+            var month = _input.DisplayMonth;
             wrapper.Append(new HtmlTag("input")
                 .Attr("type", "hidden")
                 .Attr("id", $"{wrapperId}-selected")
                 .Attr("name", $"{wrapperId}-selected")
-                .Attr("value", _input.SelectedDate?.ToString("yyyy-MM-dd") ?? ""));
+                .Attr("value", displayDate.ToString("yyyy-MM-dd")));
 
             // Popup panel
             var panel = new HtmlTag("div")
@@ -48,7 +51,6 @@ namespace RotoMonsterUI
                 .Id(panelId);
 
             // Month header
-            var month = _input.DisplayMonth;
             var header = new HtmlTag("div").AddClass("popup-cal-header");
 
             var prevIcon = new Icon(new IconInput { Type = IconType.Previous, Size = 16 }).Render();
