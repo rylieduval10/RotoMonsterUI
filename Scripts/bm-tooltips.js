@@ -372,3 +372,58 @@ document.addEventListener('click', function(e) {
         });
     });
 })();
+
+// Rich Text Editor
+document.querySelectorAll('.rte-btn').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var cmd = btn.getAttribute('data-rte-cmd');
+        var prompt = btn.getAttribute('data-rte-prompt');
+
+        if (cmd === 'createLink') {
+            var url = window.prompt(prompt || 'Enter URL:');
+            if (url) document.execCommand(cmd, false, url);
+        } else {
+            document.execCommand(cmd, false, null);
+        }
+
+        // Update active states
+        updateRteActiveStates(btn.closest('.rte-wrapper'));
+
+        // Sync hidden input
+        syncRteValue(btn.closest('.rte-wrapper'));
+    });
+});
+
+document.querySelectorAll('.rte-body').forEach(function(editor) {
+    editor.addEventListener('input', function() {
+        syncRteValue(editor.closest('.rte-wrapper'));
+    });
+    editor.addEventListener('keyup', function() {
+        updateRteActiveStates(editor.closest('.rte-wrapper'));
+    });
+    editor.addEventListener('mouseup', function() {
+        updateRteActiveStates(editor.closest('.rte-wrapper'));
+    });
+});
+
+function syncRteValue(wrapper) {
+    if (!wrapper) return;
+    var editor = wrapper.querySelector('.rte-body');
+    var hidden = wrapper.querySelector('input[type="hidden"]');
+    if (editor && hidden) hidden.value = editor.innerHTML;
+}
+
+function updateRteActiveStates(wrapper) {
+    if (!wrapper) return;
+    wrapper.querySelectorAll('.rte-btn[data-rte-cmd]').forEach(function(btn) {
+        var cmd = btn.getAttribute('data-rte-cmd');
+        try {
+            if (document.queryCommandState(cmd)) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        } catch(e) {}
+    });
+}
