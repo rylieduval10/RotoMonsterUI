@@ -96,6 +96,7 @@ $(document).on('change', '.game-date-toggle-checkbox', function() {
         row.removeClass('game-date-row--selected');
     }
 });
+
 // Popup Calendar - toggle open/close
 document.addEventListener('click', function(e) {
     var trigger = e.target.closest('[data-popup-cal]');
@@ -131,8 +132,9 @@ document.addEventListener('click', function(e) {
     var dateVal = day.getAttribute('data-popup-cal-date');
     var panel = day.closest('.popup-cal-panel');
     if (!panel) return;
-
     var wrapperId = panel.id.replace('-panel', '');
+    var wrapper = document.getElementById(wrapperId);
+    if (wrapper && wrapper.getAttribute('data-mode') === 'range') return; 
 
     // Update hidden field
     var hidden = document.getElementById(wrapperId + '-selected');
@@ -242,3 +244,131 @@ document.addEventListener('click', function(e) {
         grid.appendChild(dayBtn);
     }
 });
+
+// Popup Calendar - Range selection
+(function() {
+    var rangeState = {}; // keyed by wrapperId
+
+    function getRangeState(wrapperId) {
+        if (!rangeState[wrapperId]) {
+            rangeState[wrapperId] = { awaiting: 'start', start: null };
+        }
+        return rangeState[wrapperId];
+    }
+
+    function clearRangePreview(panel) {
+        panel.querySelectorAll('.popup-cal-day--range-preview').forEach(function(d) {
+            d.classList.remove('popup-cal-day--range-preview');
+        });
+    }
+
+    function updateRangeHighlight(panel, startStr, endStr) {
+        panel.querySelectorAll('.popup-cal-day').forEach(function(d) {
+            d.classList.remove('popup-cal-day--range-start', 'popup-cal-day--range-end', 'popup-cal-day--in-range', 'popup-cal-day--range-preview');
+            var dateStr = d.getAttribute('data-popup-cal-date');
+            if (!dateStr) return;
+            if (dateStr === startStr) d.classList.add('popup-cal-day--range-start');
+            if (dateStr === endStr) d.classList.add('popup-cal-day--range-end');
+            if (startStr && endStr && dateStr > startStr && dateStr < endStr)
+                d.classList.add('popup-cal-day--in-range');
+        });
+    }
+
+    function updateTriggerLabel(wrapperId, startStr, endStr) {
+        var trigger = document.querySelector('[data-popup-cal="' + wrapperId + '-panel"]');
+        if (!trigger) return;
+        var label = trigger.querySelector('.popup-cal-trigger-label');
+        if (!label) return;
+
+        if (startStr && endStr) {
+            var s = new Date(startStr + 'T00:00:00');
+            var e = new Date(endStr + 'T00:00:00');
+            label.textContent = s.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' – ' + e.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        } else if (startStr) {
+            var s = new Date(startStr + 'T00:00:00');
+            label.textContent = s.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' – Select End';
+        }
+    }
+
+    // Range day click
+    document.addEventListener('click', function(e) {
+        var day = e.target.closest('[data-popup-cal-date]');
+        if (!day) return;
+
+        var panel = day.closest('.popup-cal-panel');
+        if (!panel) return;
+
+        var wrapperId = panel.id.replace('-panel', '');
+        var wrapper = document.getElementById(wrapperId);
+        if (!wrapper || wrapper.getAttribute('data-mode') !== 'range') return;
+
+        e.stopPropagation();
+
+        if (day.classList.contains('popup-cal-day--disabled')) return;
+
+        var dateVal = day.getAttribute('data-popup-cal-date');
+        var state = getRangeState(wrapperId);
+
+        if (state.awaiting === 'start') {
+            // Set start date
+            state.start = dateVal;
+            state.awaiting = 'end';
+
+            document.getElementById(wrapperId + '-start').value = dateVal;
+            document.getElementById(wrapperId + '-end').value = '';
+
+            updateRangeHighlight(panel, dateVal, null);
+        } else {
+            // Set end date
+            var startVal = state.start;
+            var endVal = dateVal;
+
+            // Swap if end is before start
+            if (endVal < startVal) {
+                var temp = startVal;
+                startVal = endVal;
+                endVal = temp;
+            }
+
+            document.getElementById(wrapperId + '-start').value = startVal;
+            document.getElementById(wrapperId + '-end').value = endVal;
+
+            updateRangeHighlight(panel, startVal, endVal);
+            updateTriggerLabel(wrapperId, startVal, endVal);
+
+            state.start = null;
+            state.awaiting = 'start';
+
+            // Close panel
+            panel.classList.remove('popup-cal-open');
+        }
+    });
+
+    // Range hover preview
+    document.addEventListener('mouseover', function(e) {
+        var day = e.target.closest('[data-popup-cal-date]');
+        if (!day) return;
+
+        var panel = day.closest('.popup-cal-panel');
+        if (!panel) return;
+
+        var wrapperId = panel.id.replace('-panel', '');
+        var wrapper = document.getElementById(wrapperId);
+        if (!wrapper || wrapper.getAttribute('data-mode') !== 'range') return;
+
+        var state = getRangeState(wrapperId);
+        if (state.awaiting !== 'end' || !state.start) return;
+
+        var hoverDate = day.getAttribute('data-popup-cal-date');
+        clearRangePreview(panel);
+
+        panel.querySelectorAll('.popup-cal-day').forEach(function(d) {
+            var dateStr = d.getAttribute('data-popup-cal-date');
+            if (!dateStr) return;
+            if (hoverDate > state.start && dateStr > state.start && dateStr < hoverDate)
+                d.classList.add('popup-cal-day--range-preview');
+            if (hoverDate < state.start && dateStr < state.start && dateStr > hoverDate)
+                d.classList.add('popup-cal-day--range-preview');
+        });
+    });
+})();

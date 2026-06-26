@@ -1732,3 +1732,20 @@ a.modern-filter-btn:hover {
 .popup-cal-day--empty {
     cursor: default;
 }
+
+.popup-cal-day--range-start,
+.popup-cal-day--range-end {
+    background-color: var(--brand-primary) !important;
+    color: white !important;
+    border-radius: 4px;
+}
+
+.popup-cal-day--in-range {
+    background-color: rgba(var(--brand-primary-rgb), 0.2);
+    border-radius: 0;
+}
+
+.popup-cal-day--range-preview {
+    background-color: rgba(var(--brand-primary-rgb), 0.15);
+    border-radius: 0;
+}
