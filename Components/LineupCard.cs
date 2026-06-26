@@ -18,29 +18,21 @@ namespace RotoMonsterUI
 
             var nameRow = new HtmlTag("div").AddClass("lineup-card-name-row");
 
-            // Team code with color and projected runs
-            var teamColor = NormalizeColor(!string.IsNullOrEmpty(team.TeamColor)
-                ? team.TeamColor
-                : TeamColorHelper.GetTeamColor(team.TeamCode, _input.IsDarkMode));
-
-            var teamCodeSpan = new HtmlTag("span").AddClass("lineup-card-team-code");
             var bgColor = ColorHelper.GetYellowColorCode(team.ProjectedRuns, 3.5f, 6.5f, true);
-            teamCodeSpan.Attr("style", $"background-color:#{bgColor}; padding: 0.05rem 0.5rem; border-radius: 6px; color: #000;");
 
-            // Lineup dot inside the colored span
-            if (team.IsLineupConfirmed.HasValue)
+            nameRow.AppendHtml(new DisplayTeamCode(new DisplayTeamCodeInput
             {
-                teamCodeSpan.AppendHtml(new DisplayLineupDot(new DisplayLineupDotInput
-                {
-                    IsConfirmed = team.IsLineupConfirmed.Value
-                }).Render());
-            }
-
-            var teamText = team.TeamCode;
-            if (team.ProjectedRuns > 0)
-                teamText += $" {team.ProjectedRuns:0.0}";
-            teamCodeSpan.AppendHtml(teamText);
-            nameRow.Append(teamCodeSpan);
+                TeamCode = team.IsHomeTeam ? $"@ {team.TeamCode}" : team.TeamCode,
+                Runs = team.ProjectedRuns,
+                BgColor = bgColor,
+                GameStarted = false,
+                IsWinner = false,
+                IsGameFinished = false,
+                ShowLineupDot = team.IsLineupConfirmed.HasValue,
+                LineupConfirmed = team.IsLineupConfirmed ?? false,
+                WarningPlayers = team.WarningPlayers,
+                WarningType = team.WarningPlayersType
+            }).Render());
 
             if (team.Rank.HasValue)
             {
@@ -65,8 +57,7 @@ namespace RotoMonsterUI
 
             // Column header
             var colHeader = new HtmlTag("div").AddClass("lineup-card-col-header");
-            if (!string.IsNullOrEmpty(teamColor))
-                colHeader.Attr("style", $"color:{teamColor}; border-bottom: 2px solid {teamColor};");
+            colHeader.Attr("style", $"background-color:{teamColor}; color: white;");
             colHeader.AppendHtml("<span class='lineup-card-col-num'>#</span>");
             colHeader.AppendHtml($"<span class='lineup-card-col-name'>Player vs. {team.PlayerVsHandedness}</span>");
             wrapper.Append(colHeader);
@@ -76,9 +67,7 @@ namespace RotoMonsterUI
             {
                 var row = new HtmlTag("div").AddClass("lineup-card-player-row");
 
-                var num = new HtmlTag("span").AddClass("lineup-card-player-num");
-                if (!string.IsNullOrEmpty(teamColor))
-                    num.Attr("style", $"color:{teamColor}; font-weight:700;");
+               var num = new HtmlTag("span").AddClass("lineup-card-player-num");
                 num.Text(player.IsStartingPitcher ? "" : player.BattingOrder?.ToString() ?? "");
 
                 var name = new HtmlTag("span").AddClass("lineup-card-player-name");

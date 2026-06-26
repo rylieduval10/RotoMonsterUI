@@ -1,4 +1,5 @@
 using HtmlTags;
+using System.Collections.Generic;
 
 namespace RotoMonsterUI
 {
@@ -10,6 +11,10 @@ namespace RotoMonsterUI
         public bool IsWinner { get; set; }
         public bool IsGameFinished { get; set; }
         public bool GameStarted { get; set; }
+        public bool ShowLineupDot { get; set; } = false;
+        public bool LineupConfirmed { get; set; } = false;
+        public List<WarningPlayer> WarningPlayers { get; set; }
+        public PlayerWarningType? WarningType { get; set; }
     }
 
     public class DisplayTeamCode
@@ -27,6 +32,24 @@ namespace RotoMonsterUI
             if (_input.IsWinner && _input.IsGameFinished)
                 cell.AddClass("winner");
             cell.Attr("style", $"background-color:#{_input.BgColor};");
+
+            if (_input.ShowLineupDot && !_input.GameStarted)
+            {
+                cell.AppendHtml(new DisplayLineupDot(new DisplayLineupDotInput
+                {
+                    IsConfirmed = _input.LineupConfirmed
+                }).Render());
+
+                if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningType.HasValue)
+                {
+                    cell.AppendHtml(new DisplayWarningIcon(new DisplayWarningIconInput
+                    {
+                        TeamCode = _input.TeamCode,
+                        WarningPlayers = _input.WarningPlayers,
+                        WarningType = _input.WarningType.Value
+                    }).Render());
+                }
+            }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(_input.TeamCode));
 

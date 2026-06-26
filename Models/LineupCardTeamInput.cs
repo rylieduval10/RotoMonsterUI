@@ -15,5 +15,7 @@ namespace RotoMonsterUI
         public bool IsHomeTeam { get; set; }
         public string TeamColor { get; set; }
         public bool? IsLineupConfirmed { get; set; } 
+        public List<WarningPlayer> WarningPlayers { get; set; }
+        public PlayerWarningType? WarningPlayersType { get; set; }
     }
 }
