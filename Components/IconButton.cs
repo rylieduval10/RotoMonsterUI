@@ -31,7 +31,7 @@ namespace RotoMonsterUI
         {
             _text = text;
             _style = ButtonStyle.Secondary;
-            IconInput = new IconInput { Type = iconType };
+            IconInput = new IconInput { Type = iconType, Size = 18 };
             _icon = new Icon(IconInput).Render();
         }
 
@@ -62,6 +62,12 @@ namespace RotoMonsterUI
         public IconButton WithName(string name)
         {
             _name = name;
+            return this;
+        }
+
+        public IconButton WithIconSize(int size)
+        {
+            IconInput.Size = size;
             return this;
         }
 

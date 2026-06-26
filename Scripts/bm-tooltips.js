@@ -96,3 +96,48 @@ $(document).on('change', '.game-date-toggle-checkbox', function() {
         row.removeClass('game-date-row--selected');
     }
 });
+
+// Popup Calendar - toggle open/close
+document.addEventListener('click', function(e) {
+    var trigger = e.target.closest('[data-popup-cal]');
+
+    if (trigger) {
+        var panelId = trigger.getAttribute('data-popup-cal');
+        var panel = document.getElementById(panelId);
+        if (!panel) return;
+        var isOpen = panel.classList.contains('popup-cal-open');
+        document.querySelectorAll('.popup-cal-panel.popup-cal-open')
+            .forEach(function(p) { p.classList.remove('popup-cal-open'); });
+        if (!isOpen) panel.classList.add('popup-cal-open');
+        e.stopPropagation();
+        return;
+    }
+
+    // Click outside closes all
+    if (!e.target.closest('.popup-cal-panel')) {
+        document.querySelectorAll('.popup-cal-panel.popup-cal-open')
+            .forEach(function(p) { p.classList.remove('popup-cal-open'); });
+    }
+});
+
+// Popup Calendar - day selection
+document.addEventListener('click', function(e) {
+    var day = e.target.closest('[data-popup-cal-date]');
+    if (!day) return;
+
+    var dateVal = day.getAttribute('data-popup-cal-date');
+    var panel = day.closest('.popup-cal-panel');
+    if (!panel) return;
+
+    // Set hidden input
+    var wrapperId = panel.id.replace('-panel', '');
+    var hidden = document.getElementById(wrapperId + '-selected');
+    if (hidden) hidden.value = dateVal;
+
+    // Close panel
+    panel.classList.remove('popup-cal-open');
+
+    // Submit parent form
+    var form = panel.closest('form');
+    if (form) form.submit();
+});

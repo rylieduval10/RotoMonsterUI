@@ -1575,3 +1575,120 @@ a.modern-filter-btn:hover {
     background-color: var(--brand-primary) !important;
     border-color: var(--brand-primary) !important;
 }
+
+/* ============================================
+   POPUP CALENDAR
+   ============================================ */
+   .popup-cal-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.popup-cal-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    z-index: 9999;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 20px rgba(var(--brand-primary-rgb), 0.05);
+    min-width: 260px;
+}
+
+.popup-cal-panel.popup-cal-open {
+    display: block;
+}
+
+.popup-cal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.popup-cal-month-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+
+.popup-cal-nav-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    padding: 0;
+}
+
+.popup-cal-nav-btn:hover {
+    background: rgba(var(--brand-primary-rgb), 0.1);
+    border-color: var(--brand-primary);
+}
+
+.popup-cal-day-labels {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.popup-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+}
+
+.popup-cal-day {
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    text-align: center;
+    padding: 0.3rem 0;
+    font-size: 0.82rem;
+    cursor: pointer;
+    color: var(--color-text-primary);
+    transition: all 0.12s ease;
+    font-weight: 500;
+}
+
+.popup-cal-day:hover:not(.popup-cal-day--disabled):not(.popup-cal-day--empty) {
+    background: rgba(var(--brand-primary-rgb), 0.15);
+    color: var(--brand-accent);
+}
+
+.popup-cal-day--today {
+    border: 1.5px solid var(--brand-primary);
+    color: var(--brand-primary);
+    font-weight: 700;
+}
+
+.popup-cal-day--selected {
+    background: var(--brand-primary);
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 0 10px rgba(var(--brand-primary-rgb), 0.4);
+}
+
+.popup-cal-day--disabled {
+    color: var(--color-text-light);
+    cursor: default;
+    opacity: 0.4;
+}
+
+.popup-cal-day--empty {
+    cursor: default;
+}
