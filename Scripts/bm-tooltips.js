@@ -161,3 +161,84 @@ document.addEventListener('click', function(e) {
     // Close panel
     panel.classList.remove('popup-cal-open');
 });
+
+// Popup Calendar - month navigation
+document.addEventListener('click', function(e) {
+    var isPrev = e.target.closest('[data-popup-cal-prev]');
+    var isNext = e.target.closest('[data-popup-cal-next]');
+    if (!isPrev && !isNext) return;
+
+    e.stopPropagation();
+
+    var btn = isPrev || isNext;
+    var wrapperId = btn.getAttribute(isPrev ? 'data-popup-cal-prev' : 'data-popup-cal-next');
+    var panel = document.getElementById(wrapperId + '-panel');
+    if (!panel) return;
+
+    // Get current month
+    var monthStr = panel.getAttribute('data-month');
+    var parts = monthStr.split('-');
+    var year = parseInt(parts[0]);
+    var month = parseInt(parts[1]) - 1; // JS months are 0-indexed
+    var current = new Date(year, month, 1);
+
+    // Calculate new month
+    var newMonth = isPrev
+        ? new Date(current.getFullYear(), current.getMonth() - 1, 1)
+        : new Date(current.getFullYear(), current.getMonth() + 1, 1);
+
+    // Update panel data-month
+    var newMonthStr = newMonth.getFullYear() + '-' + String(newMonth.getMonth() + 1).padStart(2, '0');
+    panel.setAttribute('data-month', newMonthStr);
+
+    // Update hidden month field
+    var monthHidden = document.getElementById(wrapperId + '-month');
+    if (monthHidden) monthHidden.value = newMonthStr;
+
+    // Update month label
+    var monthLabel = panel.querySelector('.popup-cal-month-label');
+    if (monthLabel) {
+        var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        monthLabel.textContent = monthNames[newMonth.getMonth()] + ' ' + newMonth.getFullYear();
+    }
+
+    // Get selected date from hidden field
+    var selectedHidden = document.getElementById(wrapperId + '-selected');
+    var selectedDateStr = selectedHidden ? selectedHidden.value : '';
+
+    // Re-render calendar grid
+    var grid = panel.querySelector('.popup-cal-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    var firstOfMonth = new Date(newMonth.getFullYear(), newMonth.getMonth(), 1);
+    var daysInMonth = new Date(newMonth.getFullYear(), newMonth.getMonth() + 1, 0).getDate();
+    var startDayOfWeek = firstOfMonth.getDay();
+    var today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Empty cells
+    for (var i = 0; i < startDayOfWeek; i++) {
+        var empty = document.createElement('span');
+        empty.className = 'popup-cal-day popup-cal-day--empty';
+        grid.appendChild(empty);
+    }
+
+    // Day buttons
+    for (var day = 1; day <= daysInMonth; day++) {
+        var date = new Date(newMonth.getFullYear(), newMonth.getMonth(), day);
+        var dateStr = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
+
+        var classes = 'popup-cal-day';
+        if (date.getTime() === today.getTime()) classes += ' popup-cal-day--today';
+        if (selectedDateStr === dateStr) classes += ' popup-cal-day--selected';
+
+        var dayBtn = document.createElement('button');
+        dayBtn.type = 'button';
+        dayBtn.className = classes;
+        dayBtn.setAttribute('data-popup-cal-date', dateStr);
+        dayBtn.setAttribute('data-popup-cal-target', wrapperId + '-selected');
+        dayBtn.textContent = day;
+        grid.appendChild(dayBtn);
+    }
+});

@@ -45,10 +45,19 @@ namespace RotoMonsterUI
                 .Attr("name", $"{wrapperId}-selected")
                 .Attr("value", displayDate.ToString("yyyy-MM-dd")));
 
+
+            // Hidden input for display month 
+            wrapper.Append(new HtmlTag("input")
+                .Attr("type", "hidden")
+                .Attr("id", $"{wrapperId}-month")
+                .Attr("name", $"{wrapperId}-month")
+                .Attr("value", month.ToString("yyyy-MM")));
+                
             // Popup panel
             var panel = new HtmlTag("div")
                 .AddClass("popup-cal-panel")
-                .Id(panelId);
+                .Id(panelId)
+                .Attr("data-month", month.ToString("yyyy-MM"));
 
             // Month header
             var header = new HtmlTag("div").AddClass("popup-cal-header");
@@ -56,9 +65,8 @@ namespace RotoMonsterUI
             var prevIcon = new Icon(new IconInput { Type = IconType.Previous, Size = 16 }).Render();
             header.Append(new HtmlTag("button")
                 .AddClass("popup-cal-nav-btn")
-                .Attr("type", "submit")
-                .Attr("name", $"{wrapperId}-prev")
-                .Attr("value", "1")
+                .Attr("type", "button")
+                .Attr("data-popup-cal-prev", wrapperId)
                 .AppendHtml(prevIcon));
 
             header.Append(new HtmlTag("span")
@@ -66,12 +74,11 @@ namespace RotoMonsterUI
                 .Text($"{month:MMMM yyyy}"));
 
             var nextIcon = new Icon(new IconInput { Type = IconType.Next, Size = 16 }).Render();
-            header.Append(new HtmlTag("button")
-                .AddClass("popup-cal-nav-btn")
-                .Attr("type", "submit")
-                .Attr("name", $"{wrapperId}-next")
-                .Attr("value", "1")
-                .AppendHtml(nextIcon));
+           header.Append(new HtmlTag("button")
+            .AddClass("popup-cal-nav-btn")
+            .Attr("type", "button")
+            .Attr("data-popup-cal-next", wrapperId)
+            .AppendHtml(nextIcon));
 
             panel.Append(header);
 
