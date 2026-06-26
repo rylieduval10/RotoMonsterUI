@@ -8,9 +8,9 @@ namespace RotoMonsterUI
         private string _icon;
         private string _url;
         private ButtonStyle _style;
-        private string _id;
         private string _name;
 
+        public string Id { get; private set; }
         public IconInput IconInput { get; set; }
 
         public static string FontAwesome(string classes)
@@ -49,7 +49,7 @@ namespace RotoMonsterUI
 
         public IconButton WithId(string id)
         {
-            _id = id;
+            Id = id;
             return this;
         }
 
@@ -90,8 +90,8 @@ namespace RotoMonsterUI
                     break;
             }
 
-            if (!string.IsNullOrEmpty(_id))
-                tag.Attr("id", _id);
+            if (!string.IsNullOrEmpty(Id))
+                tag.Attr("id", Id);
 
             if (!string.IsNullOrEmpty(_name))
                 tag.Attr("name", _name);

@@ -17,7 +17,8 @@ namespace RotoMonsterUI
         Weather,
         LineupCard,
         ExportCSV,
-        ExportExcel
+        ExportExcel, 
+        Save
     }
 
     public class IconInput

@@ -62,6 +62,8 @@ namespace RotoMonsterUI
                         <polyline points=""14 2 14 8 20 8""/>
                         <text x=""12"" y=""17"" text-anchor=""middle"" font-size=""5.5"" font-weight=""bold"" stroke=""none"" fill=""{_input.Color}"" font-family=""system-ui"">XLS</text>
                     </svg>";
+                case IconType.Save:
+                    return WrapSvg(@"<path d=""M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z""/><polyline points=""17 21 17 13 7 13 7 21""/><polyline points=""7 3 7 8 15 8""/>");
                 case IconType.RetractableDome:
                     return WrapSvg(@"<line x1=""4"" y1=""16"" x2=""20"" y2=""16""/><line x1=""4"" y1=""16"" x2=""4"" y2=""11""/><line x1=""20"" y1=""16"" x2=""20"" y2=""11""/><path d=""M4 11 A9 9 0 0 1 8.5 4.5""/><path d=""M20 11 A9 9 0 0 0 15.5 4.5""/><path d=""M7 11 A6 6 0 0 1 10 7"" stroke-width=""1""/><path d=""M17 11 A6 6 0 0 0 14 7"" stroke-width=""1""/>");
                 default:
