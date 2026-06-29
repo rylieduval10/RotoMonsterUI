@@ -8,6 +8,7 @@ namespace RotoMonsterUI
         private string _name;
         private List<(string label, string value, bool selected)> _options;
         private string _id;
+        private bool _autoPostBack = false;
 
         public RadioGroup(string name)
         {
@@ -18,6 +19,12 @@ namespace RotoMonsterUI
         public RadioGroup WithId(string id)
         {
             _id = id;
+            return this;
+        }
+
+        public RadioGroup WithPostBack()
+        {
+            _autoPostBack = true;
             return this;
         }
 
@@ -48,6 +55,12 @@ namespace RotoMonsterUI
 
                 if (option.selected)
                     input.Attr("checked", "checked");
+
+                if (_autoPostBack)
+                {
+                    input.Attr("onchange", $"__doPostBack('{_name}','')");
+                    input.Attr("language", "javascript");
+                }
 
                 var label = new HtmlTag("label")
                     .Attr("for", inputId)

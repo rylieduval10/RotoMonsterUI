@@ -76,6 +76,7 @@ namespace RotoMonsterUI
                     var url = $"/playerinfo.aspx?i={player.Player.PlayerId}";
                     var link = new HtmlTag("a")
                         .Attr("href", url)
+                        .AddClass("player-link")
                         .Text(player.Player.PlayerName);
                     name.Append(link);
                     name.AppendHtml(" ");
@@ -83,6 +84,9 @@ namespace RotoMonsterUI
 
                 var hand = new HtmlTag("span").AddClass("lineup-card-player-hand").Text(player.Handedness);
                 name.Append(hand);
+
+                if (player.InjuryBadge != null)
+                    name.AppendHtml(new InjuryBadge(player.InjuryBadge).Render());
 
                 var pos = new HtmlTag("span").AddClass("lineup-card-player-pos");
                 if (!string.IsNullOrEmpty(player.PositionColor))
@@ -95,12 +99,12 @@ namespace RotoMonsterUI
                 wrapper.Append(row);
             }
 
-            // Verified / Expected footer
+            // Confirmed / Expected footer
             var footer = new HtmlTag("div").AddClass("lineup-card-footer");
             if (team.IsVerified)
             {
-                footer.AddClass("lineup-card-footer--verified");
-                footer.AppendHtml("&#10003; VERIFIED LINEUP");
+                footer.AddClass("lineup-card-footer--confirmed");
+                footer.AppendHtml("&#10003; CONFIRMED LINEUP");
             }
             else if (team.LineupExpectedMinutes.HasValue)
             {

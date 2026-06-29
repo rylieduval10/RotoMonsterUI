@@ -9,6 +9,7 @@ namespace RotoMonsterUI
         private string _url;
         private ButtonStyle _style;
         private string _name;
+        private bool _centered;
 
         public string Id { get; private set; }
         public IconInput IconInput { get; set; }
@@ -18,7 +19,6 @@ namespace RotoMonsterUI
             return $"<i class=\"{classes}\"></i>";
         }
 
-        // Original constructor
         public IconButton(string text, string icon)
         {
             _text = text;
@@ -26,7 +26,6 @@ namespace RotoMonsterUI
             _style = ButtonStyle.Secondary;
         }
 
-        // New constructor taking IconType
         public IconButton(string text, IconType iconType)
         {
             _text = text;
@@ -71,9 +70,14 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public IconButton WithCentered()
+        {
+            _centered = true;
+            return this;
+        }
+
         public string Render()
         {
-            // Re-render icon in case IconInput was modified after construction
             if (IconInput != null)
                 _icon = new Icon(IconInput).Render();
 
@@ -103,6 +107,9 @@ namespace RotoMonsterUI
                 tag.Attr("name", _name);
 
             tag.AppendHtml($"<span style='margin-right:0.35rem;'>{_icon}</span>{_text}");
+
+            if (_centered)
+                return $"<div style='text-align:center;'>{tag}</div>";
 
             return tag.ToString();
         }

@@ -8,5 +8,6 @@ namespace RotoMonsterUI
         public string Position { get; set; }
         public string PositionColor { get; set; }
         public bool IsStartingPitcher { get; set; }
+        public InjuryBadgeInput InjuryBadge { get; set; }
     }
 }

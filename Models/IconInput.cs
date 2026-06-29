@@ -25,7 +25,7 @@ namespace RotoMonsterUI
     public class IconInput
     {
         public IconType Type { get; set; }
-        public int Size { get; set; } = 24;
+        public int Size { get; set; } = 20;
         public string Color { get; set; } = "currentColor";
         public string Fill { get; set; } = "none";
     }

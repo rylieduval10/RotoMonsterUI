@@ -231,26 +231,23 @@ namespace RotoMonsterUI
             }
             else
             {
-                float diff = Math.Abs(awayRuns - homeRuns);
-                if (awayRuns > homeRuns)
-                {
-                    awayWinner = true;
-                    awayColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
-                    homeColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
-                }
-                else if (homeRuns > awayRuns)
-                {
-                    homeWinner = true;
-                    homeColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
-                    awayColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
-                }
-                else
-                {
-                    awayColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
-                    homeColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
-                }
-            }
+                // Track winner separately for the winner CSS class
+                if (awayRuns > homeRuns) awayWinner = true;
+                else if (homeRuns > awayRuns) homeWinner = true;
 
+                // Color based on runs vs league average, scaled to game progress
+                float avgRuns = 4.5f * (float)Math.Min(1, game.CurrentOuts / 54.0);
+
+                if (awayRuns >= avgRuns)
+                    awayColor = ColorHelper.GetGreenColorCode(awayRuns - avgRuns, 0f, avgRuns, true);
+                else
+                    awayColor = ColorHelper.GetRedColorCode(avgRuns - awayRuns, 0f, avgRuns, true);
+
+                if (homeRuns >= avgRuns)
+                    homeColor = ColorHelper.GetGreenColorCode(homeRuns - avgRuns, 0f, avgRuns, true);
+                else
+                    homeColor = ColorHelper.GetRedColorCode(avgRuns - homeRuns, 0f, avgRuns, true);
+            }
             var sb = new System.Text.StringBuilder();
             sb.Append(BuildGameState(game).ToString());
             if (!hideTeamCells)
@@ -433,24 +430,22 @@ namespace RotoMonsterUI
             }
             else
             {
-                float diff = Math.Abs(awayRuns - homeRuns);
-                if (awayRuns > homeRuns)
-                {
-                    awayWinner = true;
-                    awayColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
-                    homeColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
-                }
-                else if (homeRuns > awayRuns)
-                {
-                    homeWinner = true;
-                    homeColor = ColorHelper.GetGreenColorCode(diff, 0f, 10f, true);
-                    awayColor = ColorHelper.GetRedColorCode(diff, 0f, 10f, true);
-                }
+                // Track winner separately for the winner CSS class
+                if (awayRuns > homeRuns) awayWinner = true;
+                else if (homeRuns > awayRuns) homeWinner = true;
+
+                // Color based on runs vs league average, scaled to game progress
+                float avgRuns = 4.5f * (float)Math.Min(1, game.CurrentOuts / 54.0);
+
+                if (awayRuns >= avgRuns)
+                    awayColor = ColorHelper.GetGreenColorCode(awayRuns - avgRuns, 0f, avgRuns, true);
                 else
-                {
-                    awayColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
-                    homeColor = ColorHelper.GetGreenColorCode(0f, 0f, 10f, true);
-                }
+                    awayColor = ColorHelper.GetRedColorCode(avgRuns - awayRuns, 0f, avgRuns, true);
+
+                if (homeRuns >= avgRuns)
+                    homeColor = ColorHelper.GetGreenColorCode(homeRuns - avgRuns, 0f, avgRuns, true);
+                else
+                    homeColor = ColorHelper.GetRedColorCode(avgRuns - homeRuns, 0f, avgRuns, true);
             }
 
             row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType));

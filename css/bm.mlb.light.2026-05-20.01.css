@@ -466,3 +466,11 @@ footer a:hover {
 .game-team-cell.winner {
     border-color: #4ade80;
 }
+
+.lineup-card-player-name a {
+    color: var(--brand-accent);
+}
+
+.lineup-card-player-name a:hover {
+    color: #ffffff;
+}

@@ -538,8 +538,8 @@ body {
     padding: 1.5rem; margin-bottom: 1.5rem; transition: all 0.3s ease;
 }
 .card-based:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 30px rgba(var(--brand-primary-rgb), 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 122, 62, 0.15);
 }
 .card-based h3, .card-based h5 { color: #60a5fa; text-shadow: 0 0 15px rgba(96,165,250,0.3); }
 .card-based a { color: #38bdf8; }
@@ -929,7 +929,7 @@ a.modern-filter-btn:hover {
     display: inline-block;
     padding: 2px 6px;
     border-radius: 4px;
-    font-size: 0.7rem;
+    font-size: 0.7em;
     font-weight: 700;
     color: white;
     letter-spacing: 0.5px;
@@ -950,16 +950,16 @@ a.modern-filter-btn:hover {
 
 .badge-pill-custom {
     display: inline-block;
-    padding: 3px 6px;
+    padding: 0px 5px;
     border-radius: 3px;
     font-size: 0.65rem;
-    font-weight: 700;
+    font-weight: 400;
     color: white;
     letter-spacing: 0.3px;
     white-space: nowrap;
-    margin: 0 2px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    text-transform: uppercase;
+    margin: 0;
+    margin-left: 5px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.3);
     vertical-align: middle;
 }
 
@@ -979,7 +979,7 @@ a.modern-filter-btn:hover {
    .game-date-control {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.2rem;
     margin-bottom: 1rem;
     max-width: 900px;
 }
@@ -987,8 +987,8 @@ a.modern-filter-btn:hover {
 .game-date-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.3rem 0.75rem;
+    gap: 0.5rem;
+    padding: 0.2rem 0.5rem;
     background: var(--color-bg-card);
     border: 1px solid var(--color-border);
     border-radius: 8px;
@@ -1013,20 +1013,21 @@ a.modern-filter-btn:hover {
     min-width: 75px;
 }
 
+
 .game-date-team-code {
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text-primary);
 }
 
 .game-date-runs {
-    font-weight: 600;
+    font-weight: 400;
     color: var(--table-value-color);
 }
 
 .game-date-weather {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.2rem;
     color: var(--color-text-tertiary);
     font-size: 0.8rem;
     flex: 1;
@@ -1076,7 +1077,7 @@ a.modern-filter-btn:hover {
     font-weight: 700;
     font-size: 0.8rem;
     text-align: center;
-    padding: 0.25rem 0.5rem;
+    padding: 0.15rem 0.5rem;
     border-radius: 4px;
 }
 
@@ -1122,32 +1123,35 @@ a.modern-filter-btn:hover {
 
 .game-team-cell {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.25rem;
     padding: 0.05rem 0.5rem;
     border-radius: 6px;
     min-width: 75px;
-    border: 3px solid transparent;
+    border: 2px solid transparent;
 }
+
 
 .game-team-cell.winner {
     border-color: var(--game-winner-border) !important;
 }
-.game-team-code {
-    font-weight: 700;
-    color: #000000;
-    font-size: 0.85rem;
-}
 
-.game-team-runs {
+.game-team-code {
     font-weight: 600;
     color: #000000;
     font-size: 0.85rem;
 }
 
+.game-team-runs {
+    font-weight: 400;
+    color: #000000;
+    font-size: 0.75rem;
+}
+
 .lineup-dot {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     flex-shrink: 0;
 }
@@ -1428,11 +1432,9 @@ a.modern-filter-btn:hover {
 }
 
 .boxscore-game-row-inner {
-    width: 150%;
-    height: 150%;
-    margin-bottom: 1.5rem;
     transform: scale(1.5);
-    transform-origin: top left;
+    transform-origin: left top;
+    margin-bottom: 30px;
 }
 
 /* ============================================
@@ -1574,10 +1576,9 @@ a.modern-filter-btn:hover {
     text-align: center;
 }
 
-.lineup-card-footer--verified {
-    color: #16a34a;
-    border: 1px solid #16a34a;
-    background: rgba(22, 163, 74, 0.08);
+.lineup-card-footer--confirmed {
+    background-color: var(--lineup-confirmed-color);
+    color: white;
 }
 
 .lineup-card-footer--expected {
@@ -1834,4 +1835,43 @@ a.modern-filter-btn:hover {
     font-size: 0.7rem;
     color: rgba(255,255,255,0.6);
     min-height: 24px;
+}
+
+.flat-container {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 0.75rem;
+    transition: border-color 0.2s ease;
+}
+
+.flat-container:hover {
+    border-color: var(--brand-primary);
+}
+
+.flat-container-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.bm-checkbox {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    cursor: pointer;
+}
+
+.bm-checkbox input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    accent-color: var(--brand-primary);
+}
+
+.bm-checkbox label {
+    cursor: pointer;
+    margin: 0;
 }

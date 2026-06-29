@@ -12,6 +12,7 @@ namespace RotoMonsterUI
         private string _selectedValue;
         private string _name;
         private bool _showLabel;
+        private bool _autoPostBack = true;
 
         public Dropdown(string label, BootstrapVersion version = BootstrapVersion.V4)
         {
@@ -47,6 +48,12 @@ namespace RotoMonsterUI
         public Dropdown WithLabel()
         {
             _showLabel = true;
+            return this;
+        }
+
+        public Dropdown WithoutPostBack()
+        {
+            _autoPostBack = false;
             return this;
         }
 
@@ -105,8 +112,12 @@ namespace RotoMonsterUI
             {
                 select.Attr("name", _name);
                 select.Attr("id", _name);
-                select.Attr("onchange", $"__doPostBack('{_name}','')");
-                select.Attr("language", "javascript");
+
+                if (_autoPostBack)
+                {
+                    select.Attr("onchange", $"__doPostBack('{_name}','')");
+                    select.Attr("language", "javascript");
+                }
             }
 
             foreach (var item in _items)
