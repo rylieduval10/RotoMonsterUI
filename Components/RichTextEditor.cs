@@ -21,6 +21,39 @@ namespace RotoMonsterUI
             return $@"<svg width=""14"" height=""14"" viewBox=""0 0 24 24"" fill=""none"" stroke=""currentColor"" stroke-width=""{strokeWidth}"" stroke-linecap=""round"" stroke-linejoin=""round"">{innerPath}</svg>";
         }
 
+        private string BuildEmojiPicker(string editorId)
+        {
+            var categories = new[]
+            {
+                ("Smileys", new[] { "😀","😂","😊","😍","🥲","😭","😤","🤔","😎","🥳","😬","🤯","😴","🤩","🥰" }),
+                ("Sports", new[] { "⚾","🏀","🏈","⚽","🎯","🏆","🥇","🎮","⚡","🔥","💪","🏃","🤸","🧢","👟" }),
+                ("Hands", new[] { "👍","👎","👋","🙌","🤞","✌️","🤙","👏","🙏","💪","👀","✅","❌","💯","❤️" }),
+                ("Misc", new[] { "🌟","💥","🎉","🎊","💰","📈","📉","💡","🔑","⏰","📅","🗓️","📊","🚀","🎯" })
+            };
+
+            var sb = new System.Text.StringBuilder();
+            sb.Append($@"<div class=""rte-emoji-panel"" id=""{editorId}-emoji-panel"" style=""display:none;"">");
+            sb.Append(@"<div class=""rte-emoji-categories"">");
+
+            foreach (var (label, emojis) in categories)
+            {
+                sb.Append($@"<div class=""rte-emoji-category"">");
+                sb.Append($@"<div class=""rte-emoji-category-label"">{label}</div>");
+                sb.Append(@"<div class=""rte-emoji-grid"">");
+                foreach (var emoji in emojis)
+                {
+                    sb.Append($@"<button type=""button"" class=""rte-emoji-btn"" data-emoji=""{emoji}"" data-rte-editor=""{editorId}"" title=""{emoji}"">{emoji}</button>");
+                }
+                sb.Append("</div>");
+                sb.Append("</div>");
+            }
+
+            sb.Append("</div>");
+            sb.Append("</div>");
+
+            return sb.ToString();
+        }
+
         public string Render()
         {
             var id = _input.Id;
@@ -77,7 +110,16 @@ namespace RotoMonsterUI
             var redoSvg = Svg(@"<path d=""M21 7v6h-6""/><path d=""M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13""/>");
             toolbar.AppendHtml(ToolbarBtn("redo", "Redo", redoSvg));
 
+            // Separator
+            toolbar.AppendHtml("<div class='rte-sep'></div>");
+
+            // Emoji button
+            toolbar.AppendHtml($@"<button type=""button"" class=""rte-btn"" id=""{editorId}-emoji-btn"" data-rte-emoji-panel=""{editorId}-emoji-panel"" title=""Emoji"">😊</button>");
+
             wrapper.Append(toolbar);
+
+            // Emoji picker panel
+            wrapper.AppendHtml(BuildEmojiPicker(editorId));
 
             // Editable area
             var editor = new HtmlTag("div")

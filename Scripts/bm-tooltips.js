@@ -427,3 +427,42 @@ function updateRteActiveStates(wrapper) {
         } catch(e) {}
     });
 }
+
+// Emoji picker toggle
+document.addEventListener('click', function (e) {
+    const emojiBtn = e.target.closest('[data-rte-emoji-panel]');
+    if (emojiBtn) {
+        e.stopPropagation();
+        const panelId = emojiBtn.getAttribute('data-rte-emoji-panel');
+        const panel = document.getElementById(panelId);
+        if (panel) {
+            const isVisible = panel.style.display !== 'none';
+            document.querySelectorAll('.rte-emoji-panel').forEach(p => p.style.display = 'none');
+            panel.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) {
+                const rect = emojiBtn.getBoundingClientRect();
+                panel.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+                panel.style.left = rect.left + 'px';
+            }
+        }
+        return;
+    }
+
+    // Emoji insert
+    const emojiItem = e.target.closest('[data-emoji]');
+    if (emojiItem) {
+        const emoji = emojiItem.getAttribute('data-emoji');
+        const editorId = emojiItem.getAttribute('data-rte-editor');
+        const editor = document.getElementById(editorId);
+        if (editor) {
+            editor.focus();
+            document.execCommand('insertText', false, emoji);
+        }
+        const panel = emojiItem.closest('.rte-emoji-panel');
+        if (panel) panel.style.display = 'none';
+        return;
+    }
+
+    // Close emoji panels on outside click
+    document.querySelectorAll('.rte-emoji-panel').forEach(p => p.style.display = 'none');
+});
