@@ -25,7 +25,17 @@ namespace RotoMonsterUI
         public bool AwayTeamLineupConfirmed { get; set; }
         public bool HomeTeamLineupConfirmed { get; set; }
         public int CurrentOuts { get; set; }
-        public List<WarningPlayer> WarningPlayers { get; set; } = new List<WarningPlayer>();
+
+        public int? AwayTeamPlayerCount { get; set; }
+        public int? HomeTeamPlayerCount { get; set; }
+
+        public IconType? AwayTeamPlayerIconType { get; set; }
+        public string AwayTeamPlayerIconColor { get; set; } = "#94a3b8";
+        public IconType? HomeTeamPlayerIconType { get; set; }
+        public string HomeTeamPlayerIconColor { get; set; } = "#94a3b8";
+
+        public List<WarningPlayer> AwayTeamWarningPlayers { get; set; } = new List<WarningPlayer>();
+        public List<WarningPlayer> HomeTeamWarningPlayers { get; set; } = new List<WarningPlayer>();
         public PlayerWarningType? WarningPlayersType { get; set; }
     }
 }

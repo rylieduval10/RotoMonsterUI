@@ -135,7 +135,7 @@ namespace RotoMonsterUI
             return gameStarted ? currentRuns : projectedRuns;
         }
 
-        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool isGameFinished, bool lineupConfirmed, List<WarningPlayer> warningPlayers, PlayerWarningType? warningType)
+        private HtmlTag BuildTeamCell(string teamCode, float runs, string bgColor, bool isWinner, bool gameStarted, bool isGameFinished, bool lineupConfirmed, List<WarningPlayer> warningPlayers, PlayerWarningType? warningType, int? playerCount = null, string iconColor = "#94a3b8", IconType? iconType = null)
         {
             var cell = new HtmlTag("div").AddClass("game-team-cell");
             if (isWinner && isGameFinished)
@@ -163,6 +163,12 @@ namespace RotoMonsterUI
                 cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0")));
             else if (runs != 0)
                 cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.0")));
+
+            if (playerCount.HasValue && playerCount.Value > 0 && iconType.HasValue)
+            {
+                var icon = new Icon(new IconInput { Type = iconType.Value, Color = iconColor ?? "#94a3b8", Size = 20 }).Render();
+                cell.AppendHtml(new CustomTooltip(icon, $"{playerCount} players in this game").Render());
+            }
 
             return cell;
         }
@@ -231,11 +237,9 @@ namespace RotoMonsterUI
             }
             else
             {
-                // Track winner separately for the winner CSS class
                 if (awayRuns > homeRuns) awayWinner = true;
                 else if (homeRuns > awayRuns) homeWinner = true;
 
-                // Color based on runs vs league average, scaled to game progress
                 float avgRuns = 4.5f * (float)Math.Min(1, game.CurrentOuts / 54.0);
 
                 if (awayRuns >= avgRuns)
@@ -248,12 +252,13 @@ namespace RotoMonsterUI
                 else
                     homeColor = ColorHelper.GetRedColorCode(avgRuns - homeRuns, 0f, avgRuns, true);
             }
+
             var sb = new System.Text.StringBuilder();
             sb.Append(BuildGameState(game).ToString());
             if (!hideTeamCells)
             {
-                sb.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
-                sb.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType).ToString());
+                sb.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.AwayTeamWarningPlayers, game.WarningPlayersType, game.AwayTeamPlayerCount, game.AwayTeamPlayerIconColor, game.AwayTeamPlayerIconType).ToString());
+                sb.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.HomeTeamWarningPlayers, game.WarningPlayersType, game.HomeTeamPlayerCount, game.HomeTeamPlayerIconColor, game.HomeTeamPlayerIconType).ToString());
             }
 
             if (game.Weather != null)
@@ -411,7 +416,6 @@ namespace RotoMonsterUI
             if (game.IsSelected)
                 row.AddClass("game-date-row--selected");
 
-            // Toggle
             if (_showToggle)
                 row.Append(BuildGameToggle(game));
 
@@ -430,11 +434,9 @@ namespace RotoMonsterUI
             }
             else
             {
-                // Track winner separately for the winner CSS class
                 if (awayRuns > homeRuns) awayWinner = true;
                 else if (homeRuns > awayRuns) homeWinner = true;
 
-                // Color based on runs vs league average, scaled to game progress
                 float avgRuns = 4.5f * (float)Math.Min(1, game.CurrentOuts / 54.0);
 
                 if (awayRuns >= avgRuns)
@@ -448,8 +450,8 @@ namespace RotoMonsterUI
                     homeColor = ColorHelper.GetRedColorCode(avgRuns - homeRuns, 0f, avgRuns, true);
             }
 
-            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType));
-            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.WarningPlayers, game.WarningPlayersType));
+            row.Append(BuildTeamCell(game.AwayTeamCode, awayRuns, awayColor, awayWinner, gameStarted, game.IsGameFinished, game.AwayTeamLineupConfirmed, game.AwayTeamWarningPlayers, game.WarningPlayersType, game.AwayTeamPlayerCount, game.AwayTeamPlayerIconColor, game.AwayTeamPlayerIconType));
+            row.Append(BuildTeamCell(game.HomeTeamCode, homeRuns, homeColor, homeWinner, gameStarted, game.IsGameFinished, game.HomeTeamLineupConfirmed, game.HomeTeamWarningPlayers, game.WarningPlayersType, game.HomeTeamPlayerCount, game.HomeTeamPlayerIconColor, game.HomeTeamPlayerIconType));
 
             if (game.Weather != null)
             {

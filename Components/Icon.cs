@@ -21,6 +21,59 @@ namespace RotoMonsterUI
         {
             switch (_input.Type)
             {
+                case IconType.PersonSimple:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 60 60"">
+                        <circle cx=""30"" cy=""10"" r=""8"" fill=""{_input.Color}""/>
+                        <line x1=""30"" y1=""18"" x2=""30"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""27"" x2=""16"" y2=""36"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""27"" x2=""44"" y2=""36"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""40"" x2=""20"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""40"" x2=""40"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                    </svg>";
+
+                case IconType.PersonAlert:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 60 60"">
+                        <circle cx=""26"" cy=""10"" r=""8"" fill=""{_input.Color}""/>
+                        <line x1=""26"" y1=""18"" x2=""26"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""27"" x2=""12"" y2=""36"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""27"" x2=""40"" y2=""36"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""40"" x2=""16"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""40"" x2=""36"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <circle cx=""48"" cy=""48"" r=""11"" fill=""{_input.Color}"" stroke=""white"" stroke-width=""2.5""/>
+                        <text x=""48"" y=""53"" text-anchor=""middle"" font-size=""13"" font-weight=""900"" fill=""white"" font-family=""sans-serif"">!</text>
+                    </svg>";
+
+                case IconType.PersonConfirmed:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 60 60"">
+                        <circle cx=""26"" cy=""10"" r=""8"" fill=""{_input.Color}""/>
+                        <line x1=""26"" y1=""18"" x2=""26"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""27"" x2=""12"" y2=""36"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""27"" x2=""40"" y2=""36"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""40"" x2=""16"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""26"" y1=""40"" x2=""36"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <circle cx=""48"" cy=""48"" r=""11"" fill=""{_input.Color}"" stroke=""white"" stroke-width=""2.5""/>
+                        <text x=""48"" y=""54"" text-anchor=""middle"" font-size=""13"" font-weight=""900"" fill=""white"" font-family=""sans-serif"">✓</text>
+                    </svg>";
+
+                case IconType.PersonArmsDown:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 60 60"">
+                        <circle cx=""30"" cy=""10"" r=""8"" fill=""{_input.Color}""/>
+                        <line x1=""30"" y1=""18"" x2=""30"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""27"" x2=""16"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""27"" x2=""44"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""40"" x2=""20"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""40"" x2=""40"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                    </svg>";
+
+                case IconType.PersonArmsUp:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 60 60"">
+                        <circle cx=""30"" cy=""10"" r=""8"" fill=""{_input.Color}""/>
+                        <line x1=""30"" y1=""18"" x2=""30"" y2=""40"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""27"" x2=""16"" y2=""14"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""27"" x2=""44"" y2=""14"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""40"" x2=""20"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                        <line x1=""30"" y1=""40"" x2=""40"" y2=""55"" stroke=""{_input.Color}"" stroke-width=""4"" stroke-linecap=""round""/>
+                    </svg>";
                 case IconType.Settings:
                     return WrapSvg(@"<path d=""M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z""/><circle cx=""12"" cy=""12"" r=""3""/>");
                 case IconType.RefreshRosters:

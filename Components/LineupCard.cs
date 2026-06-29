@@ -22,7 +22,7 @@ namespace RotoMonsterUI
 
             nameRow.AppendHtml(new DisplayTeamCode(new DisplayTeamCodeInput
             {
-                TeamCode = team.IsHomeTeam ? $"@ {team.TeamCode}" : team.TeamCode,
+                TeamCode = team.TeamCode,
                 Runs = team.ProjectedRuns,
                 BgColor = bgColor,
                 GameStarted = false,

@@ -18,8 +18,13 @@ namespace RotoMonsterUI
         LineupCard,
         ExportCSV,
         ExportExcel,
-        Save, 
-        Calendar
+        Save,
+        Calendar,
+        PersonSimple,
+        PersonAlert,
+        PersonConfirmed,
+        PersonArmsDown,
+        PersonArmsUp
     }
 
     public class IconInput
