@@ -441,8 +441,10 @@ document.addEventListener('click', function (e) {
             panel.style.display = isVisible ? 'none' : 'block';
             if (!isVisible) {
                 const rect = emojiBtn.getBoundingClientRect();
-                panel.style.top = (rect.bottom + window.scrollY + 4) + 'px';
-                panel.style.left = rect.left + 'px';
+                const wrapperRect = emojiBtn.closest('.rte-wrapper').getBoundingClientRect();
+                const btnRect = emojiBtn.getBoundingClientRect();
+                panel.style.top = (btnRect.bottom - wrapperRect.top + 4) + 'px';
+                panel.style.left = (btnRect.left - wrapperRect.left) + 'px';
             }
         }
         return;
