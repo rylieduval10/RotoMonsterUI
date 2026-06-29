@@ -443,8 +443,8 @@ document.addEventListener('click', function (e) {
                 const rect = emojiBtn.getBoundingClientRect();
                 const wrapperRect = emojiBtn.closest('.rte-wrapper').getBoundingClientRect();
                 const btnRect = emojiBtn.getBoundingClientRect();
-                panel.style.top = (btnRect.bottom - wrapperRect.top + 4) + 'px';
-                panel.style.left = (btnRect.left - wrapperRect.left) + 'px';
+                panel.style.top = (btnRect.bottom + 4) + 'px';
+                panel.style.left = btnRect.left + 'px';
             }
         }
         return;
