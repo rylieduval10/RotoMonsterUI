@@ -1,12 +1,13 @@
+using System;
 using HtmlTags;
 
 namespace RotoMonsterUI
 {
-    public class DisplayGameTeam
+    public class GameTeam
     {
-        private readonly DisplayGameTeamInput _input;
+        private readonly GameTeamInput _input;
 
-        public DisplayGameTeam(DisplayGameTeamInput input)
+        public GameTeam(GameTeamInput input)
         {
             _input = input;
         }
@@ -16,9 +17,22 @@ namespace RotoMonsterUI
             bool gameStarted = _input.GameStarted || _input.IsGameLive || _input.IsGameFinished;
             float runs = gameStarted ? _input.CurrentRuns : _input.ProjectedRuns;
 
-            string bgColor = string.IsNullOrEmpty(_input.BgColor)
-                ? ColorHelper.GetYellowColorCode(runs, 3.5f, 6.5f, true)
-                : _input.BgColor;
+            string bgColor = _input.BgColor;
+            if (string.IsNullOrEmpty(bgColor) || bgColor == "FFFFFF")
+            {
+                if (!gameStarted)
+                {
+                    bgColor = ColorHelper.GetYellowColorCode(runs, 3.5f, 6.5f, true);
+                }
+                else
+                {
+                    float avgRuns = 4.5f * (float)Math.Min(1, _input.CurrentOuts / 54.0);
+                    if (runs >= avgRuns)
+                        bgColor = ColorHelper.GetGreenColorCode(runs - avgRuns, 0f, avgRuns, true);
+                    else
+                        bgColor = ColorHelper.GetRedColorCode(avgRuns - runs, 0f, avgRuns, true);
+                }
+            }
 
             var cell = new HtmlTag("div").AddClass("game-team-cell");
             if (_input.IsWinner && _input.IsGameFinished)
@@ -27,11 +41,11 @@ namespace RotoMonsterUI
 
             if (!gameStarted)
             {
-                cell.AppendHtml(new DisplayLineupDot(new DisplayLineupDotInput { IsConfirmed = _input.LineupConfirmed }).Render());
+                cell.AppendHtml(new LineupDot(new LineupDotInput { IsConfirmed = _input.LineupConfirmed }).Render());
 
                 if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningType.HasValue)
                 {
-                    cell.AppendHtml(new DisplayWarningIcon(new DisplayWarningIconInput
+                    cell.AppendHtml(new WarningIcon(new WarningIconInput
                     {
                         TeamCode = _input.TeamCode,
                         WarningPlayers = _input.WarningPlayers,

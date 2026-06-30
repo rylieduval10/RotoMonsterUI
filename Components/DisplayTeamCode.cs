@@ -35,14 +35,14 @@ namespace RotoMonsterUI
 
             if (_input.ShowLineupDot && !_input.GameStarted)
             {
-                cell.AppendHtml(new DisplayLineupDot(new DisplayLineupDotInput
+                cell.AppendHtml(new LineupDot(new LineupDotInput
                 {
                     IsConfirmed = _input.LineupConfirmed
                 }).Render());
 
                 if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningType.HasValue)
                 {
-                    cell.AppendHtml(new DisplayWarningIcon(new DisplayWarningIconInput
+                    cell.AppendHtml(new WarningIcon(new WarningIconInput
                     {
                         TeamCode = _input.TeamCode,
                         WarningPlayers = _input.WarningPlayers,

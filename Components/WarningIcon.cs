@@ -4,18 +4,18 @@ using System.Linq;
 
 namespace RotoMonsterUI
 {
-    public class DisplayWarningIconInput
+    public class WarningIconInput
     {
         public string TeamCode { get; set; }
         public List<WarningPlayer> WarningPlayers { get; set; }
         public PlayerWarningType WarningType { get; set; }
     }
 
-    public class DisplayWarningIcon
+    public class WarningIcon
     {
-        private readonly DisplayWarningIconInput _input;
+        private readonly WarningIconInput _input;
 
-        public DisplayWarningIcon(DisplayWarningIconInput input)
+        public WarningIcon(WarningIconInput input)
         {
             _input = input;
         }

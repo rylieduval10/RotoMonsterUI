@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace RotoMonsterUI
 {
-    public class DisplayGameTeamInput
+    public class GameTeamInput
     {
         public string TeamCode { get; set; }
         public float ProjectedRuns { get; set; }
@@ -18,5 +18,6 @@ namespace RotoMonsterUI
         public string PlayerIconColor { get; set; } = "#94a3b8";
         public IconType? PlayerIconType { get; set; }
         public string BgColor { get; set; } = "FFFFFF";
+        public int CurrentOuts { get; set; }
     }
 }

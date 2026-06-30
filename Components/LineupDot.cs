@@ -2,16 +2,16 @@ using HtmlTags;
 
 namespace RotoMonsterUI
 {
-    public class DisplayLineupDotInput
+    public class LineupDotInput
     {
         public bool IsConfirmed { get; set; }
     }
 
-    public class DisplayLineupDot
+    public class LineupDot
     {
-        private readonly DisplayLineupDotInput _input;
+        private readonly LineupDotInput _input;
 
-        public DisplayLineupDot(DisplayLineupDotInput input)
+        public LineupDot(LineupDotInput input)
         {
             _input = input;
         }
