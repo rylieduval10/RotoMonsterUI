@@ -14,7 +14,8 @@ namespace RotoMonsterUI
         public bool ShowLineupDot { get; set; } = false;
         public bool LineupConfirmed { get; set; } = false;
         public List<WarningPlayer> WarningPlayers { get; set; }
-        public PlayerWarningType? WarningType { get; set; }
+        public IconType? WarningIconType { get; set; }
+        public string WarningIconColor { get; set; }
     }
 
     public class DisplayTeamCode
@@ -40,13 +41,14 @@ namespace RotoMonsterUI
                     IsConfirmed = _input.LineupConfirmed
                 }).Render());
 
-                if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningType.HasValue)
+                if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningIconType.HasValue)
                 {
                     cell.AppendHtml(new WarningIcon(new WarningIconInput
                     {
                         TeamCode = _input.TeamCode,
                         WarningPlayers = _input.WarningPlayers,
-                        WarningType = _input.WarningType.Value
+                        IconType = _input.WarningIconType.Value,
+                        IconColor = _input.WarningIconColor
                     }).Render());
                 }
             }

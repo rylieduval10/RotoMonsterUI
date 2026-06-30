@@ -42,16 +42,6 @@ namespace RotoMonsterUI
             if (!gameStarted)
             {
                 cell.AppendHtml(new LineupDot(new LineupDotInput { IsConfirmed = _input.LineupConfirmed }).Render());
-
-                if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningType.HasValue)
-                {
-                    cell.AppendHtml(new WarningIcon(new WarningIconInput
-                    {
-                        TeamCode = _input.TeamCode,
-                        WarningPlayers = _input.WarningPlayers,
-                        WarningType = _input.WarningType.Value
-                    }).Render());
-                }
             }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(_input.TeamCode));
@@ -63,8 +53,23 @@ namespace RotoMonsterUI
 
             if (_input.PlayerCount.HasValue && _input.PlayerCount.Value > 0 && _input.PlayerIconType.HasValue)
             {
-                var icon = new Icon(new IconInput { Type = _input.PlayerIconType.Value, Color = _input.PlayerIconColor ?? "#94a3b8", Size = 20 }).Render();
-                cell.AppendHtml(new CustomTooltip(icon, $"{_input.PlayerCount} players in this game").Render());
+                bool hasWarnings = !gameStarted && _input.WarningPlayers != null && _input.WarningPlayers.Exists(p => p.TeamCode == _input.TeamCode);
+
+                if (hasWarnings)
+                {
+                    cell.AppendHtml(new WarningIcon(new WarningIconInput
+                    {
+                        TeamCode = _input.TeamCode,
+                        WarningPlayers = _input.WarningPlayers,
+                        IconType = _input.PlayerIconType.Value,
+                        IconColor = _input.PlayerIconColor
+                    }).Render());
+                }
+                else
+                {
+                    var icon = new Icon(new IconInput { Type = _input.PlayerIconType.Value, Color = _input.PlayerIconColor ?? "#94a3b8", Size = 20 }).Render();
+                    cell.AppendHtml(new CustomTooltip(icon, $"{_input.PlayerCount} players in this game").Render());
+                }
             }
 
             return cell.ToString();

@@ -31,7 +31,12 @@ namespace RotoMonsterUI
                 ShowLineupDot = team.IsLineupConfirmed.HasValue,
                 LineupConfirmed = team.IsLineupConfirmed ?? false,
                 WarningPlayers = team.WarningPlayers,
-                WarningType = team.WarningPlayersType
+                WarningIconType = team.WarningPlayersType.HasValue 
+                    ? (team.WarningPlayersType.Value == PlayerWarningType.Alert ? IconType.PersonAlert : IconType.PersonSimple)
+                    : (IconType?)null,
+                WarningIconColor = team.WarningPlayersType.HasValue
+                    ? (team.WarningPlayersType.Value == PlayerWarningType.Alert ? "#FB7185" : "#F59E0B")
+                    : null
             }).Render());
 
             if (team.Rank.HasValue)
