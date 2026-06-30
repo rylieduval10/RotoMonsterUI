@@ -93,7 +93,13 @@ namespace RotoMonsterUI
                 case IconType.Previous:
                     return WrapSvg(@"<polyline points=""15 18 9 12 15 6""/>");
                 case IconType.LineupCard:
-                    return WrapSvg(@"<rect x=""3"" y=""2"" width=""18"" height=""20"" rx=""2""/><line x1=""7"" y1=""7"" x2=""17"" y2=""7""/><line x1=""7"" y1=""12"" x2=""17"" y2=""12""/><line x1=""7"" y1=""17"" x2=""13"" y2=""17""/>");
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"">
+                        <rect x=""2"" y=""1"" width=""20"" height=""22"" rx=""4"" fill=""{_input.Color}""/>
+                        <line x1=""6"" y1=""7"" x2=""18"" y2=""7"" stroke=""white"" stroke-width=""2"" stroke-linecap=""round""/>
+                        <line x1=""6"" y1=""11"" x2=""18"" y2=""11"" stroke=""white"" stroke-width=""2"" stroke-linecap=""round""/>
+                        <line x1=""6"" y1=""15"" x2=""18"" y2=""15"" stroke=""white"" stroke-width=""2"" stroke-linecap=""round""/>
+                        <line x1=""6"" y1=""19"" x2=""13"" y2=""19"" stroke=""white"" stroke-width=""2"" stroke-linecap=""round""/>
+                    </svg>";
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");
                 case IconType.LineupConfirmed:
