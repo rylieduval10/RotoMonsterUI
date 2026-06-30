@@ -35,6 +35,9 @@
 
     --color-hitter-category: #2563EB;
     --color-pitcher-category: #D97706;
+
+    --color-link: #1A4D28;
+    --color-link-hover: #2D7A3E;
 }
 
 /* Update SVG dropdown arrows to green */
@@ -457,10 +460,10 @@ footer a:hover {
     opacity: 0.9;
 }
 
-.rankings-table a, .modern-stats-table a { color: #1a4d28; }
-.rankings-table a:hover, .modern-stats-table a:hover { color: #2d7a3e; text-shadow: none; }
+.rankings-table a, .modern-stats-table a { color: var(--color-link); }
+.rankings-table a:hover, .modern-stats-table a:hover { color: var(--color-link-hover); text-shadow: none; }
 
-.card-based h2 { color: #1a4d28; }
+.card-based h2 { color: var(--color-link); }
 .card-based h3 { color: #C41E3A; }
 
 .game-team-cell.winner {
@@ -468,9 +471,9 @@ footer a:hover {
 }
 
 .lineup-card-player-name a {
-    color: #a7f3d0;
+    color: var(--color-link);
 }
 
 .lineup-card-player-name a:hover {
-    color: #ffffff;
+    color: var(--color-link-hover);
 }
