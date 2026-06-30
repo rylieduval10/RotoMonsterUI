@@ -1949,3 +1949,140 @@ a.modern-filter-btn:hover {
 .rte-emoji-btn:hover {
     background: rgba(var(--brand-primary-rgb), 0.15);
 }
+
+.player-stat-badge {
+    display: inline-flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+.player-stat-badge-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-card);
+    font-size: 0.85rem;
+    transition: border-color 0.2s ease;
+    cursor: default;
+}
+
+.player-stat-badge-item:hover {
+    border-color: var(--brand-primary);
+}
+
+.player-stat-badge-label {
+    color: var(--color-text-tertiary);
+    font-weight: 500;
+}
+
+.player-stat-badge-value {
+    color: var(--color-text-primary);
+    font-weight: 700;
+}
+
+.tracked-league-bar {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-bg-card);
+    overflow: hidden;
+    font-size: 0.85rem;
+    transition: border-color 0.2s ease;
+}
+
+.tracked-league-bar:hover {
+    border-color: var(--brand-primary);
+}
+
+.tracked-league-bar-section {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.85rem;
+}
+
+.tracked-league-bar-divider {
+    width: 1px;
+    background: var(--color-border);
+    align-self: stretch;
+    min-height: 100%;
+}
+
+.tracked-league-bar-label {
+    color: var(--color-text-tertiary);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.tracked-league-bar-value {
+    color: var(--color-text-primary);
+    font-weight: 600;
+}
+
+.tracked-league-bar-divider {
+    width: 1px;
+    background: var(--color-border);
+    align-self: stretch;
+    min-height: 100%;
+}
+.week-calendar-wrapper {
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: inline-block;
+}
+
+.week-calendar {
+    border-collapse: collapse;
+    font-size: 0.78rem;
+}
+
+.week-calendar td {
+    padding: 0.2rem 0.5rem;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.week-calendar-header {
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    text-align: left !important;
+    background: var(--color-bg-secondary);
+    min-width: 55px;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.week-calendar-week-cell {
+    color: var(--color-text-secondary);
+    padding: 0.15rem 0.4rem;
+}
+
+.week-calendar-week-num {
+    font-weight: 700;
+    font-size: 0.78rem;
+    color: var(--color-text-primary);
+}
+
+.week-calendar-date {
+    font-size: 0.68rem;
+    color: var(--color-text-tertiary);
+}
+
+.week-calendar-games {
+    font-weight: 700;
+    font-size: 0.82rem;
+}
+
+.week-calendar-current {
+    outline: 2px solid #F59E0B;
+    outline-offset: -2px;
+}
