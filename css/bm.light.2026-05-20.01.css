@@ -2285,3 +2285,55 @@ a.modern-filter-btn:hover {
     z-index: 9999;
     margin-top: 4px;
 }
+
+.schedule-grid-expand-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 600;
+    color: inherit;
+    padding: 0.15rem 0.3rem;
+}
+
+.schedule-grid-expanded-row {
+    background: var(--color-bg-secondary);
+}
+
+.schedule-grid-expanded-cell {
+    padding: 0.25rem 0.5rem !important;
+    vertical-align: top;
+}
+
+.schedule-grid-day {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.15rem 0;
+    font-size: 0.75rem;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.schedule-grid-day:last-child {
+    border-bottom: none;
+}
+
+.schedule-grid-day-date {
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+}
+
+.schedule-grid-day-opponent {
+    font-weight: 600;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.schedule-grid-day-quality .schedule-grid-day-opponent::after {
+    content: " ★";
+    font-size: 0.65rem;
+}

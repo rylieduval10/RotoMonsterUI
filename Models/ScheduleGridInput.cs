@@ -17,7 +17,6 @@ namespace RotoMonsterUI
         Ease
     }
 
-    // A single game/day within a period, used for the expand-row feature
     public class ScheduleGridDay
     {
         public DateTime Date { get; set; }
@@ -26,7 +25,6 @@ namespace RotoMonsterUI
         public bool IsQualityGame { get; set; }
     }
 
-    // The intersection of one team + one period (a single grid cell)
     public class ScheduleGridPeriodCell
     {
         public int Games { get; set; }
@@ -35,7 +33,6 @@ namespace RotoMonsterUI
         public List<ScheduleGridDay> Days { get; set; } = new List<ScheduleGridDay>();
     }
 
-    // Row header info shared across all teams (Period #, Start Date, # Weeks)
     public class ScheduleGridPeriod
     {
         public int PeriodNumber { get; set; }
@@ -63,25 +60,17 @@ namespace RotoMonsterUI
     public class ScheduleGridInput
     {
         public string Id { get; set; } = "schedule-grid";
-
         public List<ScheduleGridPeriod> Periods { get; set; } = new List<ScheduleGridPeriod>();
         public List<ScheduleGridTeam> Teams { get; set; } = new List<ScheduleGridTeam>();
-
         public int? CurrentPeriodNumber { get; set; }
-
         public int StartSelectedPeriod { get; set; }
         public int EndSelectedPeriod { get; set; }
-
         public ScheduleGridColorType ColorType { get; set; } = ScheduleGridColorType.MaxWeeks;
         public ScheduleGridSortBy SortBy { get; set; } = ScheduleGridSortBy.Team;
-
-        // Basketball-only
         public bool UseQualityGames { get; set; } = false;
         public bool ShowEasePositionFilter { get; set; } = false;
         public List<(string Text, string Value)> EasePositionOptions { get; set; } = new List<(string, string)>();
         public string EasePositionFilterValue { get; set; }
-
-        public string TeamCode { get; set; }
-        public string TeamColor { get; set; }
+        public int? ExpandedPeriodNumber { get; set; }
     }
 }

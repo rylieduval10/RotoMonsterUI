@@ -23,6 +23,9 @@ namespace RotoMonsterUI
         private static readonly string CurrentPeriodSvg =
             "<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='#22c55e'><polygon points='5 3 19 12 5 21 5 3'/></svg>";
 
+        private static readonly string ExpandChevronSvg =
+            "<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>";
+
         private int TeamCellColSpan => 4;
 
         public string Render()
@@ -35,7 +38,6 @@ namespace RotoMonsterUI
             var table = new HtmlTag("table").AddClass("schedule-grid");
             var tbody = new HtmlTag("tbody");
 
-            // Sorted team order for column display
             var teams = SortTeams(_input.Teams);
 
             tbody.Append(RenderSummaryRow("Games", t => t.Summary.Games.ToString(), null));
@@ -49,7 +51,11 @@ namespace RotoMonsterUI
             tbody.Append(RenderTeamHeaderRow(teams));
 
             foreach (var period in _input.Periods.OrderBy(p => p.PeriodNumber))
+            {
                 tbody.Append(RenderPeriodRow(period, teams));
+                if (_input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == period.PeriodNumber)
+                    tbody.Append(RenderExpandedRow(period, teams));
+            }
 
             tbody.Append(RenderTeamHeaderRow(teams));
             tbody.Append(RenderSummaryRow("Games", t => t.Summary.Games.ToString(), null));
@@ -180,13 +186,13 @@ namespace RotoMonsterUI
 
             var arrowsCell = new HtmlTag("td").AddClass("schedule-grid-arrows-cell");
             var downBtn = new HtmlTag("button").AddClass("schedule-grid-arrow-btn")
-                .Attr("type", "button")
+                .Attr("type", "submit")
                 .Attr("name", $"{_input.Id}-set-start")
                 .Attr("value", period.PeriodNumber.ToString())
                 .Attr("title", "Set as start period");
             downBtn.AppendHtml(DownArrowSvg);
             var upBtn = new HtmlTag("button").AddClass("schedule-grid-arrow-btn")
-                .Attr("type", "button")
+                .Attr("type", "submit")
                 .Attr("name", $"{_input.Id}-set-end")
                 .Attr("value", period.PeriodNumber.ToString())
                 .Attr("title", "Set as end period");
@@ -209,13 +215,13 @@ namespace RotoMonsterUI
             foreach (var team in teams)
             {
                 team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
-                row.Append(RenderTeamCell(cellData));
+                row.Append(RenderTeamCell(cellData, period.PeriodNumber));
             }
 
             return row;
         }
 
-        private HtmlTag RenderTeamCell(ScheduleGridPeriodCell cellData)
+        private HtmlTag RenderTeamCell(ScheduleGridPeriodCell cellData, int periodNumber)
         {
             var cell = new HtmlTag("td").AddClass("schedule-grid-team-cell");
 
@@ -233,8 +239,60 @@ namespace RotoMonsterUI
                 cell.AddClass("schedule-grid-cell-colored");
             }
 
-            cell.Text(cellData.Games.ToString());
+            var isExpanded = _input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == periodNumber;
+
+            if (cellData.Days.Count > 0)
+            {
+                var btn = new HtmlTag("button")
+                    .AddClass("schedule-grid-expand-btn")
+                    .Attr("type", "submit")
+                    .Attr("name", $"{_input.Id}-expand")
+                    .Attr("value", isExpanded ? "collapse" : periodNumber.ToString());
+                btn.AppendHtml($"<span>{cellData.Games}</span>");
+                btn.AppendHtml(ExpandChevronSvg);
+                cell.Append(btn);
+            }
+            else
+            {
+                cell.Text(cellData.Games.ToString());
+            }
+
             return cell;
+        }
+
+        private HtmlTag RenderExpandedRow(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
+        {
+            var row = new HtmlTag("tr").AddClass("schedule-grid-expanded-row");
+            row.Append(new HtmlTag("td").AddClass("schedule-grid-header-blank").Attr("colspan", TeamCellColSpan.ToString()));
+
+            foreach (var team in teams)
+            {
+                var cell = new HtmlTag("td").AddClass("schedule-grid-expanded-cell");
+                team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
+
+                if (cellData != null && cellData.Days.Count > 0)
+                {
+                    foreach (var day in cellData.Days.OrderBy(d => d.Date))
+                    {
+                        var dayDiv = new HtmlTag("div").AddClass("schedule-grid-day");
+                        if (day.IsQualityGame) dayDiv.AddClass("schedule-grid-day-quality");
+
+                        var dateSpan = new HtmlTag("span").AddClass("schedule-grid-day-date").Text(day.Date.ToString("ddd M/d"));
+                        dayDiv.Append(dateSpan);
+
+                        var oppSpan = new HtmlTag("span").AddClass("schedule-grid-day-opponent").Text(day.Opponent);
+                        if (!string.IsNullOrEmpty(day.EaseColor))
+                            oppSpan.Attr("style", $"background-color:#{day.EaseColor};");
+                        dayDiv.Append(oppSpan);
+
+                        cell.Append(dayDiv);
+                    }
+                }
+
+                row.Append(cell);
+            }
+
+            return row;
         }
     }
 }
