@@ -135,7 +135,7 @@ namespace RotoMonsterUI
             {
                 var td = new HtmlTag("td").AddClass("schedule-grid-team-header").Text(team.TeamCode);
                 if (!string.IsNullOrEmpty(team.TeamColor))
-                    td.Attr("style", $"background-color:{team.TeamColor}; color:#fff;");
+                    td.Attr("style", $"background-color:#{team.TeamColor}; color:#fff;");
                 row.Append(td);
             }
 
