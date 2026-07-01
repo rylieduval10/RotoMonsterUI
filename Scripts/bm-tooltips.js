@@ -1,4 +1,3 @@
-
 (function () {
     var activeTooltip = null;
     var activeArrow = null;
@@ -26,7 +25,6 @@
         var tooltip = document.getElementById(id);
         if (!tooltip) return;
 
-        // If clicking same trigger, toggle off
         if (activeTooltip === tooltip) {
             closeTooltip();
             return;
@@ -39,14 +37,12 @@
         var spaceBelow = window.innerHeight - rect.bottom;
         var placeAbove = spaceAbove > 150 || spaceAbove > spaceBelow;
 
-        // Move to body first so we can measure correctly
         if (tooltip.parentElement !== document.body) {
             document.body.appendChild(tooltip);
         }
 
         tooltip.classList.add('bm-tooltip-visible');
 
-        // Measure after visible and in body
         var tw = tooltip.offsetWidth;
         var th = tooltip.offsetHeight;
         var left = rect.left + rect.width / 2 - tw / 2;
@@ -108,7 +104,12 @@ document.addEventListener('click', function(e) {
         var isOpen = panel.classList.contains('popup-cal-open');
         document.querySelectorAll('.popup-cal-panel.popup-cal-open')
             .forEach(function(p) { p.classList.remove('popup-cal-open'); });
-        if (!isOpen) panel.classList.add('popup-cal-open');
+        if (!isOpen) {
+            panel.classList.add('popup-cal-open');
+            var triggerRect = trigger.getBoundingClientRect();
+            panel.style.top = (triggerRect.bottom + 4) + 'px';
+            panel.style.left = triggerRect.left + 'px';
+        }
         e.stopPropagation();
         return;
     }
@@ -125,6 +126,9 @@ document.addEventListener('click', function(e) {
     var day = e.target.closest('[data-popup-cal-date]');
     if (!day) return;
 
+    // Skip - handled by DateNavControl handler
+    if (day.getAttribute('data-date-nav-cal')) return;
+
     e.stopPropagation();
 
     if (day.classList.contains('popup-cal-day--disabled')) return;
@@ -134,7 +138,7 @@ document.addEventListener('click', function(e) {
     if (!panel) return;
     var wrapperId = panel.id.replace('-panel', '');
     var wrapper = document.getElementById(wrapperId);
-    if (wrapper && wrapper.getAttribute('data-mode') === 'range') return; 
+    if (wrapper && wrapper.getAttribute('data-mode') === 'range') return;
 
     // Update hidden field
     var hidden = document.getElementById(wrapperId + '-selected');
@@ -146,7 +150,6 @@ document.addEventListener('click', function(e) {
         var date = new Date(dateVal + 'T00:00:00');
         var formatted = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-        // Update icon day number
         var svgText = trigger.querySelector('svg text');
         if (svgText) svgText.textContent = date.getDate();
 
@@ -177,38 +180,31 @@ document.addEventListener('click', function(e) {
     var panel = document.getElementById(wrapperId + '-panel');
     if (!panel) return;
 
-    // Get current month
     var monthStr = panel.getAttribute('data-month');
     var parts = monthStr.split('-');
     var year = parseInt(parts[0]);
-    var month = parseInt(parts[1]) - 1; // JS months are 0-indexed
+    var month = parseInt(parts[1]) - 1;
     var current = new Date(year, month, 1);
 
-    // Calculate new month
     var newMonth = isPrev
         ? new Date(current.getFullYear(), current.getMonth() - 1, 1)
         : new Date(current.getFullYear(), current.getMonth() + 1, 1);
 
-    // Update panel data-month
     var newMonthStr = newMonth.getFullYear() + '-' + String(newMonth.getMonth() + 1).padStart(2, '0');
     panel.setAttribute('data-month', newMonthStr);
 
-    // Update hidden month field
     var monthHidden = document.getElementById(wrapperId + '-month');
     if (monthHidden) monthHidden.value = newMonthStr;
 
-    // Update month label
     var monthLabel = panel.querySelector('.popup-cal-month-label');
     if (monthLabel) {
         var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
         monthLabel.textContent = monthNames[newMonth.getMonth()] + ' ' + newMonth.getFullYear();
     }
 
-    // Get selected date from hidden field
     var selectedHidden = document.getElementById(wrapperId + '-selected');
     var selectedDateStr = selectedHidden ? selectedHidden.value : '';
 
-    // Re-render calendar grid
     var grid = panel.querySelector('.popup-cal-grid');
     if (!grid) return;
     grid.innerHTML = '';
@@ -219,14 +215,12 @@ document.addEventListener('click', function(e) {
     var today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Empty cells
     for (var i = 0; i < startDayOfWeek; i++) {
         var empty = document.createElement('span');
         empty.className = 'popup-cal-day popup-cal-day--empty';
         grid.appendChild(empty);
     }
 
-    // Day buttons
     for (var day = 1; day <= daysInMonth; day++) {
         var date = new Date(newMonth.getFullYear(), newMonth.getMonth(), day);
         var dateStr = date.getFullYear() + '-' + String(date.getMonth() + 1).padStart(2, '0') + '-' + String(date.getDate()).padStart(2, '0');
@@ -247,7 +241,7 @@ document.addEventListener('click', function(e) {
 
 // Popup Calendar - Range selection
 (function() {
-    var rangeState = {}; // keyed by wrapperId
+    var rangeState = {};
 
     function getRangeState(wrapperId) {
         if (!rangeState[wrapperId]) {
@@ -290,7 +284,6 @@ document.addEventListener('click', function(e) {
         }
     }
 
-    // Range day click
     document.addEventListener('click', function(e) {
         var day = e.target.closest('[data-popup-cal-date]');
         if (!day) return;
@@ -310,7 +303,6 @@ document.addEventListener('click', function(e) {
         var state = getRangeState(wrapperId);
 
         if (state.awaiting === 'start') {
-            // Set start date
             state.start = dateVal;
             state.awaiting = 'end';
 
@@ -319,11 +311,9 @@ document.addEventListener('click', function(e) {
 
             updateRangeHighlight(panel, dateVal, null);
         } else {
-            // Set end date
             var startVal = state.start;
             var endVal = dateVal;
 
-            // Swap if end is before start
             if (endVal < startVal) {
                 var temp = startVal;
                 startVal = endVal;
@@ -339,12 +329,10 @@ document.addEventListener('click', function(e) {
             state.start = null;
             state.awaiting = 'start';
 
-            // Close panel
             panel.classList.remove('popup-cal-open');
         }
     });
 
-    // Range hover preview
     document.addEventListener('mouseover', function(e) {
         var day = e.target.closest('[data-popup-cal-date]');
         if (!day) return;
@@ -387,10 +375,7 @@ document.querySelectorAll('.rte-btn').forEach(function(btn) {
             document.execCommand(cmd, false, null);
         }
 
-        // Update active states
         updateRteActiveStates(btn.closest('.rte-wrapper'));
-
-        // Sync hidden input
         syncRteValue(btn.closest('.rte-wrapper'));
     });
 });
@@ -440,8 +425,6 @@ document.addEventListener('click', function (e) {
             document.querySelectorAll('.rte-emoji-panel').forEach(p => p.style.display = 'none');
             panel.style.display = isVisible ? 'none' : 'block';
             if (!isVisible) {
-                const rect = emojiBtn.getBoundingClientRect();
-                const wrapperRect = emojiBtn.closest('.rte-wrapper').getBoundingClientRect();
                 const btnRect = emojiBtn.getBoundingClientRect();
                 panel.style.top = (btnRect.bottom + 4) + 'px';
                 panel.style.left = btnRect.left + 'px';
@@ -450,7 +433,6 @@ document.addEventListener('click', function (e) {
         return;
     }
 
-    // Emoji insert
     const emojiItem = e.target.closest('[data-emoji]');
     if (emojiItem) {
         const emoji = emojiItem.getAttribute('data-emoji');
@@ -465,6 +447,42 @@ document.addEventListener('click', function (e) {
         return;
     }
 
-    // Close emoji panels on outside click
     document.querySelectorAll('.rte-emoji-panel').forEach(p => p.style.display = 'none');
+});
+
+// DateNavControl calendar day selection
+document.addEventListener('click', function(e) {
+    var day = e.target.closest('[data-popup-cal-date][data-date-nav-cal]');
+    if (!day) return;
+
+    e.stopPropagation();
+
+    var dateVal = day.getAttribute('data-popup-cal-date');
+    var navId = day.getAttribute('data-date-nav-cal');
+
+    // Update hidden date field - find within same wrapper
+    var wrapper = document.getElementById(navId);
+    var hidden = wrapper ? wrapper.querySelector('input[name="' + navId + '-date"]') : null;
+    if (hidden) hidden.value = dateVal;
+
+    // Update trigger label
+    var trigger = document.querySelector('[data-date-nav-cal="' + navId + '"][data-popup-cal]');
+    if (trigger) {
+        var date = new Date(dateVal + 'T00:00:00');
+        var formatted = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        var label = trigger.querySelector('.popup-cal-trigger-label');
+        if (label) label.textContent = formatted;
+        var svgText = trigger.querySelector('svg text');
+        if (svgText) svgText.textContent = date.getDate();
+    }
+
+    // Update selected day styling
+    var panel = document.getElementById(navId + '-cal-panel');
+    if (panel) {
+        panel.querySelectorAll('.popup-cal-day--selected').forEach(function(d) {
+            d.classList.remove('popup-cal-day--selected');
+        });
+        day.classList.add('popup-cal-day--selected');
+        panel.classList.remove('popup-cal-open');
+    }
 });

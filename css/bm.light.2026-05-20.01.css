@@ -2275,3 +2275,13 @@ a.modern-filter-btn:hover {
     content: " \2605";
     font-size: 0.7rem;
 }
+
+.date-nav-control {
+    position: relative;
+}
+
+.date-nav-control .popup-cal-panel {
+    position: fixed;
+    z-index: 9999;
+    margin-top: 4px;
+}
