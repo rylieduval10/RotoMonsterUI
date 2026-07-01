@@ -2109,7 +2109,7 @@ a.modern-filter-btn:hover {
 
 .schedule-grid-control-label {
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: var(--color-text-secondary);
@@ -2235,12 +2235,12 @@ a.modern-filter-btn:hover {
 
 .schedule-grid-cell-colored {
     color: #111827 !important;
-    font-weight: 700 !important;
+    font-weight: 600 !important;
 }
 
 .schedule-grid-current-row td {
-    outline: 2px solid #22c55e;
-    outline-offset: -2px;
+    border-top: 2px solid #22c55e;
+    border-bottom: 2px solid #22c55e;
 }
 
 /* Single team row (player profile embed) */
@@ -2377,4 +2377,33 @@ a.modern-filter-btn:hover {
 .schedule-grid-day-quality .schedule-grid-day-opponent::after {
     content: " ★";
     font-size: 0.65rem;
+}
+
+.bm-segmented {
+    display: inline-flex;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.bm-segmented input[type=radio] {
+    display: none;
+}
+
+.bm-segmented label {
+    padding: 0.2rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    border-radius: 6px;
+    transition: all 0.15s ease;
+}
+
+.bm-segmented input[type=radio]:checked + label {
+    background: var(--brand-primary);
+    color: white;
+    border-radius: 6px;
 }
