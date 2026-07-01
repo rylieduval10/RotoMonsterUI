@@ -44,8 +44,7 @@ namespace RotoMonsterUI
             if (_input.UseQualityGames)
                 tbody.Append(RenderSummaryRow("Quality Games", t => t.Summary.QualityGames.ToString(), null));
 
-            if (_input.ColorType == ScheduleGridColorType.Ease)
-                tbody.Append(RenderSummaryRow("Avg Ease", t => t.Summary.AvgEase.ToString("0.00"), t => t.Summary.AvgEaseColor));
+            tbody.Append(RenderSummaryRow("Avg Ease", t => t.Summary.AvgEase.ToString("0.00"), t => t.Summary.AvgEaseColor));
 
             tbody.Append(RenderTeamHeaderRow(teams));
 
@@ -55,6 +54,7 @@ namespace RotoMonsterUI
             tbody.Append(RenderTeamHeaderRow(teams));
             tbody.Append(RenderSummaryRow("Games", t => t.Summary.Games.ToString(), null));
             tbody.Append(RenderSummaryRow("Max Weeks", t => t.Summary.MaxWeeks.ToString(), null));
+            tbody.Append(RenderSummaryRow("Avg Ease", t => t.Summary.AvgEase.ToString("0.00"), t => t.Summary.AvgEaseColor));
 
             table.Append(tbody);
             tableWrapper.Append(table);
