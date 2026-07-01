@@ -2356,7 +2356,7 @@ a.modern-filter-btn:hover {
 .bm-segmented label {
     display: inline-flex;
     align-items: center;
-    padding: 0.3rem 0.85rem;
+    padding: 0.2rem 0.75rem;
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
@@ -2365,10 +2365,12 @@ a.modern-filter-btn:hover {
     transition: all 0.15s ease;
     line-height: 1;
     margin: 0;
+    box-sizing: border-box;
+    white-space: nowrap;
 }
 
 .bm-segmented input[type=radio]:checked + label {
     background: var(--brand-primary);
-    color: white;
+    color: white !important;
     border-radius: 6px;
 }
