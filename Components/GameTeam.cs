@@ -67,8 +67,8 @@ namespace RotoMonsterUI
                 }
                 else
                 {
-                    var icon = new Icon(new IconInput { Type = _input.PlayerIconType.Value, Color = _input.PlayerIconColor ?? "#94a3b8", Size = 20 }).Render();
-                    cell.AppendHtml(new CustomTooltip(icon, $"{_input.PlayerCount} {SingularPlural.Get("player",_input.PlayerCount.GetValueOrDefault(0))} in this game").Render());
+                    var icon = new Icon(new IconInput { Type = _input.PlayerIconType.Value, Color = _input.PlayerIconColor ?? "#94a3b8", Size = 14 }).Render();
+                    cell.AppendHtml(new CustomTooltip(icon, $"{_input.PlayerCount} {SingularPlural.Get("player", _input.PlayerCount.GetValueOrDefault(0))} in this game").Render());
                 }
             }
 

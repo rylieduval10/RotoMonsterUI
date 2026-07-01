@@ -1,0 +1,235 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using HtmlTags;
+
+namespace RotoMonsterUI
+{
+    public class ScheduleGrid
+    {
+        private readonly ScheduleGridInput _input;
+
+        public ScheduleGrid(ScheduleGridInput input)
+        {
+            _input = input;
+        }
+
+        private static readonly string DownArrowSvg =
+            "<svg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>";
+
+        private static readonly string UpArrowSvg =
+            "<svg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='18 15 12 9 6 15'/></svg>";
+
+        private static readonly string CurrentPeriodSvg =
+            "<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='#22c55e'><polygon points='5 3 19 12 5 21 5 3'/></svg>";
+
+        private int TeamCellColSpan => 4;
+
+        public string Render()
+        {
+            var wrapper = new HtmlTag("div").AddClass("schedule-grid-wrapper").Attr("id", _input.Id);
+
+            wrapper.Append(RenderControls());
+
+            var tableWrapper = new HtmlTag("div").AddClass("schedule-grid-table-wrapper");
+            var table = new HtmlTag("table").AddClass("schedule-grid");
+            var tbody = new HtmlTag("tbody");
+
+            // Sorted team order for column display
+            var teams = SortTeams(_input.Teams);
+
+            tbody.Append(RenderSummaryRow("Games", t => t.Summary.Games.ToString(), null));
+            tbody.Append(RenderSummaryRow("Max Weeks", t => t.Summary.MaxWeeks.ToString(), null));
+
+            if (_input.UseQualityGames)
+                tbody.Append(RenderSummaryRow("Quality Games", t => t.Summary.QualityGames.ToString(), null));
+
+            if (_input.ColorType == ScheduleGridColorType.Ease)
+                tbody.Append(RenderSummaryRow("Avg Ease", t => t.Summary.AvgEase.ToString("0.00"), t => t.Summary.AvgEaseColor));
+
+            tbody.Append(RenderTeamHeaderRow(teams));
+
+            foreach (var period in _input.Periods.OrderBy(p => p.PeriodNumber))
+                tbody.Append(RenderPeriodRow(period, teams));
+
+            tbody.Append(RenderTeamHeaderRow(teams));
+            tbody.Append(RenderSummaryRow("Games", t => t.Summary.Games.ToString(), null));
+            tbody.Append(RenderSummaryRow("Max Weeks", t => t.Summary.MaxWeeks.ToString(), null));
+
+            table.Append(tbody);
+            tableWrapper.Append(table);
+            wrapper.Append(tableWrapper);
+
+            return wrapper.ToString();
+        }
+
+        private List<ScheduleGridTeam> SortTeams(List<ScheduleGridTeam> teams)
+        {
+            switch (_input.SortBy)
+            {
+                case ScheduleGridSortBy.Games:
+                    return teams.OrderByDescending(t => t.Summary.Games).ToList();
+                case ScheduleGridSortBy.MaxWeeks:
+                    return teams.OrderByDescending(t => t.Summary.MaxWeeks).ToList();
+                case ScheduleGridSortBy.Ease:
+                    return teams.OrderByDescending(t => t.Summary.AvgEase).ToList();
+                case ScheduleGridSortBy.Team:
+                default:
+                    return teams.OrderBy(t => t.TeamCode).ToList();
+            }
+        }
+
+        private HtmlTag RenderControls()
+        {
+            var controls = new HtmlTag("div").AddClass("schedule-grid-controls");
+
+            var coloringGroup = new HtmlTag("div").AddClass("schedule-grid-control-group");
+            coloringGroup.Append(new HtmlTag("span").AddClass("schedule-grid-control-label").Text("Coloring"));
+            var coloringRadio = new RadioGroup($"{_input.Id}-colortype")
+                .WithPostBack()
+                .AddOption("Max Weeks Coloring", ScheduleGridColorType.MaxWeeks.ToString(), _input.ColorType == ScheduleGridColorType.MaxWeeks)
+                .AddOption("Ease Coloring", ScheduleGridColorType.Ease.ToString(), _input.ColorType == ScheduleGridColorType.Ease);
+            coloringGroup.AppendHtml(coloringRadio.Render());
+
+            var sortGroup = new HtmlTag("div").AddClass("schedule-grid-control-group");
+            sortGroup.Append(new HtmlTag("span").AddClass("schedule-grid-control-label").Text("Sort By"));
+            var sortRadio = new RadioGroup($"{_input.Id}-sortby").WithPostBack();
+            foreach (ScheduleGridSortBy option in Enum.GetValues(typeof(ScheduleGridSortBy)))
+                sortRadio.AddOption(SortByLabel(option), option.ToString(), _input.SortBy == option);
+            sortGroup.AppendHtml(sortRadio.Render());
+
+            controls.Append(coloringGroup);
+            controls.Append(sortGroup);
+
+            if (_input.ShowEasePositionFilter && _input.EasePositionOptions.Count > 0)
+            {
+                var easePosGroup = new HtmlTag("div").AddClass("schedule-grid-control-group");
+                easePosGroup.Append(new HtmlTag("span").AddClass("schedule-grid-control-label").Text("Ease Position"));
+                var dropdown = new Dropdown("Ease Position")
+                    .WithName($"{_input.Id}-ease-position")
+                    .WithSelectedValue(_input.EasePositionFilterValue);
+                foreach (var option in _input.EasePositionOptions)
+                    dropdown.AddItem(option.Text, option.Value);
+                easePosGroup.AppendHtml(dropdown.Render());
+                controls.Append(easePosGroup);
+            }
+
+            return controls;
+        }
+
+        private static string SortByLabel(ScheduleGridSortBy sortBy)
+        {
+            switch (sortBy)
+            {
+                case ScheduleGridSortBy.MaxWeeks: return "Max Weeks";
+                default: return sortBy.ToString();
+            }
+        }
+
+        private HtmlTag RenderTeamHeaderRow(List<ScheduleGridTeam> teams)
+        {
+            var row = new HtmlTag("tr");
+            row.Append(new HtmlTag("td").AddClass("schedule-grid-header-blank").Attr("colspan", TeamCellColSpan.ToString()));
+
+            foreach (var team in teams)
+                row.Append(new HtmlTag("td").AddClass("schedule-grid-team-header").Text(team.TeamCode));
+
+            return row;
+        }
+
+        private HtmlTag RenderSummaryRow(string label, Func<ScheduleGridTeam, string> valueSelector, Func<ScheduleGridTeam, string> colorSelector)
+        {
+            var teams = SortTeams(_input.Teams);
+            var row = new HtmlTag("tr").AddClass("schedule-grid-summary-row");
+            row.Append(new HtmlTag("td").AddClass("schedule-grid-summary-label").Attr("colspan", TeamCellColSpan.ToString()).Text(label));
+
+            foreach (var team in teams)
+            {
+                var cell = new HtmlTag("td").AddClass("schedule-grid-summary-cell");
+                if (colorSelector != null)
+                {
+                    var color = colorSelector(team);
+                    if (!string.IsNullOrEmpty(color))
+                    {
+                        cell.Attr("style", $"background-color:#{color};");
+                        cell.AddClass("schedule-grid-cell-colored");
+                    }
+                }
+                cell.Text(valueSelector(team));
+                row.Append(cell);
+            }
+
+            return row;
+        }
+
+        private HtmlTag RenderPeriodRow(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
+        {
+            var isCurrent = _input.CurrentPeriodNumber.HasValue && _input.CurrentPeriodNumber.Value == period.PeriodNumber;
+
+            var row = new HtmlTag("tr").AddClass("schedule-grid-period-row");
+            if (isCurrent) row.AddClass("schedule-grid-current-row");
+
+            var indicatorCell = new HtmlTag("td").AddClass("schedule-grid-indicator-cell");
+            if (isCurrent) indicatorCell.AppendHtml(CurrentPeriodSvg);
+            row.Append(indicatorCell);
+
+            var arrowsCell = new HtmlTag("td").AddClass("schedule-grid-arrows-cell");
+            var downBtn = new HtmlTag("button").AddClass("schedule-grid-arrow-btn")
+                .Attr("type", "button")
+                .Attr("name", $"{_input.Id}-set-start")
+                .Attr("value", period.PeriodNumber.ToString())
+                .Attr("title", "Set as start period");
+            downBtn.AppendHtml(DownArrowSvg);
+            var upBtn = new HtmlTag("button").AddClass("schedule-grid-arrow-btn")
+                .Attr("type", "button")
+                .Attr("name", $"{_input.Id}-set-end")
+                .Attr("value", period.PeriodNumber.ToString())
+                .Attr("title", "Set as end period");
+            upBtn.AppendHtml(UpArrowSvg);
+            arrowsCell.Append(downBtn);
+            arrowsCell.Append(upBtn);
+            row.Append(arrowsCell);
+
+            var isInRange = period.PeriodNumber >= _input.StartSelectedPeriod && period.PeriodNumber <= _input.EndSelectedPeriod;
+            var periodCell = new HtmlTag("td").AddClass("schedule-grid-period-cell");
+            if (isInRange) periodCell.AddClass("schedule-grid-period-selected");
+            periodCell.Text(period.PeriodNumber.ToString());
+            if (period.NumWeeks > 1)
+                periodCell.Append(new HtmlTag("span").AddClass("schedule-grid-multiweek-badge").Text($"{period.NumWeeks}w"));
+            row.Append(periodCell);
+
+            var dateCell = new HtmlTag("td").AddClass("schedule-grid-date-cell").Text(period.StartDate.ToString("M/d/yyyy"));
+            row.Append(dateCell);
+
+            foreach (var team in teams)
+            {
+                team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
+                row.Append(RenderTeamCell(cellData));
+            }
+
+            return row;
+        }
+
+        private HtmlTag RenderTeamCell(ScheduleGridPeriodCell cellData)
+        {
+            var cell = new HtmlTag("td").AddClass("schedule-grid-team-cell");
+
+            if (cellData == null)
+                return cell;
+
+            if (_input.ColorType == ScheduleGridColorType.MaxWeeks)
+            {
+                if (cellData.IsMaxWeek)
+                    cell.AddClass("schedule-grid-maxweek");
+            }
+            else if (_input.ColorType == ScheduleGridColorType.Ease && !string.IsNullOrEmpty(cellData.EaseColor))
+            {
+                cell.Attr("style", $"background-color:#{cellData.EaseColor};");
+                cell.AddClass("schedule-grid-cell-colored");
+            }
+
+            cell.Text(cellData.Games.ToString());
+            return cell;
+        }
+    }
+}

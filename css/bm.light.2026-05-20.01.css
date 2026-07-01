@@ -2046,3 +2046,232 @@ a.modern-filter-btn:hover {
     outline: 2px solid #F59E0B;
     outline-offset: -2px;
 }
+/* ============================================
+   SCHEDULE GRID
+   ============================================ */
+   .schedule-grid-wrapper {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.schedule-grid-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.75rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.schedule-grid-control-group {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.schedule-grid-control-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-secondary);
+}
+
+.schedule-grid-table-wrapper {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+}
+
+.schedule-grid {
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.schedule-grid td {
+    padding: 0.5rem 0.85rem;
+    text-align: center;
+    border: 1px solid var(--color-border);
+    white-space: nowrap;
+}
+
+.schedule-grid-header-blank {
+    background: var(--color-bg-secondary);
+    border: none;
+}
+
+.schedule-grid-team-header {
+    font-weight: 700;
+    font-size: 0.8rem;
+    background: var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    min-width: 46px;
+}
+
+.schedule-grid-summary-row .schedule-grid-summary-label {
+    font-weight: 700;
+    text-align: left !important;
+    color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-left: 1.1rem !important;
+}
+
+.schedule-grid-summary-cell {
+    font-weight: 700;
+    color: var(--color-text-primary);
+    min-width: 46px;
+}
+
+.schedule-grid-indicator-cell {
+    border: none !important;
+    padding: 0 !important;
+    width: 20px;
+}
+
+.schedule-grid-arrows-cell {
+    border: none !important;
+    padding: 0 0.2rem !important;
+    white-space: nowrap;
+}
+
+.schedule-grid-arrow-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem;
+    color: var(--color-text-tertiary);
+    display: inline-flex;
+    vertical-align: middle;
+    transition: color 0.15s ease;
+}
+
+.schedule-grid-arrow-btn:hover {
+    color: var(--brand-primary);
+}
+
+.schedule-grid-period-cell {
+    font-weight: 700;
+    color: var(--color-text-primary);
+    position: relative;
+    padding-left: 0.6rem !important;
+    padding-right: 1rem !important;
+}
+
+.schedule-grid-period-selected {
+    background: rgba(var(--brand-primary-rgb), 0.08);
+}
+
+.schedule-grid-multiweek-badge {
+    display: inline-block;
+    margin-left: 0.35rem;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--brand-primary);
+    background: rgba(var(--brand-primary-rgb), 0.12);
+    border-radius: 4px;
+    padding: 0.08rem 0.3rem;
+    vertical-align: middle;
+}
+
+.schedule-grid-date-cell {
+    color: var(--color-text-tertiary);
+    font-size: 0.76rem;
+    padding-right: 1.1rem !important;
+}
+
+.schedule-grid-team-cell {
+    font-weight: 600;
+    color: var(--color-text-primary);
+    min-width: 46px;
+}
+
+.schedule-grid-maxweek {
+    background: rgba(var(--brand-primary-rgb), 0.25);
+    color: var(--color-text-primary);
+}
+
+.schedule-grid-cell-colored {
+    color: #111827 !important;
+    font-weight: 700 !important;
+}
+
+.schedule-grid-current-row td {
+    outline: 2px solid #22c55e;
+    outline-offset: -2px;
+}
+
+/* Single team row (player profile embed) */
+.schedule-team-row-wrapper {
+    display: inline-block;
+}
+
+.schedule-team-row {
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+.schedule-team-row td {
+    padding: 0.3rem;
+    text-align: center;
+    border: 1px solid var(--color-border);
+}
+
+.schedule-team-row-code {
+    font-weight: 700;
+    background: var(--color-bg-secondary);
+    padding: 0.3rem 0.7rem !important;
+}
+
+.schedule-team-row-current {
+    outline: 2px solid #22c55e;
+    outline-offset: -2px;
+}
+
+.schedule-team-row-cell-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 600;
+    color: inherit;
+    padding: 0.25rem 0.5rem;
+}
+
+.schedule-team-row-days {
+    margin-top: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.schedule-team-row-day {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid var(--color-border-light);
+}
+
+.schedule-team-row-day:last-child {
+    border-bottom: none;
+}
+
+.schedule-team-row-day-date {
+    color: var(--color-text-tertiary);
+}
+
+.schedule-team-row-day-opponent {
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-radius: 5px;
+}
+
+.schedule-team-row-day-quality .schedule-team-row-day-opponent::after {
+    content: " \2605";
+    font-size: 0.7rem;
+}
