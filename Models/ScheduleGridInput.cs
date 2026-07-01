@@ -55,11 +55,8 @@ namespace RotoMonsterUI
     public class ScheduleGridTeam
     {
         public string TeamCode { get; set; }
-
-        // Key = PeriodNumber
+        public string TeamColor { get; set; }
         public Dictionary<int, ScheduleGridPeriodCell> Periods { get; set; } = new Dictionary<int, ScheduleGridPeriodCell>();
-
-        // Based on the currently selected Start/End period range
         public ScheduleGridTeamSummary Summary { get; set; } = new ScheduleGridTeamSummary();
     }
 
@@ -83,5 +80,8 @@ namespace RotoMonsterUI
         public bool ShowEasePositionFilter { get; set; } = false;
         public List<(string Text, string Value)> EasePositionOptions { get; set; } = new List<(string, string)>();
         public string EasePositionFilterValue { get; set; }
+
+        public string TeamCode { get; set; }
+        public string TeamColor { get; set; }
     }
 }
