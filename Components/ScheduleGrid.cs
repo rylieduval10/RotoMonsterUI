@@ -209,7 +209,8 @@ namespace RotoMonsterUI
                 periodCell.Append(new HtmlTag("span").AddClass("schedule-grid-multiweek-badge").Text($"{period.NumWeeks}w"));
             row.Append(periodCell);
 
-            var dateCell = new HtmlTag("td").AddClass("schedule-grid-date-cell").Text(period.StartDate.ToString("M/d/yyyy"));
+            var dateCell = new HtmlTag("td").AddClass("schedule-grid-date-cell");
+            dateCell.AppendHtml(new DisplayDate(new DisplayDateInput { Date = period.StartDate }).Render());
             row.Append(dateCell);
 
             foreach (var team in teams)
@@ -277,7 +278,8 @@ namespace RotoMonsterUI
                         var dayDiv = new HtmlTag("div").AddClass("schedule-grid-day");
                         if (day.IsQualityGame) dayDiv.AddClass("schedule-grid-day-quality");
 
-                        var dateSpan = new HtmlTag("span").AddClass("schedule-grid-day-date").Text(day.Date.ToString("ddd M/d"));
+                        var dateSpan = new HtmlTag("span").AddClass("schedule-grid-day-date");
+                        dateSpan.AppendHtml(new DisplayDate(new DisplayDateInput { Date = day.Date, Format = "ddd M/d" }).Render());
                         dayDiv.Append(dateSpan);
 
                         var oppSpan = new HtmlTag("span").AddClass("schedule-grid-day-opponent").Text(day.Opponent);

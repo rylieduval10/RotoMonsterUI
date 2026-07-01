@@ -2045,11 +2045,10 @@ a.modern-filter-btn:hover {
 .week-calendar-current {
     outline: 2px solid #F59E0B;
     outline-offset: -2px;
-}
-/* ============================================
+}/* ============================================
    SCHEDULE GRID
    ============================================ */
-   .schedule-grid-wrapper {
+.schedule-grid-wrapper {
     display: inline-block;
     max-width: 100%;
 }
@@ -2088,7 +2087,7 @@ a.modern-filter-btn:hover {
 }
 
 .schedule-grid td {
-    padding: 0.5rem 0.85rem;
+    padding: 0.2rem 0.2rem;
     text-align: center;
     border: 1px solid var(--color-border);
     white-space: nowrap;
@@ -2100,7 +2099,7 @@ a.modern-filter-btn:hover {
 }
 
 .schedule-grid-team-header {
-    font-weight: 700;
+    font-weight: 600;
     font-size: 0.8rem;
     background: var(--color-bg-secondary);
     color: var(--color-text-primary);
@@ -2108,7 +2107,7 @@ a.modern-filter-btn:hover {
 }
 
 .schedule-grid-summary-row .schedule-grid-summary-label {
-    font-weight: 700;
+    font-weight: 600;
     text-align: left !important;
     color: var(--color-text-secondary);
     background: var(--color-bg-secondary);
@@ -2119,7 +2118,7 @@ a.modern-filter-btn:hover {
 }
 
 .schedule-grid-summary-cell {
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text-primary);
     min-width: 46px;
 }
@@ -2152,7 +2151,7 @@ a.modern-filter-btn:hover {
 }
 
 .schedule-grid-period-cell {
-    font-weight: 700;
+    font-weight: 600;
     color: var(--color-text-primary);
     position: relative;
     padding-left: 0.6rem !important;
@@ -2161,13 +2160,15 @@ a.modern-filter-btn:hover {
 
 .schedule-grid-period-selected {
     background: rgba(var(--brand-primary-rgb), 0.08);
+    border-top: 2px solid var(--brand-primary) !important;
+    border-bottom: 2px solid var(--brand-primary) !important;
 }
 
 .schedule-grid-multiweek-badge {
     display: inline-block;
     margin-left: 0.35rem;
     font-size: 0.62rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--brand-primary);
     background: rgba(var(--brand-primary-rgb), 0.12);
     border-radius: 4px;
@@ -2182,7 +2183,7 @@ a.modern-filter-btn:hover {
 }
 
 .schedule-grid-team-cell {
-    font-weight: 600;
+    font-weight: 400;
     color: var(--color-text-primary);
     min-width: 46px;
 }
