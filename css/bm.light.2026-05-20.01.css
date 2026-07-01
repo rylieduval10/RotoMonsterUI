@@ -2346,6 +2346,7 @@ a.modern-filter-btn:hover {
     border-radius: 8px;
     padding: 3px;
     gap: 2px;
+    align-items: center;
 }
 
 .bm-segmented input[type=radio] {
@@ -2353,13 +2354,17 @@ a.modern-filter-btn:hover {
 }
 
 .bm-segmented label {
-    padding: 0.2rem 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.3rem 0.85rem;
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     color: var(--color-text-secondary);
     border-radius: 6px;
     transition: all 0.15s ease;
+    line-height: 1;
+    margin: 0;
 }
 
 .bm-segmented input[type=radio]:checked + label {
