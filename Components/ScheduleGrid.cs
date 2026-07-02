@@ -57,7 +57,10 @@ namespace RotoMonsterUI
             {
                 tbody.Append(RenderPeriodRow(period, teams));
                 if (_input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == period.PeriodNumber)
-                    tbody.Append(RenderExpandedRow(period, teams));
+                {
+                    foreach (var dayRow in RenderExpandedDayRows(period, teams))
+                        tbody.Append(dayRow);
+                }
             }
 
             tbody.Append(RenderTeamHeaderRow(teams));
@@ -265,46 +268,58 @@ namespace RotoMonsterUI
             return cell;
         }
 
-        private HtmlTag RenderExpandedRow(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
+        private List<HtmlTag> RenderExpandedDayRows(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
         {
-            var row = new HtmlTag("tr").AddClass("schedule-grid-expanded-row");
-            row.Append(new HtmlTag("td").AddClass("schedule-grid-header-blank").Attr("colspan", TeamCellColSpan.ToString()));
+            var rows = new List<HtmlTag>();
 
-            foreach (var team in teams)
+            var allDates = teams
+                .Select(t => t.Periods.TryGetValue(period.PeriodNumber, out var c) ? c : null)
+                .Where(c => c != null && c.Days.Count > 0)
+                .SelectMany(c => c.Days)
+                .Select(d => d.Date.Date)
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
+
+            foreach (var date in allDates)
             {
-                var cell = new HtmlTag("td").AddClass("schedule-grid-expanded-cell");
-                team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
+                var row = new HtmlTag("tr").AddClass("schedule-grid-expanded-row");
 
-                if (cellData != null && cellData.Days.Count > 0)
+                var dateCell = new HtmlTag("td")
+                    .AddClass("schedule-grid-expanded-date-cell")
+                    .Attr("colspan", TeamCellColSpan.ToString());
+                dateCell.AppendHtml(new DisplayDate(new DisplayDateInput { Date = date, Format = "ddd M/d" }).Render());
+                row.Append(dateCell);
+
+                foreach (var team in teams)
                 {
-                    foreach (var day in cellData.Days.OrderBy(d => d.Date))
+                    var cell = new HtmlTag("td").AddClass("schedule-grid-expanded-cell");
+                    team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
+
+                    var day = cellData?.Days.FirstOrDefault(d => d.Date.Date == date);
+                    if (day != null && !string.IsNullOrEmpty(day.Opponent))
                     {
                         var dayDiv = new HtmlTag("div").AddClass("schedule-grid-day");
                         if (day.IsQualityGame) dayDiv.AddClass("schedule-grid-day-quality");
 
-                        var dateSpan = new HtmlTag("span").AddClass("schedule-grid-day-date");
-                        dateSpan.AppendHtml(new DisplayDate(new DisplayDateInput { Date = day.Date, Format = "ddd M/d" }).Render());
-                        dayDiv.Append(dateSpan);
-
                         var oppSpan = new HtmlTag("span").AddClass("schedule-grid-day-opponent");
-                        if (!string.IsNullOrEmpty(day.Opponent))
-                        {
-                            if (day.IsAwayGame)
-                                oppSpan.AppendHtml("<span class='schedule-grid-day-away'>@</span>");
-                            oppSpan.AppendHtml(day.Opponent);
-                            if (!string.IsNullOrEmpty(day.EaseColor))
-                                oppSpan.Attr("style", $"background-color:#{day.EaseColor}; color:#000;");
-                        }
+                        if (day.IsAwayGame)
+                            oppSpan.AppendHtml("<span class='schedule-grid-day-away'>@</span>");
+                        oppSpan.AppendHtml(day.Opponent);
+                        if (!string.IsNullOrEmpty(day.EaseColor))
+                            oppSpan.Attr("style", $"background-color:#{day.EaseColor}; color:#000;");
                         dayDiv.Append(oppSpan);
 
                         cell.Append(dayDiv);
                     }
+
+                    row.Append(cell);
                 }
 
-                row.Append(cell);
+                rows.Add(row);
             }
 
-            return row;
+            return rows;
         }
     }
 }

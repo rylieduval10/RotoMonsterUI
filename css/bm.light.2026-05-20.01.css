@@ -2048,6 +2048,14 @@ a.modern-filter-btn:hover {
 }/* ============================================
    SCHEDULE GRID
    ============================================ */
+
+   .schedule-grid-expanded-date-cell {
+    color: var(--color-text-tertiary);
+    font-size: 0.76rem;
+    text-align: left !important;
+    padding-left: 1.1rem !important;
+    background: var(--color-bg-secondary);
+}
 .schedule-grid-wrapper {
     display: inline-block;
     max-width: 100%;
@@ -2356,7 +2364,7 @@ a.modern-filter-btn:hover {
 .bm-segmented label {
     display: inline-flex !important;
     align-items: center !important;
-    padding: 0.2rem 0.75rem !important;
+    padding: 0.5rem 0.75rem !important;
     font-size: 0.8rem !important;
     font-weight: 500 !important;
     cursor: pointer !important;
