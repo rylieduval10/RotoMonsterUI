@@ -23,6 +23,7 @@ namespace RotoMonsterUI
         public string Opponent { get; set; }
         public string EaseColor { get; set; }
         public bool IsQualityGame { get; set; }
+        public bool IsAwayGame { get; set; }
     }
 
     public class ScheduleGridPeriodCell

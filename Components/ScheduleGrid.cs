@@ -96,13 +96,16 @@ namespace RotoMonsterUI
             coloringGroup.Append(new HtmlTag("span").AddClass("schedule-grid-control-label").Text("Coloring"));
             var coloringRadio = new RadioGroup($"{_input.Id}-colortype")
                 .WithPostBack()
+                .WithSegmented()
                 .AddOption("Max Weeks Coloring", ScheduleGridColorType.MaxWeeks.ToString(), _input.ColorType == ScheduleGridColorType.MaxWeeks)
                 .AddOption("Ease Coloring", ScheduleGridColorType.Ease.ToString(), _input.ColorType == ScheduleGridColorType.Ease);
             coloringGroup.AppendHtml(coloringRadio.Render());
 
             var sortGroup = new HtmlTag("div").AddClass("schedule-grid-control-group");
             sortGroup.Append(new HtmlTag("span").AddClass("schedule-grid-control-label").Text("Sort By"));
-            var sortRadio = new RadioGroup($"{_input.Id}-sortby").WithPostBack();
+            var sortRadio = new RadioGroup($"{_input.Id}-sortby")
+                .WithPostBack()
+                .WithSegmented();
             foreach (ScheduleGridSortBy option in Enum.GetValues(typeof(ScheduleGridSortBy)))
                 sortRadio.AddOption(SortByLabel(option), option.ToString(), _input.SortBy == option);
             sortGroup.AppendHtml(sortRadio.Render());
@@ -283,9 +286,15 @@ namespace RotoMonsterUI
                         dateSpan.AppendHtml(new DisplayDate(new DisplayDateInput { Date = day.Date, Format = "ddd M/d" }).Render());
                         dayDiv.Append(dateSpan);
 
-                        var oppSpan = new HtmlTag("span").AddClass("schedule-grid-day-opponent").Text(day.Opponent);
-                        if (!string.IsNullOrEmpty(day.EaseColor))
-                            oppSpan.Attr("style", $"background-color:#{day.EaseColor};");
+                        var oppSpan = new HtmlTag("span").AddClass("schedule-grid-day-opponent");
+                        if (!string.IsNullOrEmpty(day.Opponent))
+                        {
+                            if (day.IsAwayGame)
+                                oppSpan.AppendHtml("<span class='schedule-grid-day-away'>@</span>");
+                            oppSpan.AppendHtml(day.Opponent);
+                            if (!string.IsNullOrEmpty(day.EaseColor))
+                                oppSpan.Attr("style", $"background-color:#{day.EaseColor}; color:#000;");
+                        }
                         dayDiv.Append(oppSpan);
 
                         cell.Append(dayDiv);
