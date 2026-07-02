@@ -2247,9 +2247,12 @@ a.modern-filter-btn:hover {
     font-weight: 600 !important;
 }
 
-.schedule-grid-current-row td {
-    border-top: 2px solid #22c55e;
-    border-bottom: 2px solid #22c55e;
+.schedule-grid-range-start-row td {
+    border-top: 2px solid var(--brand-primary) !important;
+}
+
+.schedule-grid-range-end-row td {
+    border-bottom: 2px solid var(--brand-primary) !important;
 }
 
 /* Single team row (player profile embed) */
@@ -2477,4 +2480,78 @@ a.modern-filter-btn:hover {
 .schedule-grid-expanded-date-cell.schedule-grid-expanded-cell--selected {
     color: var(--brand-accent);
     font-weight: 700;
+}
+
+.bm-tour-pulse {
+    position: absolute;
+    inset: -4px;
+    border-radius: calc(var(--radius, 8px) + 4px);
+    border: 2px solid var(--brand-primary);
+    animation: bm-tour-pulse 1.8s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes bm-tour-pulse {
+    0% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.15); }
+}
+
+.bm-tour-tooltip {
+    position: absolute;
+    width: 320px;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    z-index: 99999;
+}
+
+.bm-tour-step-count {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    margin: 0 0 0.25rem;
+}
+
+.bm-tour-text {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 1rem;
+    line-height: 1.5;
+}
+
+.bm-tour-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bm-tour-skip {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+}
+
+.bm-tour-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.bm-tour-buttons button {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.85rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.bm-tour-buttons .bm-tour-next {
+    background: var(--brand-primary);
+    color: white;
+    border: none;
+}
+
+.bm-tour-buttons .bm-tour-back {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
 }

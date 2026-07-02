@@ -55,6 +55,16 @@ namespace RotoMonsterUI
 
             wrapper.Append(RenderControls());
 
+            wrapper.Append(new HtmlTag("input")
+                .Attr("type", "hidden")
+                .Attr("name", $"{_input.Id}-current-start")
+                .Attr("value", _input.StartSelectedPeriod.ToString()));
+
+            wrapper.Append(new HtmlTag("input")
+                .Attr("type", "hidden")
+                .Attr("name", $"{_input.Id}-current-end")
+                .Attr("value", _input.EndSelectedPeriod.ToString()));
+
             var tableWrapper = new HtmlTag("div").AddClass("schedule-grid-table-wrapper");
             var table = new HtmlTag("table").AddClass("schedule-grid");
             var tbody = new HtmlTag("tbody");
@@ -203,10 +213,13 @@ namespace RotoMonsterUI
         private HtmlTag RenderPeriodRow(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
         {
             var isCurrent = _selectedPeriod != null && _selectedPeriod.PeriodNumber == period.PeriodNumber;
+            var isRangeStart = period.PeriodNumber == _input.StartSelectedPeriod;
+            var isRangeEnd = period.PeriodNumber == _input.EndSelectedPeriod;
             var isExpanded = _input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == period.PeriodNumber;
 
             var row = new HtmlTag("tr").AddClass("schedule-grid-period-row");
-            if (isCurrent) row.AddClass("schedule-grid-current-row");
+            if (isRangeStart) row.AddClass("schedule-grid-range-start-row");
+            if (isRangeEnd) row.AddClass("schedule-grid-range-end-row");
 
             var indicatorCell = new HtmlTag("td").AddClass("schedule-grid-indicator-cell");
             if (isCurrent) indicatorCell.AppendHtml(CurrentPeriodSvg);

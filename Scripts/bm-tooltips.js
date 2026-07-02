@@ -511,3 +511,86 @@ document.addEventListener('click', function(e) {
         if (form) form.submit();
     }
 });
+
+// Tour engine
+(function() {
+    function startTour(tourEl) {
+        var steps = JSON.parse(tourEl.getAttribute('data-tour-steps'));
+        var current = 0;
+
+        var overlay = document.createElement('div');
+        overlay.className = 'bm-tour-tooltip';
+        document.body.appendChild(overlay);
+
+        function clearPulse() {
+            document.querySelectorAll('.bm-tour-pulse').forEach(function(p) { p.remove(); });
+        }
+
+        function render() {
+            clearPulse();
+            var step = steps[current];
+            var target = document.getElementById(step.targetId ? step.targetId : step.TargetId);
+            if (!target) return;
+
+            var text = step.text || step.Text;
+            var position = step.position || step.Position || 'Bottom';
+
+            target.style.position = 'relative';
+            var pulse = document.createElement('span');
+            pulse.className = 'bm-tour-pulse';
+            target.appendChild(pulse);
+
+            var rect = target.getBoundingClientRect();
+            var top, left;
+            if (position === 'Top' || position === 0) {
+                top = rect.top + window.scrollY - 12;
+                left = rect.left + window.scrollX;
+                overlay.style.transform = 'translateY(-100%)';
+            } else {
+                top = rect.bottom + window.scrollY + 12;
+                left = rect.left + window.scrollX;
+                overlay.style.transform = 'none';
+            }
+
+            overlay.style.top = top + 'px';
+            overlay.style.left = left + 'px';
+            overlay.innerHTML =
+                '<p class="bm-tour-step-count">Step ' + (current + 1) + ' of ' + steps.length + '</p>' +
+                '<p class="bm-tour-text">' + text + '</p>' +
+                '<div class="bm-tour-controls">' +
+                    '<span class="bm-tour-skip">Skip tour</span>' +
+                    '<div class="bm-tour-buttons">' +
+                        '<button class="bm-tour-back" ' + (current === 0 ? 'style="visibility:hidden;"' : '') + '>Back</button>' +
+                        '<button class="bm-tour-next">' + (current === steps.length - 1 ? 'Done' : 'Next') + '</button>' +
+                    '</div>' +
+                '</div>';
+
+            overlay.querySelector('.bm-tour-next').addEventListener('click', function() {
+                if (current < steps.length - 1) {
+                    current++;
+                    render();
+                } else {
+                    endTour();
+                }
+            });
+            overlay.querySelector('.bm-tour-back').addEventListener('click', function() {
+                if (current > 0) {
+                    current--;
+                    render();
+                }
+            });
+            overlay.querySelector('.bm-tour-skip').addEventListener('click', endTour);
+        }
+
+        function endTour() {
+            clearPulse();
+            overlay.remove();
+        }
+
+        render();
+    }
+
+    document.querySelectorAll('.bm-tour').forEach(function(tourEl) {
+        startTour(tourEl);
+    });
+})();

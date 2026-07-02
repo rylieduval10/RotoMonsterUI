@@ -31,7 +31,14 @@ namespace RotoMonsterUI
                 result.ColorType = parsedColorType;
             }
 
-            // Up/down arrows on a period row set that period as the new start/end of the selected range
+            // Baseline: carry forward whatever start/end were already selected
+            if (formValues.TryGetValue($"{controlId}-current-start", out var curStartStr) && int.TryParse(curStartStr, out var curStart))
+                result.StartSelectedPeriod = curStart;
+
+            if (formValues.TryGetValue($"{controlId}-current-end", out var curEndStr) && int.TryParse(curEndStr, out var curEnd))
+                result.EndSelectedPeriod = curEnd;
+
+            // Up/down arrows on a period row override just the one that was clicked
             foreach (var kvp in formValues)
             {
                 if (kvp.Key == $"{controlId}-set-start" && int.TryParse(kvp.Value, out var startPeriod))

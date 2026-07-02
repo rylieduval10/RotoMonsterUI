@@ -48,6 +48,9 @@ namespace RotoMonsterUI
 
             var inputId = _id ?? _name ?? "";
 
+            if (!string.IsNullOrEmpty(inputId))
+                wrapper.Attr("id", $"{inputId}-wrapper");
+
             var input = new HtmlTag("input")
                 .Attr("type", "checkbox")
                 .Attr("name", _name)
