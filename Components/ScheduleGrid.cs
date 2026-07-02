@@ -26,6 +26,9 @@ namespace RotoMonsterUI
         private static readonly string ExpandChevronSvg =
             "<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>";
 
+        private static readonly string CollapseChevronSvg =
+            "<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='18 15 12 9 6 15'/></svg>";
+
         private int TeamCellColSpan => 4;
 
         public string Render()
@@ -176,6 +179,7 @@ namespace RotoMonsterUI
         private HtmlTag RenderPeriodRow(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
         {
             var isCurrent = _input.CurrentPeriodNumber.HasValue && _input.CurrentPeriodNumber.Value == period.PeriodNumber;
+            var isExpanded = _input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == period.PeriodNumber;
 
             var row = new HtmlTag("tr").AddClass("schedule-grid-period-row");
             if (isCurrent) row.AddClass("schedule-grid-current-row");
@@ -211,18 +215,32 @@ namespace RotoMonsterUI
 
             var dateCell = new HtmlTag("td").AddClass("schedule-grid-date-cell");
             dateCell.AppendHtml(new DisplayDate(new DisplayDateInput { Date = period.StartDate }).Render());
+
+            // Single expand button per row in the date cell
+            var hasDays = teams.Any(t => t.Periods.TryGetValue(period.PeriodNumber, out var c) && c.Days.Count > 0);
+            if (hasDays)
+            {
+                var expandBtn = new HtmlTag("button")
+                    .AddClass("schedule-grid-expand-btn")
+                    .Attr("type", "submit")
+                    .Attr("name", $"{_input.Id}-expand")
+                    .Attr("value", isExpanded ? "collapse" : period.PeriodNumber.ToString());
+                expandBtn.AppendHtml(isExpanded ? CollapseChevronSvg : ExpandChevronSvg);
+                dateCell.Append(expandBtn);
+            }
+
             row.Append(dateCell);
 
             foreach (var team in teams)
             {
                 team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
-                row.Append(RenderTeamCell(cellData, period.PeriodNumber));
+                row.Append(RenderTeamCell(cellData));
             }
 
             return row;
         }
 
-        private HtmlTag RenderTeamCell(ScheduleGridPeriodCell cellData, int periodNumber)
+        private HtmlTag RenderTeamCell(ScheduleGridPeriodCell cellData)
         {
             var cell = new HtmlTag("td").AddClass("schedule-grid-team-cell");
 
@@ -240,24 +258,7 @@ namespace RotoMonsterUI
                 cell.AddClass("schedule-grid-cell-colored");
             }
 
-            var isExpanded = _input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == periodNumber;
-
-            if (cellData.Days.Count > 0)
-            {
-                var btn = new HtmlTag("button")
-                    .AddClass("schedule-grid-expand-btn")
-                    .Attr("type", "submit")
-                    .Attr("name", $"{_input.Id}-expand")
-                    .Attr("value", isExpanded ? "collapse" : periodNumber.ToString());
-                btn.AppendHtml($"<span>{cellData.Games}</span>");
-                btn.AppendHtml(ExpandChevronSvg);
-                cell.Append(btn);
-            }
-            else
-            {
-                cell.Text(cellData.Games.ToString());
-            }
-
+            cell.Text(cellData.Games.ToString());
             return cell;
         }
 
