@@ -8,6 +8,7 @@ namespace RotoMonsterUI
         private string _name;
         private bool _checked;
         private string _id;
+        private bool _postBack;
 
         public string Id => _id ?? _name ?? "";
 
@@ -35,6 +36,12 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public ToggleSwitch WithPostBack()
+        {
+            _postBack = true;
+            return this;
+        }
+
         public string Render()
         {
             var wrapper = new HtmlTag("label").AddClass("modern-filter-toggle");
@@ -42,10 +49,17 @@ namespace RotoMonsterUI
             var input = new HtmlTag("input")
                 .Attr("type", "checkbox")
                 .Attr("name", _name ?? "")
-                .Attr("id", _id ?? _name ?? "");
+                .Attr("id", _id ?? _name ?? "")
+                .Attr("value", "1");
 
             if (_checked)
                 input.Attr("checked", "checked");
+
+            if (_postBack && !string.IsNullOrEmpty(_name))
+            {
+                input.Attr("onchange", $"__doPostBack('{_name}','')");
+                input.Attr("language", "javascript");
+            }
 
             var switchDiv = new HtmlTag("div").AddClass("modern-filter-toggle-switch");
 

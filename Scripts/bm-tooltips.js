@@ -473,7 +473,7 @@ document.addEventListener('click', function(e) {
     var trigger = document.querySelector('[data-date-nav-cal="' + navId + '"][data-popup-cal]');
     if (trigger) {
         var date = new Date(dateVal + 'T00:00:00');
-        var formatted = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+        var formatted = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
         var label = trigger.querySelector('.popup-cal-trigger-label');
         if (label) label.textContent = formatted;
         var svgText = trigger.querySelector('svg text');

@@ -16,9 +16,7 @@ namespace RotoMonsterUI
         {
             var id = _input.Id;
             var panelId = $"{id}-cal-panel";
-            var dateFormat = _input.ShowDayOfWeek
-                ? (_input.ShowYear ? "dddd, MMMM d, yyyy" : "dddd, MMMM d")
-                : (_input.ShowYear ? "MMMM d, yyyy" : "MMMM d");
+            var dateFormat = _input.ShowDayOfWeek ? "dddd, MMMM d" : "MMMM d";
 
             var wrapper = new HtmlTag("div").AddClass("date-nav-control").Attr("id", id);
 
