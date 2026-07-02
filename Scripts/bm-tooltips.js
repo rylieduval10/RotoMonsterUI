@@ -105,10 +105,14 @@ document.addEventListener('click', function(e) {
         document.querySelectorAll('.popup-cal-panel.popup-cal-open')
             .forEach(function(p) { p.classList.remove('popup-cal-open'); });
         if (!isOpen) {
-            panel.classList.add('popup-cal-open');
+            if (panel.parentElement !== document.body) {
+                document.body.appendChild(panel);
+            }
             var triggerRect = trigger.getBoundingClientRect();
-            panel.style.top = (triggerRect.bottom + 4) + 'px';
-            panel.style.left = triggerRect.left + 'px';
+            panel.style.position = 'absolute';
+            panel.style.top = (triggerRect.bottom + window.scrollY + 4) + 'px';
+            panel.style.left = (triggerRect.left + window.scrollX) + 'px';
+            panel.classList.add('popup-cal-open');
         }
         e.stopPropagation();
         return;
@@ -469,7 +473,7 @@ document.addEventListener('click', function(e) {
     var trigger = document.querySelector('[data-date-nav-cal="' + navId + '"][data-popup-cal]');
     if (trigger) {
         var date = new Date(dateVal + 'T00:00:00');
-        var formatted = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        var formatted = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
         var label = trigger.querySelector('.popup-cal-trigger-label');
         if (label) label.textContent = formatted;
         var svgText = trigger.querySelector('svg text');
@@ -484,5 +488,11 @@ document.addEventListener('click', function(e) {
         });
         day.classList.add('popup-cal-day--selected');
         panel.classList.remove('popup-cal-open');
+    }
+
+    // Auto-submit the form so the games list refreshes without needing a manual Refresh click
+    if (wrapper) {
+        var form = wrapper.closest('form');
+        if (form) form.submit();
     }
 });
