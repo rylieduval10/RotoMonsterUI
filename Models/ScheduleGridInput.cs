@@ -63,7 +63,7 @@ namespace RotoMonsterUI
         public string Id { get; set; } = "schedule-grid";
         public List<ScheduleGridPeriod> Periods { get; set; } = new List<ScheduleGridPeriod>();
         public List<ScheduleGridTeam> Teams { get; set; } = new List<ScheduleGridTeam>();
-        public int? CurrentPeriodNumber { get; set; }
+        public DateTime? SelectedDate { get; set; }
         public int StartSelectedPeriod { get; set; }
         public int EndSelectedPeriod { get; set; }
         public ScheduleGridColorType ColorType { get; set; } = ScheduleGridColorType.MaxWeeks;

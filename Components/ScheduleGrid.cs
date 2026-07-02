@@ -8,6 +8,7 @@ namespace RotoMonsterUI
     public class ScheduleGrid
     {
         private readonly ScheduleGridInput _input;
+        private ScheduleGridPeriod _selectedPeriod;
 
         public ScheduleGrid(ScheduleGridInput input)
         {
@@ -31,8 +32,25 @@ namespace RotoMonsterUI
 
         private int TeamCellColSpan => 4;
 
+        private ScheduleGridPeriod GetPeriodForSelectedDate()
+        {
+            if (!_input.SelectedDate.HasValue) return null;
+            var date = _input.SelectedDate.Value.Date;
+
+            foreach (var period in _input.Periods.OrderBy(p => p.PeriodNumber))
+            {
+                var start = period.StartDate.Date;
+                var end = start.AddDays(period.NumWeeks * 7 - 1);
+                if (date >= start && date <= end)
+                    return period;
+            }
+            return null;
+        }
+
         public string Render()
         {
+            _selectedPeriod = GetPeriodForSelectedDate();
+
             var wrapper = new HtmlTag("div").AddClass("schedule-grid-wrapper").Attr("id", _input.Id);
 
             wrapper.Append(RenderControls());
@@ -184,7 +202,7 @@ namespace RotoMonsterUI
 
         private HtmlTag RenderPeriodRow(ScheduleGridPeriod period, List<ScheduleGridTeam> teams)
         {
-            var isCurrent = _input.CurrentPeriodNumber.HasValue && _input.CurrentPeriodNumber.Value == period.PeriodNumber;
+            var isCurrent = _selectedPeriod != null && _selectedPeriod.PeriodNumber == period.PeriodNumber;
             var isExpanded = _input.ExpandedPeriodNumber.HasValue && _input.ExpandedPeriodNumber.Value == period.PeriodNumber;
 
             var row = new HtmlTag("tr").AddClass("schedule-grid-period-row");
@@ -222,7 +240,6 @@ namespace RotoMonsterUI
             var dateCell = new HtmlTag("td").AddClass("schedule-grid-date-cell");
             dateCell.AppendHtml(new DisplayDate(new DisplayDateInput { Date = period.StartDate }).Render());
 
-            // Single expand button per row in the date cell
             var hasDays = teams.Any(t => t.Periods.TryGetValue(period.PeriodNumber, out var c) && c.Days.Count > 0);
             if (hasDays)
             {
@@ -283,17 +300,22 @@ namespace RotoMonsterUI
 
             foreach (var date in allDates)
             {
+                var isSelected = _input.SelectedDate.HasValue && date == _input.SelectedDate.Value.Date;
+
                 var row = new HtmlTag("tr").AddClass("schedule-grid-expanded-row");
+                if (isSelected) row.AddClass("schedule-grid-expanded-row--selected");
 
                 var dateCell = new HtmlTag("td")
                     .AddClass("schedule-grid-expanded-date-cell")
                     .Attr("colspan", TeamCellColSpan.ToString());
+                if (isSelected) dateCell.AddClass("schedule-grid-expanded-cell--selected");
                 dateCell.AppendHtml(new DisplayDate(new DisplayDateInput { Date = date, Format = "ddd M/d" }).Render());
                 row.Append(dateCell);
 
                 foreach (var team in teams)
                 {
                     var cell = new HtmlTag("td").AddClass("schedule-grid-expanded-cell");
+                    if (isSelected) cell.AddClass("schedule-grid-expanded-cell--selected");
                     team.Periods.TryGetValue(period.PeriodNumber, out var cellData);
 
                     var day = cellData?.Days.FirstOrDefault(d => d.Date.Date == date);

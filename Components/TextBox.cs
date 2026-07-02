@@ -2,6 +2,12 @@ using HtmlTags;
 
 namespace RotoMonsterUI
 {
+    public enum TextBoxType
+    {
+        Text,
+        Number
+    }
+
     public class TextBox
     {
         private string _name;
@@ -9,6 +15,12 @@ namespace RotoMonsterUI
         private string _value;
         private string _placeholder;
         private bool _postBack;
+        private TextBoxType _type = TextBoxType.Text;
+        private double? _minValue;
+        private double? _maxValue;
+        private int? _maxLength;
+        private int? _displayLength;
+        private string _errorMessage;
 
         public string Id => _id ?? _name ?? "";
 
@@ -42,10 +54,43 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public TextBox WithType(TextBoxType type)
+        {
+            _type = type;
+            return this;
+        }
+
+        public TextBox WithRange(double min, double max)
+        {
+            _minValue = min;
+            _maxValue = max;
+            return this;
+        }
+
+        public TextBox WithMaxLength(int maxLength)
+        {
+            _maxLength = maxLength;
+            return this;
+        }
+
+        public TextBox WithDisplayLength(int displayLength)
+        {
+            _displayLength = displayLength;
+            return this;
+        }
+
+        public TextBox WithError(string errorMessage)
+        {
+            _errorMessage = errorMessage;
+            return this;
+        }
+
         public string Render()
         {
+            var wrapper = new HtmlTag("div").AddClass("bm-textbox-wrapper");
+
             var input = new HtmlTag("input")
-                .Attr("type", "text")
+                .Attr("type", _type == TextBoxType.Number ? "number" : "text")
                 .AddClass("bm-textbox")
                 .Attr("name", _name ?? "")
                 .Attr("id", _id ?? _name ?? "");
@@ -56,13 +101,41 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_value))
                 input.Attr("value", _value);
 
+            if (_type == TextBoxType.Number)
+            {
+                if (_minValue.HasValue)
+                    input.Attr("min", _minValue.Value.ToString());
+                if (_maxValue.HasValue)
+                    input.Attr("max", _maxValue.Value.ToString());
+            }
+            else if (_maxLength.HasValue)
+            {
+                input.Attr("maxlength", _maxLength.Value.ToString());
+            }
+
+            if (_displayLength.HasValue)
+                input.Attr("size", _displayLength.Value.ToString());
+
             if (_postBack && !string.IsNullOrEmpty(_name))
             {
                 input.Attr("onchange", $"__doPostBack('{_name}','')");
                 input.Attr("language", "javascript");
             }
 
-            return input.ToString();
+            if (!string.IsNullOrEmpty(_errorMessage))
+                input.AddClass("bm-textbox--error");
+
+            wrapper.Append(input);
+
+            if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                var error = new HtmlTag("div")
+                    .AddClass("bm-textbox-error")
+                    .Text(_errorMessage);
+                wrapper.Append(error);
+            }
+
+            return wrapper.ToString();
         }
     }
 }
