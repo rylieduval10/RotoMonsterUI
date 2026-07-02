@@ -161,14 +161,25 @@ document.addEventListener('click', function(e) {
         if (label) label.textContent = formatted;
     }
 
-    // Update selected day styling
-    panel.querySelectorAll('.popup-cal-day--selected').forEach(function(d) {
-        d.classList.remove('popup-cal-day--selected');
-    });
-    day.classList.add('popup-cal-day--selected');
+// Update selected day styling
+    var panel = document.getElementById(navId + '-cal-panel');
+    if (panel) {
+        panel.querySelectorAll('.popup-cal-day--selected').forEach(function(d) {
+            d.classList.remove('popup-cal-day--selected');
+        });
+        day.classList.add('popup-cal-day--selected');
+        panel.classList.remove('popup-cal-open');
+    }
 
-    // Close panel
-    panel.classList.remove('popup-cal-open');
+    // Mark that the calendar was used to change the date
+    var calendarChangedFlag = wrapper ? wrapper.querySelector('input[name="' + navId + '-calendar-changed"]') : null;
+    if (calendarChangedFlag) calendarChangedFlag.value = '1';
+
+    // Auto-submit the form so the games list refreshes without needing a manual Refresh click
+    if (wrapper) {
+        var form = wrapper.closest('form');
+        if (form) form.submit();
+    }
 });
 
 // Popup Calendar - month navigation
@@ -489,6 +500,10 @@ document.addEventListener('click', function(e) {
         day.classList.add('popup-cal-day--selected');
         panel.classList.remove('popup-cal-open');
     }
+
+    // Mark that the calendar was used to change the date
+    var calendarChangedFlag = wrapper ? wrapper.querySelector('input[name="' + navId + '-calendar-changed"]') : null;
+    if (calendarChangedFlag) calendarChangedFlag.value = '1';
 
     // Auto-submit the form so the games list refreshes without needing a manual Refresh click
     if (wrapper) {

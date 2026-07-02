@@ -96,6 +96,13 @@ namespace RotoMonsterUI
                 .Attr("name", $"{id}-original-date")
                 .Attr("value", _input.OriginalDate.ToString("yyyy-MM-dd")));
 
+            // Hidden flag, set to 1 by JS when the calendar picker changes the date
+            wrapper.Append(new HtmlTag("input")
+                .Attr("type", "hidden")
+                .Attr("id", $"{id}-calendar-changed")
+                .Attr("name", $"{id}-calendar-changed")
+                .Attr("value", "0"));
+
             // Calendar panel
             var month = _input.SelectedDate;
             var panel = new HtmlTag("div")

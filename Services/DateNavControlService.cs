@@ -11,6 +11,8 @@ namespace RotoMonsterUI
             var nextPressed = formValues.ContainsKey($"{controlId}-next");
             var refreshPressed = formValues.ContainsKey($"{controlId}-refresh");
             var resetPressed = formValues.ContainsKey($"{controlId}-reset");
+            var calendarChanged = formValues.ContainsKey($"{controlId}-calendar-changed")
+                && formValues[$"{controlId}-calendar-changed"] == "1";
 
             DateTime? newDate = null;
             if (formValues.TryGetValue($"{controlId}-date", out var dateStr) && DateTime.TryParse(dateStr, out var currentDate))
@@ -24,8 +26,7 @@ namespace RotoMonsterUI
 
             return new DateNavControlResult
             {
-                PrevDatePressed = prevPressed,
-                NextDatePressed = nextPressed,
+                IsNewDateSelected = prevPressed || nextPressed || calendarChanged,
                 RefreshPressed = refreshPressed,
                 ResetPressed = resetPressed,
                 NewSelectedDate = newDate
