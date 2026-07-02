@@ -217,9 +217,15 @@ document.addEventListener('click', function(e) {
         monthLabel.textContent = monthNames[newMonth.getMonth()] + ' ' + newMonth.getFullYear();
     }
 
-    var selectedHidden = document.getElementById(wrapperId + '-selected');
+    var isDateNav = panel.hasAttribute('data-date-nav-trigger');
+    var dateNavId = panel.getAttribute('data-date-nav-trigger');
+    var dateNavTarget = panel.getAttribute('data-date-nav-target');
+    
+    var selectedHidden = isDateNav
+        ? document.getElementById(dateNavTarget)
+        : document.getElementById(wrapperId + '-selected');
     var selectedDateStr = selectedHidden ? selectedHidden.value : '';
-
+    
     var grid = panel.querySelector('.popup-cal-grid');
     if (!grid) return;
     grid.innerHTML = '';
@@ -249,6 +255,9 @@ document.addEventListener('click', function(e) {
         dayBtn.className = classes;
         dayBtn.setAttribute('data-popup-cal-date', dateStr);
         dayBtn.setAttribute('data-popup-cal-target', wrapperId + '-selected');
+        if (isDateNav) {
+            dayBtn.setAttribute('data-date-nav-cal', dateNavId);
+        }
         dayBtn.textContent = day;
         grid.appendChild(dayBtn);
     }
