@@ -26,7 +26,7 @@ namespace RotoMonsterUI
 
             return new DateNavControlResult
             {
-                IsNewDateSelected = prevPressed || nextPressed || calendarChanged,
+                IsNewDateSelected = prevPressed || nextPressed || calendarChanged || resetPressed,
                 RefreshPressed = refreshPressed,
                 ResetPressed = resetPressed,
                 NewSelectedDate = newDate
