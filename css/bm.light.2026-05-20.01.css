@@ -2052,8 +2052,8 @@ a.modern-filter-btn:hover {
    .schedule-grid-expanded-date-cell {
     color: var(--color-text-tertiary);
     font-size: 0.76rem;
-    text-align: left !important;
-    padding-left: 1.1rem !important;
+    text-align: right !important;
+    padding-right: 1.1rem !important;
     background: var(--color-bg-secondary);
 }
 .schedule-grid-wrapper {
