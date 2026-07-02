@@ -192,7 +192,7 @@ document.addEventListener('click', function(e) {
 
     var btn = isPrev || isNext;
     var wrapperId = btn.getAttribute(isPrev ? 'data-popup-cal-prev' : 'data-popup-cal-next');
-    var panel = document.getElementById(wrapperId + '-panel');
+    var panel = document.getElementById(wrapperId + '-cal-panel') || document.getElementById(wrapperId + '-panel');
     if (!panel) return;
 
     var monthStr = panel.getAttribute('data-month');
