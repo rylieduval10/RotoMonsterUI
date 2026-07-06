@@ -40,25 +40,32 @@ namespace RotoMonsterUI
                 cell.AddClass("winner");
             cell.Attr("style", $"background-color:#{bgColor};");
 
+            // Area A: lineup dot (always rendered, even if empty, to keep fixed width)
+            var areaA = new HtmlTag("span").AddClass("game-team-cell-a");
             if (!gameStarted)
             {
-                cell.AppendHtml(new LineupDot(new LineupDotInput { IsConfirmed = _input.LineupConfirmed }).Render());
+                areaA.AppendHtml(new LineupDot(new LineupDotInput { IsConfirmed = _input.LineupConfirmed }).Render());
             }
+            cell.Append(areaA);
 
-            cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(_input.TeamCode));
-
+            // Area B: team code + runs (always rendered)
+            var areaB = new HtmlTag("span").AddClass("game-team-cell-b");
+            areaB.Append(new HtmlTag("span").AddClass("game-team-code").Text(_input.TeamCode));
             if (gameStarted)
-                cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0")));
+                areaB.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0")));
             else if (runs != 0)
-                cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.0")));
+                areaB.Append(new HtmlTag("span").AddClass("game-team-runs").Text(runs.ToString("0.0")));
+            cell.Append(areaB);
 
+            // Area C: lineup/other icon (always rendered, even if empty, to keep fixed width)
+            var areaC = new HtmlTag("span").AddClass("game-team-cell-c");
             if (_input.PlayerCount.HasValue && _input.PlayerCount.Value > 0 && _input.PlayerIconType.HasValue)
             {
                 bool hasWarnings = !gameStarted && _input.WarningPlayers != null && _input.WarningPlayers.Exists(p => p.TeamCode == _input.TeamCode);
 
                 if (hasWarnings)
                 {
-                    cell.AppendHtml(new WarningIcon(new WarningIconInput
+                    areaC.AppendHtml(new WarningIcon(new WarningIconInput
                     {
                         TeamCode = _input.TeamCode,
                         WarningPlayers = _input.WarningPlayers,
@@ -69,9 +76,10 @@ namespace RotoMonsterUI
                 else
                 {
                     var icon = new Icon(new IconInput { Type = _input.PlayerIconType.Value, Color = _input.PlayerIconColor ?? "#94a3b8", Size = 14 }).Render();
-                    cell.AppendHtml(new CustomTooltip(icon, $"{_input.PlayerCount} {SingularPlural.Get("player", _input.PlayerCount.GetValueOrDefault(0))} on this team").Render());
+                    areaC.AppendHtml(new CustomTooltip(icon, $"{_input.PlayerCount} {SingularPlural.Get("player", _input.PlayerCount.GetValueOrDefault(0))} on this team").Render());
                 }
             }
+            cell.Append(areaC);
 
             return cell.ToString();
         }

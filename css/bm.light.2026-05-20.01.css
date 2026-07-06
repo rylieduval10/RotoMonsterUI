@@ -1087,16 +1087,40 @@ a.modern-filter-btn:hover {
 
 .game-team-cell {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.15rem;
     padding: 0.05rem 0.5rem;
     border-radius: 6px;
-    min-width: 100px;
     border: 2px solid transparent;
+    white-space: nowrap;
 }
 .game-team-cell.winner {
     border-color: var(--game-winner-border) !important;
+}
+
+.game-team-cell-a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    flex: 0 0 20px;
+}
+
+.game-team-cell-b {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    width: 54px;
+    flex: 0 0 54px;
+}
+
+.game-team-cell-c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    flex: 0 0 20px;
 }
 
 .game-team-code {
