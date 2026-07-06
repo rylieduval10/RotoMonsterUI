@@ -31,6 +31,7 @@ namespace RotoMonsterUI
         public int Games { get; set; }
         public bool IsMaxWeek { get; set; }
         public string EaseColor { get; set; }
+        public double Ease { get; set; }
         public List<ScheduleGridDay> Days { get; set; } = new List<ScheduleGridDay>();
     }
 
