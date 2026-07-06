@@ -28,7 +28,7 @@ namespace RotoMonsterUI
             if (!teamWarnings.Any()) return "";
 
             var playerNames = string.Join(", ", teamWarnings.Select(p => $"{p.FirstName} {p.LastName}"));
-            var icon = new Icon(new IconInput { Type = _input.IconType, Color = _input.IconColor, Size = 20 }).Render();
+            var icon = new Icon(new IconInput { Type = _input.IconType, Color = _input.IconColor, Size = 14 }).Render();
             return new CustomTooltip(icon, $"Not in lineup: {playerNames}").Render();
         }
     }

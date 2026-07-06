@@ -1087,12 +1087,12 @@ a.modern-filter-btn:hover {
 
 .game-team-cell {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     gap: 0.25rem;
     padding: 0.05rem 0.5rem;
     border-radius: 6px;
-    min-width: 75px;
+    min-width: 100px;
     border: 2px solid transparent;
 }
 .game-team-cell.winner {

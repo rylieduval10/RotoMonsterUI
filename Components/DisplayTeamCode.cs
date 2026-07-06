@@ -40,17 +40,6 @@ namespace RotoMonsterUI
                 {
                     IsConfirmed = _input.LineupConfirmed
                 }).Render());
-
-                if (_input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningIconType.HasValue)
-                {
-                    cell.AppendHtml(new WarningIcon(new WarningIconInput
-                    {
-                        TeamCode = _input.TeamCode,
-                        WarningPlayers = _input.WarningPlayers,
-                        IconType = _input.WarningIconType.Value,
-                        IconColor = _input.WarningIconColor
-                    }).Render());
-                }
             }
 
             cell.Append(new HtmlTag("span").AddClass("game-team-code").Text(_input.TeamCode));
@@ -59,6 +48,17 @@ namespace RotoMonsterUI
                 cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(_input.Runs.ToString("0")));
             else if (_input.Runs != 0)
                 cell.Append(new HtmlTag("span").AddClass("game-team-runs").Text(_input.Runs.ToString("0.0")));
+
+            if (_input.ShowLineupDot && !_input.GameStarted && _input.LineupConfirmed && _input.WarningPlayers != null && _input.WarningIconType.HasValue)
+            {
+                cell.AppendHtml(new WarningIcon(new WarningIconInput
+                {
+                    TeamCode = _input.TeamCode,
+                    WarningPlayers = _input.WarningPlayers,
+                    IconType = _input.WarningIconType.Value,
+                    IconColor = _input.WarningIconColor
+                }).Render());
+            }
 
             return cell.ToString();
         }

@@ -26,11 +26,12 @@ namespace RotoMonsterUI
                 }
                 else
                 {
-                    float avgRuns = 4.5f * (float)Math.Min(1, _input.CurrentOuts / 54.0);
+                    float avgGameRuns = 4.5f;
+                    float avgRuns = avgGameRuns * (float)Math.Min(1, _input.CurrentOuts / 54.0);
                     if (runs >= avgRuns)
-                        bgColor = ColorHelper.GetGreenColorCode(runs - avgRuns, 0f, avgRuns, true);
+                        bgColor = ColorHelper.GetGreenColorCode(runs - avgRuns, 0f, avgRuns * 2.5f, true);
                     else
-                        bgColor = ColorHelper.GetRedColorCode(avgRuns - runs, 0f, avgRuns, true);
+                        bgColor = ColorHelper.GetRedColorCode(avgRuns - runs, 0f, avgGameRuns, true);
                 }
             }
 
@@ -61,7 +62,7 @@ namespace RotoMonsterUI
                     {
                         TeamCode = _input.TeamCode,
                         WarningPlayers = _input.WarningPlayers,
-                        IconType = _input.PlayerIconType.Value,
+                        IconType = IconType.LineupCard,
                         IconColor = _input.PlayerIconColor
                     }).Render());
                 }
