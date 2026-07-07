@@ -9,6 +9,7 @@ namespace RotoMonsterUI
         private string _contentHtml;
         private string _id;
         private bool _centered;
+        private int? _maxWidth;
 
         public CustomTooltip(string triggerHtml, string contentHtml)
         {
@@ -20,6 +21,12 @@ namespace RotoMonsterUI
         public CustomTooltip WithCentered()
         {
             _centered = true;
+            return this;
+        }
+
+        public CustomTooltip WithMaxWidth(int pixels)
+        {
+            _maxWidth = pixels;
             return this;
         }
 
@@ -37,6 +44,9 @@ namespace RotoMonsterUI
 
             if (_centered)
                 content.AddClass("bm-tooltip-content--centered");
+
+            if (_maxWidth.HasValue)
+                content.Attr("style", $"max-width:{_maxWidth}px;");
 
             content.AppendHtml(_contentHtml);
 

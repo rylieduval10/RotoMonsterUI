@@ -1392,7 +1392,8 @@ a.modern-filter-btn:hover {
     padding: 0.5rem 0.75rem;
     font-size: 0.8rem;
     box-shadow: 0 4px 16px rgba(0,0,0,0.4);
-    white-space: nowrap;
+    white-space: normal;
+    max-width: 350px;
     pointer-events: none;
     min-width: 120px;
 }
