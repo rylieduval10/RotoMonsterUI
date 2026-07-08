@@ -420,7 +420,12 @@ function syncRteValue(wrapper) {
     if (!wrapper) return;
     var editor = wrapper.querySelector('.rte-body');
     var hidden = wrapper.querySelector('input[type="hidden"]');
-    if (editor && hidden) hidden.value = editor.innerHTML;
+    if (editor && hidden) {
+        var utf8Bytes = new TextEncoder().encode(editor.innerHTML);
+        var binary = '';
+        utf8Bytes.forEach(function (b) { binary += String.fromCharCode(b); });
+        hidden.value = btoa(binary);
+    }
 }
 
 function updateRteActiveStates(wrapper) {
