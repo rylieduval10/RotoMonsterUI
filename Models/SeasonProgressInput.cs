@@ -2,8 +2,8 @@ namespace RotoMonsterUI
 {
     public class SeasonProgressInput
     {
-
         public double SeasonPercent { get; set; }
+        public int? DaysUntilSeason { get; set; }
 
         public double? PlayoffPercent { get; set; }
 

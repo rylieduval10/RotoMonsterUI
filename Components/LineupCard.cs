@@ -109,7 +109,7 @@ namespace RotoMonsterUI
             if (team.IsVerified)
             {
                 footer.AddClass("lineup-card-footer--confirmed");
-                footer.AppendHtml("&#10003; CONFIRMED LINEUP");
+                footer.AppendHtml("CONFIRMED LINEUP");
             }
             else if (team.LineupExpectedMinutes.HasValue)
             {

@@ -50,9 +50,9 @@ namespace RotoMonsterUI
                 var footer = new HtmlTag("div").AddClass("game-date-timezone");
 
                 if (_showSettingsLink)
-                    footer.AppendHtml($"Times shown in {tzDisplay} &middot; <a href='/usersettings.aspx' class='game-date-tz-link'>Change timezone</a>");
+                    footer.AppendHtml($"{tzDisplay} &middot; <a href='/usersettings.aspx' class='game-date-tz-link'>Change timezone</a>");
                 else
-                    footer.AppendHtml($"Times shown in {tzDisplay}");
+                    footer.AppendHtml(tzDisplay);
 
                 wrapper.Append(footer);
             }

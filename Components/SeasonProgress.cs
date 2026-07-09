@@ -20,7 +20,9 @@ namespace RotoMonsterUI
 
         public string Render()
         {
-            var seasonPercent = Clamp(_input.SeasonPercent, 0, 100);
+            var showDaysUntil = _input.DaysUntilSeason.HasValue && _input.DaysUntilSeason.Value >= 0;
+
+            var seasonPercent = showDaysUntil ? 0 : Clamp(_input.SeasonPercent, 0, 100);
             var unusedPercent = Clamp(_input.UnusedPercent ?? 0, 0, 100);
             var playoffPercent = Clamp(_input.PlayoffPercent ?? 0, 0, 100 - unusedPercent);
 
@@ -28,6 +30,8 @@ namespace RotoMonsterUI
             var playoffLeft = unusedLeft - playoffPercent;
 
             var bar = new HtmlTag("div").AddClass("season-progress");
+            if (showDaysUntil)
+                bar.AddClass("season-progress--pending");
 
             var fill = new HtmlTag("div")
                 .AddClass("season-progress-fill")
@@ -50,16 +54,22 @@ namespace RotoMonsterUI
                 bar.Append(unused);
             }
 
-            var label = _input.Label ?? $"Season {seasonPercent.ToString("0.#")}%";
+            var label = _input.Label ?? (showDaysUntil
+                ? $"{_input.DaysUntilSeason.Value} {SingularPlural.Get("day", _input.DaysUntilSeason.Value)} until season"
+                : $"Season {seasonPercent.ToString("0.#")}%");
             var labelSpan = new HtmlTag("div")
-                .AddClass("season-progress-label")
-                .AppendHtml(label);
+                .AddClass("season-progress-label");
+            if (showDaysUntil)
+                labelSpan.AddClass("season-progress-label--pending");
+            labelSpan.AppendHtml(label);
             bar.Append(labelSpan);
 
             if (!_input.ShowTooltip)
                 return bar.ToString();
 
-            var tooltipLines = $"The Season is {seasonPercent.ToString("0.#")}% complete.";
+            var tooltipLines = showDaysUntil
+                ? $"Season starts in {_input.DaysUntilSeason.Value} {SingularPlural.Get("day", _input.DaysUntilSeason.Value)}."
+                : $"The Season is {seasonPercent.ToString("0.#")}% complete.";
             if (playoffPercent > 0)
                 tooltipLines += "<br />The green section represents your playoffs.";
             if (unusedPercent > 0)
