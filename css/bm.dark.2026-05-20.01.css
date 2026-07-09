@@ -525,16 +525,16 @@ body {
 /* ============================================
    AUTOCOMPLETE SEARCH DROPDOWN
    ============================================ */
-.completionList {
+   .completionList {
     background: rgba(15,23,42,0.98); border: 2px solid var(--brand-primary);
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(var(--brand-primary-rgb), 0.2);
-    max-height: 300px; overflow-y: auto; z-index: 9999; padding: 0.25rem; margin-top: 0.25rem;
+    max-height: 420px; overflow-y: auto; z-index: 9999; padding: 0.25rem; margin-top: 0.25rem;
 }
-.listItem { padding: 0.6rem 1rem; cursor: pointer; font-size: 0.875rem; color: #e2e8f0; border-radius: 6px; transition: all 0.15s ease; }
+.listItem { padding: 0.6rem 1rem; cursor: pointer; font-size: 0.875rem; color: #e2e8f0; border-radius: 6px; transition: background 0.15s ease, color 0.15s ease; }
 .listItem:hover, .itemHighlighted {
     background: linear-gradient(90deg, rgba(var(--brand-primary-rgb), 0.25) 0%, rgba(var(--brand-primary-rgb), 0.1) 100%);
-    color: var(--brand-accent); padding-left: 1.25rem;
+    color: var(--brand-accent);
 }
 .completionList::-webkit-scrollbar { width: 8px; }
 .completionList::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
