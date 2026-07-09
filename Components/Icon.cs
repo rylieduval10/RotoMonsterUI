@@ -130,6 +130,66 @@ namespace RotoMonsterUI
                 case IconType.Error:
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""10""/><path d=""M15 9l-6 6""/><path d=""M9 9l6 6""/>");
 
+                case IconType.Injured:
+                    // Source: Font Awesome Free "user-injured", CC BY 4.0 - https://fontawesome.com/license/free
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 640 640"" fill=""{_input.Color}"">
+                        <path d=""M338.7 144L430 144C419.3 119.4 400.5 99.1 377.1 86.4L338.7 144zM337.8 73.3C332 72.4 326 72 320 72C270.8 72 228.5 101.6 210 144L290.6 144L337.7 73.3zM320 312C386.3 312 440 258.3 440 192L200 192C200 258.3 253.7 312 320 312zM194.7 405.8C145.3 434.2 112 487.5 112 548.6C112 563.7 124.3 576 139.4 576L290.4 576L194.6 405.8zM239.8 388.1L282.5 464L368 464C412.2 464 448 499.8 448 544C448 555.4 445.6 566.2 441.3 576L500.5 576C515.6 576 527.9 563.7 527.9 548.6C527.9 457.7 454.2 384 363.3 384L276.4 384C263.8 384 251.5 385.4 239.7 388.1zM309.5 512L345.5 576L368 576C385.7 576 400 561.7 400 544C400 526.3 385.7 512 368 512L309.5 512z""/>
+                    </svg>";
+                case IconType.Suspended:
+                    return WrapSvg(@"<rect x=""5"" y=""11"" width=""14"" height=""10"" rx=""2""/><path d=""M8 11V7a4 4 0 0 1 8 0v4""/><circle cx=""12"" cy=""15"" r=""1.3""/><path d=""M12 16.3v1.7""/>");
+                case IconType.OutForSeason:
+                    return WrapSvg(@"<path d=""M8 3h8l5 5v8l-5 5H8l-5-5V8l5-5z""/><path d=""M9 9l6 6""/><path d=""M15 9l-6 6""/>");
+                case IconType.InjuryProne:
+                    return WrapSvg(@"<g transform=""rotate(45 12 12)""><path d=""M 7.5 4 L 16.5 4""/><path d=""M 9.5 4 L 9.5 12 L 12 15 L 12 21""/><path d=""M 14.5 4 L 14.5 12 L 12 15""/><path d=""M 9.5 8.5 L 14.5 8.5""/></g>");
+                case IconType.NewContract:
+                    return WrapSvg(@"<path d=""M8 6c-1.2 2-2 4.2-2 7a6 6 0 0 0 12 0c0-2.8-.8-5-2-7""/><path d=""M9 3h6l-1.5 3h-3z""/><path d=""M12 9.5v6""/><path d=""M10.3 11c0-1 .8-1.5 1.7-1.5s1.7.5 1.7 1.5-.8 1.5-1.7 1.5-1.7.5-1.7 1.5.8 1.5 1.7 1.5 1.7-.5 1.7-1.5""/>");
+                case IconType.UnrestrictedFreeAgent:
+                case IconType.RestrictedFreeAgent:
+                case IconType.PlayerOption:
+                    // Source: Font Awesome Free "dove", CC BY 4.0 - https://fontawesome.com/license/free
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 640 640"" fill=""{_input.Color}"">
+                        <path d=""M560 128C573.2 128 580.7 143.1 572.8 153.6L544 192L544 368C544 447.5 479.5 512 400 512L288 512L241.7 558.3C231.3 568.7 215.2 570.7 202.6 563.1L105.5 504.9C88.5 494.7 90.5 469.4 108.9 462L224 416C87.8 375.1 71.5 233.8 86 159.7C89.6 141.9 109.3 135.4 125.3 144.2L384 288L384 208C384 163.8 419.8 128 464 128L560 128zM464 184C450.7 184 440 194.7 440 208C440 221.3 450.7 232 464 232C477.3 232 488 221.3 488 208C488 194.7 477.3 184 464 184zM246.5 54.4C258.9 40.7 279.8 45.5 289 61.5L345.4 159.8C339.6 174.2 336.2 189.9 336 206.3L202.1 132C212.2 100.4 229.1 73.6 246.5 54.4z""/>
+                    </svg>";
+                case IconType.Note:
+                    return WrapSvg(@"<path d=""M4 4h13l3 3v13H4z""/><path d=""M17 4v3h3""/>");
+                case IconType.NewTeam:
+                    return WrapSvg(@"<rect x=""2"" y=""9"" width=""11"" height=""7""/><path d=""M13 11h4l3 3v2h-7z""/><circle cx=""7"" cy=""18"" r=""1.5""/><circle cx=""17"" cy=""18"" r=""1.5""/>");
+                case IconType.BreakoutCandidate:
+                    return WrapSvg(@"<path d=""M4 4v16h16""/><path d=""M4 15l4-4 3 3 6-7""/>");
+                case IconType.BustCandidate:
+                    return WrapSvg(@"<path d=""M4 4v16h16""/><path d=""M4 9l4 4 3-3 6 7""/>");
+                case IconType.PositionBattle:
+                    return WrapSvg(@"<path d=""M4 20l14-14""/><path d=""M5 17h3v3""/><path d=""M20 20L6 6""/><path d=""M19 17h-3v3""/>");
+                case IconType.TwoWayPlayer:
+                    // Source: Font Awesome Free "user-friends" / "people", CC BY 4.0 - https://fontawesome.com/license/free
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 640 640"" fill=""{_input.Color}"">
+                        <path d=""M96 192C96 130.1 146.1 80 208 80C269.9 80 320 130.1 320 192C320 253.9 269.9 304 208 304C146.1 304 96 253.9 96 192zM32 528C32 430.8 110.8 352 208 352C305.2 352 384 430.8 384 528L384 534C384 557.2 365.2 576 342 576L74 576C50.8 576 32 557.2 32 534L32 528zM464 128C517 128 560 171 560 224C560 277 517 320 464 320C411 320 368 277 368 224C368 171 411 128 464 128zM464 368C543.5 368 608 432.5 608 512L608 534.4C608 557.4 589.4 576 566.4 576L421.6 576C428.2 563.5 432 549.2 432 534L432 528C432 476.5 414.6 429.1 385.5 391.3C408.1 376.6 435.1 368 464 368z""/>
+                    </svg>";
+                case IconType.NoBackToBack:
+                    return WrapSvg(@"<circle cx=""10"" cy=""7"" r=""3""/><path d=""M5 20c0-4 2-7 5-7s5 3 5 7""/><path d=""M17 8l4 4""/><path d=""M21 8l-4 4""/>");
+                case IconType.TankCandidate:
+                    // Source: Font Awesome Free "turtle", CC BY 4.0 - https://fontawesome.com/license/free
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""{_input.Color}"">
+                        <path d=""M14.5 13.5A5.5 5.5 0 0 0 9 8a5.5 5.5 0 0 0-5.5 5.5H3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h11.2a4 4 0 0 0 3.3-1.7l1.7-.2a2.3 2.3 0 0 0 2.3-2.3v-.8a2.5 2.5 0 0 0-2.5-2.5h-.7a4 4 0 0 0-3.8 3.5Zm4.5-1.5a.8.8 0 1 1 .8-.8.8.8 0 0 1-.8.8Z""/>
+                        <rect x=""5"" y=""17"" width=""3"" height=""3"" rx=""1.2""/>
+                        <rect x=""10"" y=""17"" width=""3"" height=""3"" rx=""1.2""/>
+                    </svg>";
+                case IconType.Sleeper:
+                    return WrapSvg(@"<path d=""M4 6h8l-8 8h8""/><path d=""M15 14h4l-4 4h4""/>");
+                case IconType.ManifestoArticlePlayer:
+                    return WrapSvg(@"<path d=""M7 4a2 2 0 1 0 0 4h10V4z""/><path d=""M17 20a2 2 0 1 0 0-4H7v4z""/><path d=""M7 8v8""/><path d=""M17 8v8""/>");
+                case IconType.WaiverWire:
+                    // Source: Font Awesome Free "reel", CC BY 4.0 - https://fontawesome.com/license/free
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""{_input.Color}"">
+                        <rect x=""5"" y=""4"" width=""14"" height=""2"" rx=""0.5""/>
+                        <path d=""M7 6h2v1H7V6Zm8 0h2v1h-2V6Z""/>
+                        <rect x=""6.5"" y=""8"" width=""11"" height=""2"" rx=""1""/>
+                        <rect x=""6.5"" y=""11"" width=""12.5"" height=""2"" rx=""1""/>
+                        <rect x=""6.5"" y=""14"" width=""11"" height=""2"" rx=""1""/>
+                        <path d=""M7 17h2v1H7v-1Zm8 0h2v1h-2v-1Z""/>
+                        <rect x=""5"" y=""18"" width=""14"" height=""2"" rx=""0.5""/>
+                    </svg>";
+
 
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");

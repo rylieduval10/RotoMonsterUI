@@ -37,7 +37,31 @@ namespace RotoMonsterUI
         Contract,
         InjuryMaintenance,
         Warning,
-        Error
+        Error,
+        GameTimeDecision,
+        Practiced,
+        MissedPractice,
+        MadeShootaround,
+        MissedShootaround,
+        Injured,
+        Suspended,
+        OutForSeason,
+        InjuryProne,
+        NewContract,
+        UnrestrictedFreeAgent,
+        RestrictedFreeAgent,
+        PlayerOption,
+        Note,
+        NewTeam,
+        BreakoutCandidate,
+        BustCandidate,
+        PositionBattle,
+        TwoWayPlayer,
+        NoBackToBack,
+        TankCandidate,
+        Sleeper,
+        ManifestoArticlePlayer,
+        WaiverWire
     }
 
     public class IconInput
