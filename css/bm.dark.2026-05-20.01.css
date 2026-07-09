@@ -64,6 +64,12 @@
 
     --lineup-confirmed-color: #22c55e;
     --lineup-unconfirmed-color: #d9d9d9;
+
+    --season-progress-fill: var(--brand-primary);
+    --season-progress-playoff: #22c55e;
+    --season-progress-unused: #64748b;
+    --season-progress-track: #1e293b;
+    --season-progress-divider: rgba(0, 0, 0, 0.35);
 }
 
 body, p, h1, h2, h3, h4, h5, h6, span, div, a, td, th, li,
@@ -2579,4 +2585,29 @@ a.modern-filter-btn:hover {
     background: transparent;
     border: 1px solid var(--color-border);
     color: var(--color-text-primary);
+}
+
+.season-progress {
+    position: relative; width: 100%; height: 2.25rem; border-radius: 0.5rem;
+    overflow: hidden; background: var(--season-progress-track);
+    border: 1px solid var(--color-border);
+}
+.season-progress-fill {
+    position: absolute; top: 0; left: 0; bottom: 0; z-index: 1;
+    background: var(--season-progress-fill); transition: width 0.3s ease;
+}
+.season-progress-playoff {
+    position: absolute; top: 0; bottom: 0; z-index: 2;
+    background: var(--season-progress-playoff); border-left: 2px solid var(--season-progress-divider);
+}
+.season-progress-unused {
+    position: absolute; top: 0; bottom: 0; z-index: 2;
+    background: var(--season-progress-unused); border-left: 2px solid var(--season-progress-divider);
+}
+.season-progress-label {
+    position: relative; z-index: 3; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 700; color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.65), 0 0 2px rgba(0,0,0,0.55);
+    padding: 0 0.5rem;
 }

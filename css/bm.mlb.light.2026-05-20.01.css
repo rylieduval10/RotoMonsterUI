@@ -38,6 +38,8 @@
 
     --color-link: #1A4D28;
     --color-link-hover: #2D7A3E;
+
+    --season-progress-fill: var(--color-hitter-category);
 }
 
 /* Update SVG dropdown arrows to green */
