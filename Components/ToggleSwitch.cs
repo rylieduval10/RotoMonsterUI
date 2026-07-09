@@ -9,6 +9,7 @@ namespace RotoMonsterUI
         private bool _checked;
         private string _id;
         private bool _postBack;
+        private bool _onDarkSurface;
 
         public string Id => _id ?? _name ?? "";
 
@@ -41,10 +42,18 @@ namespace RotoMonsterUI
             _postBack = true;
             return this;
         }
+        public ToggleSwitch OnDarkSurface()
+        {
+            _onDarkSurface = true;
+            return this;
+        }
 
         public string Render()
         {
             var wrapper = new HtmlTag("label").AddClass("modern-filter-toggle");
+
+            if (_onDarkSurface)
+                wrapper.AddClass("modern-filter-toggle--dark-surface");
 
             var input = new HtmlTag("input")
                 .Attr("type", "checkbox")

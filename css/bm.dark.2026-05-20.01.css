@@ -391,6 +391,19 @@ body {
 }
 .modern-filter-toggle-label { font-size: 0.8rem; font-weight: 600; color: var(--color-text-primary); }
 
+.modern-filter-toggle--dark-surface .modern-filter-toggle-label { color: #e2e8f0; }
+.modern-filter-toggle--dark-surface .modern-filter-toggle-switch {
+    background: rgba(100,116,139,0.3); border-color: rgba(100,116,139,0.4);
+}
+.modern-filter-toggle--dark-surface .modern-filter-toggle-switch::after { background: #cbd5e1; }
+.modern-filter-toggle--dark-surface input[type="checkbox"]:checked + .modern-filter-toggle-switch {
+    background: var(--brand-primary); border-color: var(--brand-primary);
+    box-shadow: 0 0 15px rgba(var(--brand-primary-rgb), 0.5), inset 0 0 10px rgba(var(--brand-primary-rgb), 0.3);
+}
+.modern-filter-toggle--dark-surface input[type="checkbox"]:checked + .modern-filter-toggle-switch::after {
+    background: white; box-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
 .modern-filter-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
 .modern-filter-badges input[type="checkbox"] { display: none !important; }
 .modern-filter-badge {
