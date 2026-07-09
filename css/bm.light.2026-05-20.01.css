@@ -2576,3 +2576,24 @@ a.modern-filter-btn:hover {
     color: #1e293b !important;
     text-shadow: none !important;
 }
+
+.system-message {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    padding: 0.7rem 1rem; border-radius: 0 6px 6px 0;
+    border-left: 3px solid;
+    font-size: 0.85rem; font-weight: 500; line-height: 1.5;
+}
+.system-message-icon { flex-shrink: 0; display: flex; align-items: center; margin-top: 0.1rem; }
+.system-message-text a { text-decoration: underline; font-weight: 600; }
+.system-message--info {
+    background: rgba(37, 99, 235, 0.08); border-left-color: var(--status-info);
+}
+.system-message--warning {
+    background: rgba(217, 119, 6, 0.08); border-left-color: var(--status-warning);
+}
+.system-message--error {
+    background: rgba(220, 38, 38, 0.08); border-left-color: var(--status-error);
+}
+.system-message--info .system-message-text,
+.system-message--warning .system-message-text,
+.system-message--error .system-message-text { color: var(--color-text-primary); }

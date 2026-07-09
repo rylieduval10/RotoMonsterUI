@@ -24,7 +24,20 @@ namespace RotoMonsterUI
         PersonAlert,
         PersonConfirmed,
         PersonArmsDown,
-        PersonArmsUp
+        PersonArmsUp,
+        Injury,
+        Illness,
+        Rest,
+        Personal,
+        CoachsDecision,
+        Dental,
+        PossibleSuspension,
+        Other,
+        TradePending,
+        Contract,
+        InjuryMaintenance,
+        Warning,
+        Error
     }
 
     public class IconInput

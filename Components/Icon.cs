@@ -100,6 +100,31 @@ namespace RotoMonsterUI
                         <line x1=""6"" y1=""15"" x2=""18"" y2=""15"" stroke=""white"" stroke-width=""2"" stroke-linecap=""round""/>
                         <line x1=""6"" y1=""19"" x2=""13"" y2=""19"" stroke=""white"" stroke-width=""2"" stroke-linecap=""round""/>
                     </svg>";
+
+                   case IconType.Illness:
+                        return WrapSvg(@"<rect x=""7"" y=""9"" width=""10"" height=""12"" rx=""2""/><rect x=""9"" y=""4"" width=""6"" height=""5"" rx=""1""/><path d=""M9 6h6""/><path d=""M7 14h10""/>");
+                case IconType.Personal:
+                    return WrapSvg(@"<path d=""M3 10.5 12 3l9 7.5""/><path d=""M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5""/>");
+                case IconType.CoachsDecision:
+                    return WrapSvg(@"<rect x=""6"" y=""4"" width=""12"" height=""17"" rx=""2""/><rect x=""9"" y=""2"" width=""6"" height=""4"" rx=""1""/><path d=""M9 11h6""/><path d=""M9 15h6""/>");
+                case IconType.Dental:
+                    return WrapSvg(@"<path d=""M12 21c-.6 0-1-1.4-1.4-3.4-.3-1.6-.6-2.3-1.1-2.3s-.8.7-1.1 2.3C8 19.6 7.6 21 7 21c-1.8 0-2.7-2.7-3.2-5.8C3.4 12.6 3 9.9 3 8c0-2.8 1.9-4.3 4.2-4.3 1 0 1.9.5 2.8 1 .9-.5 1.8-1 2.8-1C15.1 3.7 17 5.2 17 8c0 1.9-.4 4.6-.8 7.2-.5 3.1-1.4 5.8-3.2 5.8-.6 0-1-1.4-1.3-3-.1-.6-.3-1.1-.5-1.4""/>");
+                case IconType.PossibleSuspension:
+                    return WrapSvg(@"<rect x=""5"" y=""11"" width=""14"" height=""10"" rx=""2""/><path d=""M8 11V7a4 4 0 0 1 8 0v4""/>");
+                case IconType.Other:
+                    return WrapSvg(@"<path d=""M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z""/><path d=""M12 12v9""/><path d=""M12 12l8-4.5""/><path d=""M12 12l-8-4.5""/>");
+                case IconType.Contract:
+                    return WrapSvg(@"<path d=""M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z""/><path d=""M14 3v5h5""/><path d=""M9 13h6""/><path d=""M9 17h4""/>");
+                case IconType.InjuryMaintenance:
+                    return WrapSvg(@"<rect x=""3"" y=""8"" width=""18"" height=""12"" rx=""2""/><path d=""M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2""/><path d=""M12 12v4""/><path d=""M10 14h4""/>");
+
+
+                case IconType.Warning:
+                    return WrapSvg(@"<path d=""M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z""/><path d=""M12 9v4""/><path d=""M12 17h.01""/>");
+                case IconType.Error:
+                    return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""10""/><path d=""M15 9l-6 6""/><path d=""M9 9l6 6""/>");
+
+                    
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");
                 case IconType.LineupConfirmed:

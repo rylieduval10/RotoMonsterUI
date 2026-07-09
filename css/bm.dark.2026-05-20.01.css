@@ -2617,3 +2617,24 @@ a.modern-filter-btn:hover {
     color: #e2e8f0 !important;
     text-shadow: none !important;
 }
+
+.system-message {
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    padding: 0.7rem 1rem; border-radius: 0 6px 6px 0;
+    border-left: 3px solid;
+    font-size: 0.85rem; font-weight: 500; line-height: 1.5;
+}
+.system-message-icon { flex-shrink: 0; display: flex; align-items: center; margin-top: 0.1rem; }
+.system-message-text a { text-decoration: underline; font-weight: 600; }
+.system-message--info {
+    background: rgba(59, 130, 246, 0.12); border-left-color: var(--status-info);
+}
+.system-message--warning {
+    background: rgba(245, 158, 11, 0.12); border-left-color: var(--status-warning);
+}
+.system-message--error {
+    background: rgba(239, 68, 68, 0.12); border-left-color: var(--status-error);
+}
+.system-message--info .system-message-text,
+.system-message--warning .system-message-text,
+.system-message--error .system-message-text { color: var(--color-text-primary); }
