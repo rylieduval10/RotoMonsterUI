@@ -117,6 +117,12 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<path d=""M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z""/><path d=""M14 3v5h5""/><path d=""M9 13h6""/><path d=""M9 17h4""/>");
                 case IconType.InjuryMaintenance:
                     return WrapSvg(@"<rect x=""3"" y=""8"" width=""18"" height=""12"" rx=""2""/><path d=""M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2""/><path d=""M12 12v4""/><path d=""M10 14h4""/>");
+                case IconType.Injury:
+                    return WrapSvg(@"<g transform=""rotate(45 12 12)""><path d=""M 7.5 4 L 16.5 4""/><path d=""M 9.5 4 L 9.5 12 L 12 15 L 12 21""/><path d=""M 14.5 4 L 14.5 12 L 12 15""/><path d=""M 9.5 8.5 L 14.5 8.5""/></g>");
+                case IconType.Rest:
+                    return WrapSvg(@"<path d=""M2 19v-6""/><path d=""M2 13h16a3 3 0 0 1 3 3v3""/><path d=""M2 17h19""/><rect x=""4"" y=""9"" width=""6"" height=""4"" rx=""1""/><path d=""M2 19v1""/><path d=""M21 19v1""/>");
+                case IconType.TradePending:
+                    return WrapSvg(@"<path d=""M3 6h18""/><path d=""M17 2l4 4-4 4""/><path d=""M21 18H3""/><path d=""M7 14l-4 4 4 4""/>");
 
 
                 case IconType.Warning:
@@ -124,7 +130,7 @@ namespace RotoMonsterUI
                 case IconType.Error:
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""10""/><path d=""M15 9l-6 6""/><path d=""M9 9l6 6""/>");
 
-                    
+
                 case IconType.Rain:
                     return WrapSvg(@"<path d=""M4 14 C4 10 7 8 12 8 C17 8 20 10 20 14"" stroke-linecap=""round""/><line x1=""8"" y1=""18"" x2=""7"" y2=""21"" stroke-linecap=""round""/><line x1=""12"" y1=""18"" x2=""11"" y2=""21"" stroke-linecap=""round""/><line x1=""16"" y1=""18"" x2=""15"" y2=""21"" stroke-linecap=""round""/><path d=""M4 14 L20 14"" stroke-linecap=""round""/>");
                 case IconType.LineupConfirmed:
