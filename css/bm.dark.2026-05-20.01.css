@@ -2049,6 +2049,17 @@ a.modern-filter-btn:hover {
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.85rem;
+    min-width: 110px;
+}
+.tracked-league-bar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+.tracked-league-bar-section--owner {
+    background: rgba(var(--brand-primary-rgb), 0.2);
+    border-radius: 0 7px 7px 0;
 }
 
 .tracked-league-bar-divider {

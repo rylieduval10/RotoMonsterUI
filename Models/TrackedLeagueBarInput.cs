@@ -4,5 +4,7 @@ namespace RotoMonsterUI
     {
         public string LeagueName { get; set; }
         public string OwnerName { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

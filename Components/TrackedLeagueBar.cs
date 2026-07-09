@@ -1,39 +1,55 @@
+using System.Collections.Generic;
 using HtmlTags;
 
 namespace RotoMonsterUI
 {
     public class TrackedLeagueBar
     {
-        private readonly TrackedLeagueBarInput _input;
+        private readonly List<TrackedLeagueBarInput> _leagues;
 
-        public TrackedLeagueBar(TrackedLeagueBarInput input)
+        public TrackedLeagueBar(List<TrackedLeagueBarInput> leagues)
         {
-            _input = input;
+            _leagues = leagues;
+        }
+
+        public TrackedLeagueBar(TrackedLeagueBarInput league)
+        {
+            _leagues = new List<TrackedLeagueBarInput> { league };
         }
 
         public string Render()
         {
-            var wrapper = new HtmlTag("div").AddClass("tracked-league-bar");
+            var list = new HtmlTag("div").AddClass("tracked-league-bar-list");
 
-            var leagueSection = new HtmlTag("div").AddClass("tracked-league-bar-section");
-            var leagueLabel = new HtmlTag("span").AddClass("tracked-league-bar-label").Text("LEAGUE");
-            var leagueValue = new HtmlTag("span").AddClass("tracked-league-bar-value").Text(_input.LeagueName ?? "");
-            leagueSection.Append(leagueLabel);
-            leagueSection.Append(leagueValue);
+            foreach (var league in _leagues)
+            {
+                var row = new HtmlTag("div").AddClass("tracked-league-bar");
 
-            var divider = new HtmlTag("div").AddClass("tracked-league-bar-divider");
+                var leagueSection = new HtmlTag("div").AddClass("tracked-league-bar-section");
+                var leagueLabel = new HtmlTag("span").AddClass("tracked-league-bar-label").Text("LEAGUE");
+                var leagueValue = new HtmlTag("span").AddClass("tracked-league-bar-value").Text(league.LeagueName ?? "");
+                leagueSection.Append(leagueLabel);
+                leagueSection.Append(leagueValue);
+                row.Append(leagueSection);
 
-            var ownerSection = new HtmlTag("div").AddClass("tracked-league-bar-section");
-            var ownerLabel = new HtmlTag("span").AddClass("tracked-league-bar-label").Text("OWNER");
-            var ownerValue = new HtmlTag("span").AddClass("tracked-league-bar-value").Text(_input.OwnerName ?? "");
-            ownerSection.Append(ownerLabel);
-            ownerSection.Append(ownerValue);
+                if (!string.IsNullOrEmpty(league.OwnerName))
+                {
+                    var divider = new HtmlTag("div").AddClass("tracked-league-bar-divider");
+                    row.Append(divider);
 
-            wrapper.Append(leagueSection);
-            wrapper.Append(divider);
-            wrapper.Append(ownerSection);
+                    var ownerSection = new HtmlTag("div").AddClass("tracked-league-bar-section");
+                    if (league.IsOwner)
+                        ownerSection.AddClass("tracked-league-bar-section--owner");
 
-            return wrapper.ToString();
+                    var ownerValue = new HtmlTag("span").AddClass("tracked-league-bar-value").Text(league.OwnerName);
+                    ownerSection.Append(ownerValue);
+                    row.Append(ownerSection);
+                }
+
+                list.Append(row);
+            }
+
+            return list.ToString();
         }
     }
 }
