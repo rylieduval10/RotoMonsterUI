@@ -17,6 +17,12 @@ namespace RotoMonsterUI
             _leagues = new List<TrackedLeagueBarInput> { league };
         }
 
+        private static string NormalizeProviderColor(string color)
+        {
+            if (string.IsNullOrEmpty(color)) return "inherit";
+            return color.StartsWith("#") ? color : "#" + color;
+        }
+
         public string Render()
         {
             var list = new HtmlTag("div").AddClass("tracked-league-bar-list");
@@ -26,7 +32,16 @@ namespace RotoMonsterUI
                 var row = new HtmlTag("div").AddClass("tracked-league-bar");
 
                 var leagueSection = new HtmlTag("div").AddClass("tracked-league-bar-section");
-                var leagueLabel = new HtmlTag("span").AddClass("tracked-league-bar-label").Text("LEAGUE");
+                var leagueLabel = new HtmlTag("span").AddClass("tracked-league-bar-label");
+                if (!string.IsNullOrEmpty(league.ProviderName))
+                {
+                    leagueLabel.Attr("style", $"color:{NormalizeProviderColor(league.ProviderColorCSS)}; text-transform:none;");
+                    leagueLabel.Text(league.ProviderName);
+                }
+                else
+                {
+                    leagueLabel.Text("LEAGUE");
+                }
                 var leagueValue = new HtmlTag("span").AddClass("tracked-league-bar-value").Text(league.LeagueName ?? "");
                 leagueSection.Append(leagueLabel);
                 leagueSection.Append(leagueValue);

@@ -6,5 +6,8 @@ namespace RotoMonsterUI
         public string OwnerName { get; set; }
 
         public bool IsOwner { get; set; }
+
+        public string ProviderName { get; set; }
+        public string ProviderColorCSS { get; set; }
     }
 }
