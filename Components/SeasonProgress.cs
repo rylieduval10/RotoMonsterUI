@@ -55,7 +55,7 @@ namespace RotoMonsterUI
             }
 
             var label = _input.Label ?? (showDaysUntil
-                ? $"{_input.DaysUntilSeason.Value} {SingularPlural.Get("day", _input.DaysUntilSeason.Value)} until season"
+                ? $"{_input.DaysUntilSeason.Value} {SingularPlural.Get("day", _input.DaysUntilSeason.Value)}"
                 : $"Season {seasonPercent.ToString("0.#")}%");
             var labelSpan = new HtmlTag("div")
                 .AddClass("season-progress-label");
@@ -68,7 +68,7 @@ namespace RotoMonsterUI
                 return bar.ToString();
 
             var tooltipLines = showDaysUntil
-                ? $"Season starts in {_input.DaysUntilSeason.Value} {SingularPlural.Get("day", _input.DaysUntilSeason.Value)}."
+                ? $"The regular season begins in {_input.DaysUntilSeason.Value} {SingularPlural.Get("day", _input.DaysUntilSeason.Value)}."
                 : $"The Season is {seasonPercent.ToString("0.#")}% complete.";
             if (playoffPercent > 0)
                 tooltipLines += "<br />The green section represents your playoffs.";

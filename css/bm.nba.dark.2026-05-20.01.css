@@ -10,11 +10,11 @@
  */
 
  :root {
-    --brand-primary: #FF6B00;
+    --brand-primary: #E66000;
+    --brand-primary-rgb: 230, 96, 0;
     --brand-primary-light: #f97316;
     --brand-primary-dark: #ea580c;
     --brand-accent: #ff8c42;
-    --brand-primary-rgb: 255, 107, 0;
     --table-header-bg: #4a2410;
 
     /* POSITION COLORS - Basketball */

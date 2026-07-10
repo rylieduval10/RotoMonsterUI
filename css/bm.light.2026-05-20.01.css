@@ -12,11 +12,12 @@
  */
 
  :root {
-    --brand-primary: #FF6B00;
+    --brand-primary: #E66000;
+    --brand-primary-rgb: 230, 96, 0;
     --brand-primary-light: #f97316;
     --brand-primary-dark: #ea580c;
     --brand-accent: #ff8c42;
-    --brand-primary-rgb: 255, 107, 0; /* NEW - override in sport files */
+
 
     --color-text-primary: #1e293b;
     --color-text-secondary: #475569;
@@ -2009,7 +2010,7 @@ a.modern-filter-btn:hover {
     align-items: center;
     gap: 0.5rem;
     padding: 0.4rem 0.85rem;
-    min-width: 110px;
+    min-width: 300px;
 }
 .tracked-league-bar-list {
     display: flex;
