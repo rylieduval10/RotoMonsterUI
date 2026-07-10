@@ -58,7 +58,10 @@ namespace RotoMonsterUI
         TankCandidate,
         Sleeper,
         ManifestoArticlePlayer,
-        WaiverWire
+        WaiverWire,
+        SpotStart,
+        LimitedMinutes,
+        IsTeamUpdate
     }
 
     public class IconInput

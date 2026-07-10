@@ -1849,6 +1849,7 @@ a.modern-filter-btn:hover {
     border: 1px solid var(--color-border);
     border-radius: 12px;
     padding: 0.75rem;
+    margin-bottom: 1.5rem;
     transition: border-color 0.2s ease;
 }
 
@@ -2640,4 +2641,214 @@ a.modern-filter-btn:hover {
 }
 .yahoo-attribution-logo {
     display: block;
+}.news-card {
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+.news-card:hover {
+    border-color: rgba(var(--brand-primary-rgb), 0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    transform: translateX(2px);
+}
+.news-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+.news-card-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: white;
+    font-weight: 600;
+    font-size: 0.72rem;
+}
+.news-card-team {
+    font-weight: 700;
+}
+.news-card-header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+}
+.news-card-level-badge {
+    padding: 3px 10px;
+    border-radius: 999px;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-size: 0.65rem;
+}
+.news-card-source {
+    color: var(--brand-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+.news-card-source:hover {
+    text-decoration: underline;
+}
+.news-card-status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border-light);
+    font-size: 0.9rem;
+}
+.news-card-status-row .news-card-level-badge {
+    margin-left: auto;
+}
+.news-card-status-text {
+    font-weight: 700;
+    color: var(--color-text-primary);
+}
+.news-card-news-title {
+    color: var(--color-text-tertiary);
+}
+.news-card-roster {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border-light);
+}
+.news-card-roster .news-card-level-badge {
+    margin-left: auto;
+    flex-shrink: 0;
+}
+.news-card-more-details-label {
+    font-size: 0.75rem;
+    color: var(--brand-primary);
+    margin-top: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.news-card-details {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    margin-top: 0.2rem;
+    line-height: 1.5;
+}
+.news-card-tag-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+}
+.news-card-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    width: fit-content;
+}
+.news-card-counts {
+    text-align: right;
+    font-size: 0.72rem;
+    color: var(--color-text-tertiary);
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border-light);
+}
+.news-card-edit-form {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.news-card-field-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+.news-card-field-row label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    min-width: 90px;
+    color: var(--color-text-secondary);
+}
+.news-card-field-label {
+    font-weight: 600;
+    font-size: 0.85rem;
+    min-width: 110px;
+    color: var(--color-text-secondary);
+}
+.news-card-tag-checkbox-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+}
+.news-card-delete-btn {
+    background: var(--status-error);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+}
+.news-card-delete-btn:hover {
+    opacity: 0.9;
+}
+.news-card .display-player-name { font-size: 0.9rem; }
+.news-card .display-player-team { font-size: 0.78rem; }
+.news-card .display-player-pos { font-size: 0.72rem; }
+
+.news-card-edit-form .bm-segmented {
+    align-self: flex-start;
+}
+
+.news-card-edit-form .bm-checkbox input[type="checkbox"],
+.news-card-tag-checkbox-grid .bm-checkbox input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid var(--color-border);
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin: 0;
+    transition: all 0.15s ease;
+}
+.news-card-edit-form .bm-checkbox input[type="checkbox"]:checked,
+.news-card-tag-checkbox-grid .bm-checkbox input[type="checkbox"]:checked {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+}
+.news-card-edit-form .bm-checkbox input[type="checkbox"]:checked::after,
+.news-card-tag-checkbox-grid .bm-checkbox input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }

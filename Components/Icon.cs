@@ -128,11 +128,11 @@ namespace RotoMonsterUI
                 case IconType.RetractableDome:
                     return WrapSvg(@"<line x1=""4"" y1=""16"" x2=""20"" y2=""16""/><line x1=""4"" y1=""16"" x2=""4"" y2=""11""/><line x1=""20"" y1=""16"" x2=""20"" y2=""11""/><path d=""M4 11 A9 9 0 0 1 8.5 4.5""/><path d=""M20 11 A9 9 0 0 0 15.5 4.5""/><path d=""M7 11 A6 6 0 0 1 10 7"" stroke-width=""1""/><path d=""M17 11 A6 6 0 0 0 14 7"" stroke-width=""1""/>");
                 case IconType.Injury:
-                    return WrapSvg(@"<path d=""M12 4v16""/><path d=""M8 4h8""/><path d=""M9 12h6""/><circle cx=""12"" cy=""21"" r=""1""/>");
+                    return WrapSvg(@"<g transform=""rotate(45 12 12)""><path d=""M 7.5 4 L 16.5 4""/><path d=""M 9.5 4 L 9.5 12 L 12 15 L 12 21""/><path d=""M 14.5 4 L 14.5 12 L 12 15""/><path d=""M 9.5 8.5 L 14.5 8.5""/></g>");
                 case IconType.Illness:
                     return WrapSvg(@"<rect x=""7"" y=""9"" width=""10"" height=""12"" rx=""2""/><rect x=""9"" y=""4"" width=""6"" height=""5"" rx=""1""/><path d=""M9 6h6""/><path d=""M7 14h10""/>");
                 case IconType.Rest:
-                    return WrapSvg(@"<path d=""M2 20v-7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v7""/><path d=""M2 17h20""/><rect x=""5"" y=""9"" width=""6"" height=""4"" rx=""1""/><path d=""M2 20v1""/><path d=""M22 20v1""/>");
+                    return WrapSvg(@"<path d=""M2 19v-6""/><path d=""M2 13h16a3 3 0 0 1 3 3v3""/><path d=""M2 17h19""/><rect x=""4"" y=""9"" width=""6"" height=""4"" rx=""1""/><path d=""M2 19v1""/><path d=""M21 19v1""/>");
                 case IconType.Personal:
                     return WrapSvg(@"<path d=""M3 10.5 12 3l9 7.5""/><path d=""M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5""/>");
                 case IconType.CoachsDecision:
@@ -144,7 +144,7 @@ namespace RotoMonsterUI
                 case IconType.Other:
                     return WrapSvg(@"<path d=""M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z""/><path d=""M12 12v9""/><path d=""M12 12l8-4.5""/><path d=""M12 12l-8-4.5""/>");
                 case IconType.TradePending:
-                    return WrapSvg(@"<path d=""M3 6h14""/><path d=""M13 2l4 4-4 4""/><path d=""M21 18H7""/><path d=""M11 14l-4 4 4 4""/>");
+                    return WrapSvg(@"<path d=""M3 6h18""/><path d=""M17 2l4 4-4 4""/><path d=""M21 18H3""/><path d=""M7 14l-4 4 4 4""/>");
                 case IconType.Contract:
                     return WrapSvg(@"<path d=""M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z""/><path d=""M14 3v5h5""/><path d=""M9 13h6""/><path d=""M9 17h4""/>");
                 case IconType.InjuryMaintenance:
@@ -216,6 +216,12 @@ namespace RotoMonsterUI
                         <path d=""M7 17h2v1H7v-1Zm8 0h2v1h-2v-1Z""/>
                         <rect x=""5"" y=""18"" width=""14"" height=""2"" rx=""0.5""/>
                     </svg>";
+                case IconType.SpotStart:
+                    return WrapSvg(@"<circle cx=""9"" cy=""7"" r=""3""/><path d=""M4 20c0-4 2-7 5-7s5 3 5 7""/><path d=""M17 8v4""/><path d=""M15 10h4""/>");
+                case IconType.LimitedMinutes:
+                    return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""9""/><path d=""M12 7v5h4""/>");
+                case IconType.IsTeamUpdate:
+                    return WrapSvg(@"<path d=""M3 11v2a2 2 0 0 0 2 2h1l2 4h2l-1.5-4H11l7 3V6l-7 3H6a2 2 0 0 0-2 2z""/><path d=""M11 9v6""/>");
                 default:
                     return "";
             }
