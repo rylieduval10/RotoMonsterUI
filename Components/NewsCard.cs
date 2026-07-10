@@ -114,7 +114,7 @@ namespace RotoMonsterUI
                 var teamSpan = new HtmlTag("span")
                     .AddClass("news-card-team")
                     .Attr("style", $"color:{NormalizeColor(_input.DisplayTeamInput.ColorCode)}")
-                    .Text(_input.DisplayTeamInput.Code);
+                    .Text(_input.DisplayTeamInput.Name);
                 headerRow.Append(teamSpan);
             }
 
@@ -149,7 +149,7 @@ namespace RotoMonsterUI
                     var teamLevelBadge = new HtmlTag("span")
                         .AddClass("news-card-level-badge")
                         .Attr("style", $"background:{teamLevelColor}")
-                        .Text($"{_input.NewsLevel.ToString().ToLower()} level");
+                        .Text($"{_input.NewsLevel.ToString().ToLower()}");
                     rosterRow.Append(teamLevelBadge);
                 }
 
@@ -168,7 +168,7 @@ namespace RotoMonsterUI
                     var levelBadge = new HtmlTag("span")
                         .AddClass("news-card-level-badge")
                         .Attr("style", $"background:{levelColor}")
-                        .Text($"{_input.NewsLevel.ToString().ToLower()} level");
+                        .Text($"{_input.NewsLevel.ToString().ToLower()}");
                     statusRow.Append(levelBadge);
                 }
 
@@ -178,7 +178,6 @@ namespace RotoMonsterUI
             // ---- More details ----
             if (!_input.IsEditing && !string.IsNullOrEmpty(_input.NewsDetails))
             {
-                card.Append(new HtmlTag("div").AddClass("news-card-more-details-label").Text("More details"));
                 card.Append(new HtmlTag("div").AddClass("news-card-details").Text(_input.NewsDetails));
             }
 

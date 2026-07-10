@@ -546,6 +546,14 @@ document.addEventListener('click', function(e) {
             var target = document.getElementById(step.targetId ? step.targetId : step.TargetId);
             if (!target) return;
 
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            setTimeout(function() {
+                positionAndShow(step, target);
+            }, 350);
+        }
+
+        function positionAndShow(step, target) {
             var text = step.text || step.Text;
             var position = step.position || step.Position || 'Bottom';
 
@@ -605,6 +613,52 @@ document.addEventListener('click', function(e) {
     }
 
     document.querySelectorAll('.bm-tour').forEach(function(tourEl) {
+        if (tourEl.hasAttribute('data-manual-trigger')) return;
         startTour(tourEl);
+    });
+
+    window.RotoMonsterStartTour = function(tourId) {
+        var tourEl = document.getElementById(tourId);
+        if (tourEl) startTour(tourEl);
+    };
+})();
+
+// Page guide (purpose + how-to modal, companion to Tour)
+(function() {
+    document.querySelectorAll('.bm-page-guide-trigger').forEach(function(trigger) {
+        trigger.addEventListener('click', function() {
+            var modal = document.getElementById(trigger.getAttribute('data-guide-target'));
+            if (modal) modal.style.display = 'flex';
+        });
+    });
+
+    document.querySelectorAll('.bm-page-guide-modal').forEach(function(modal) {
+        function closeModal() { modal.style.display = 'none'; }
+
+        var closeX = modal.querySelector('.bm-page-guide-close');
+        if (closeX) closeX.addEventListener('click', closeModal);
+
+        var closeBtn = modal.querySelector('.bm-page-guide-close-btn');
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+
+        modal.querySelectorAll('.bm-page-guide-section-header').forEach(function(header) {
+            header.addEventListener('click', function() {
+                header.parentElement.classList.toggle('bm-page-guide-section--open');
+            });
+        });
+
+        var tourBtn = modal.querySelector('.bm-page-guide-tour-btn');
+        if (tourBtn) {
+            tourBtn.addEventListener('click', function() {
+                closeModal();
+                if (window.RotoMonsterStartTour) {
+                    window.RotoMonsterStartTour(tourBtn.getAttribute('data-start-tour'));
+                }
+            });
+        }
     });
 })();

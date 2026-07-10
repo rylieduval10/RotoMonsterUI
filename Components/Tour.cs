@@ -8,6 +8,7 @@ namespace RotoMonsterUI
     {
         private readonly string _id;
         private readonly List<TourStep> _steps = new List<TourStep>();
+        private bool _manualTrigger;
 
         public Tour(string id)
         {
@@ -20,12 +21,21 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public Tour WithManualTrigger()
+        {
+            _manualTrigger = true;
+            return this;
+        }
+
         public string Render()
         {
             var wrapper = new HtmlTag("div")
                 .AddClass("bm-tour")
                 .Attr("id", _id)
                 .Attr("style", "display:none;");
+
+            if (_manualTrigger)
+                wrapper.Attr("data-manual-trigger", "true");
 
             var stepsJson = JsonSerializer.Serialize(_steps);
             wrapper.Attr("data-tour-steps", stepsJson);

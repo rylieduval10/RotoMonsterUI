@@ -61,5 +61,53 @@ namespace RotoMonsterUI
                 return isDarkMode ? colors.Dark : colors.Light;
             return "#64748b"; 
         }
+
+        private static readonly Dictionary<string, (string Light, string Dark)> NbaTeamColors = new Dictionary<string, (string, string)>
+        {
+            { "ATL", ("#E14434", "#EF988F") },
+            { "BOS", ("#007A33", "#73B68F") },
+            { "BKN", ("#000000", "#737373") },
+            { "CHA", ("#00788C", "#73B5C0") },
+            { "CHI", ("#CE1141", "#E47C97") },
+            { "CLE", ("#860038", "#BC7392") },
+            { "DAL", ("#0053BC", "#73A0DA") },
+            { "DEN", ("#0D2240", "#4271D7") },
+            { "DET", ("#C8102E", "#E17C8C") },
+            { "GSW", ("#1D428A", "#8397BF") },
+            { "GS",  ("#1D428A", "#8397BF") },
+            { "HOU", ("#CE1141", "#E47C97") },
+            { "IND", ("#002D62", "#2781E7") },
+            { "LAC", ("#C8102E", "#E17C8C") },
+            { "LAL", ("#552582", "#A287BA") },
+            { "MEM", ("#5D76A9", "#A6B4D0") },
+            { "MIA", ("#98002E", "#C6738C") },
+            { "MIL", ("#00471B", "#739A82") },
+            { "MIN", ("#0C2340", "#4271D7") },
+            { "NOP", ("#001641", "#2B6CEE") },
+            { "NO",  ("#001641", "#2B6CEE") },
+            { "NYK", ("#006BB6", "#73AED7") },
+            { "NY",  ("#006BB6", "#73AED7") },
+            { "OKC", ("#007DC3", "#73B8DE") },
+            { "ORL", ("#007DC5", "#73B8DF") },
+            { "PHI", ("#006BB6", "#73AED7") },
+            { "PHX", ("#1D1160", "#837CA8") },
+            { "PHO", ("#1D1160", "#837CA8") },
+            { "POR", ("#E03A3E", "#EE9395") },
+            { "SAC", ("#5B2B82", "#A58ABA") },
+            { "SAS", ("#C4CED3", "#C4CED3") },
+            { "SA",  ("#C4CED3", "#C4CED3") },
+            { "TOR", ("#CE1141", "#E47C97") },
+            { "UTA", ("#002B5C", "#2B86EE") },
+            { "UTAH", ("#002B5C", "#2B86EE") },
+            { "WAS", ("#002B5C", "#2B86EE") },
+        };
+
+        public static string GetNbaTeamColor(string teamCode, bool isDarkMode = false)
+        {
+            if (string.IsNullOrEmpty(teamCode)) return null;
+            if (NbaTeamColors.TryGetValue(teamCode.ToUpper(), out var colors))
+                return isDarkMode ? colors.Dark : colors.Light;
+            return "#64748b";
+        }
     }
 }
