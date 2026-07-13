@@ -61,7 +61,8 @@ namespace RotoMonsterUI
         WaiverWire,
         SpotStart,
         LimitedMinutes,
-        IsTeamUpdate
+        IsTeamUpdate,
+        Edit
     }
 
     public class IconInput

@@ -5,16 +5,17 @@ namespace RotoMonsterUI
 {
     public class NewsCardService
     {
+        /// <summary>
+        /// Process postback form data for a single news card. newsId is the NewsId of the
+        /// card you're processing results for - pass the same value used when rendering it.
+        /// </summary>
         public NewsCardResult Process(int newsId, Dictionary<string, string> params_)
         {
             var result = new NewsCardResult();
 
             var editKey = $"editnews_{newsId}";
             if (params_.ContainsKey(editKey))
-            {
                 result.ToggleEditNewsId = newsId;
-                result.IsEditingChecked = params_[editKey] == "1" || params_[editKey] == "on" || params_[editKey] == "true";
-            }
 
             if (params_.ContainsKey($"deletenews_{newsId}"))
                 result.DeleteNewsId = newsId;

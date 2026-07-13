@@ -32,27 +32,7 @@ namespace RotoMonsterUI
         private static IconType? StatusTagIcon(string tagName)
         {
             if (string.IsNullOrEmpty(tagName)) return null;
-            var n = tagName.Trim().ToLower();
-            switch (n)
-            {
-                case "injury": return IconType.Injury;
-                case "illness": return IconType.Illness;
-                case "rest": return IconType.Rest;
-                case "personal": return IconType.Personal;
-                case "coach's decision":
-                case "coachs decision": return IconType.CoachsDecision;
-                case "dental": return IconType.Dental;
-                case "possible suspension": return IconType.PossibleSuspension;
-                case "suspended": return IconType.Suspended;
-                case "trade pending": return IconType.TradePending;
-                case "contract": return IconType.Contract;
-                case "new contract": return IconType.NewContract;
-                case "injury maintenance": return IconType.InjuryMaintenance;
-                case "out for season": return IconType.OutForSeason;
-                case "free agent": return IconType.FreeAgent;
-                case "new team": return IconType.NewTeam;
-                default: return IconType.Other;
-            }
+            return IconTypeResolver.Resolve(tagName, IconType.Other);
         }
 
         private static (IconType icon, string color) NewsTagDefaults(string tagName)
@@ -92,16 +72,6 @@ namespace RotoMonsterUI
 
             // ---- Header row ----
             var headerRow = new HtmlTag("div").AddClass("news-card-header");
-
-            if (_input.UserCanEdit)
-            {
-                var editCheckbox = new Checkbox()
-                    .WithName($"editnews_{_input.NewsId}")
-                    .WithChecked(_input.IsEditing)
-                    .WithPostBack()
-                    .Render();
-                headerRow.AppendHtml(editCheckbox);
-            }
 
             headerRow.Append(RenderStatusBadge());
 
@@ -210,6 +180,34 @@ namespace RotoMonsterUI
                 if (_input.UserFreeAgentCount.HasValue)
                     countsRow.AppendHtml($" fa {_input.UserFreeAgentCount.Value}");
                 card.Append(countsRow);
+            }
+
+            // ---- Edit / delete icon actions (always visible) ----
+            if (_input.UserCanEdit || _input.UserCanDelete)
+            {
+                var actionRow = new HtmlTag("div").AddClass("news-card-actions");
+
+                if (_input.UserCanEdit)
+                {
+                    var editBtn = new HtmlTag("button")
+                        .AddClass("news-card-action-btn")
+                        .Attr("name", $"editnews_{_input.NewsId}")
+                        .Attr("aria-label", "Edit")
+                        .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                    actionRow.Append(editBtn);
+                }
+
+                if (_input.UserCanDelete)
+                {
+                    var deleteIconBtn = new HtmlTag("button")
+                        .AddClass("news-card-action-btn news-card-action-btn--delete")
+                        .Attr("name", $"deletenews_{_input.NewsId}")
+                        .Attr("aria-label", "Delete")
+                        .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15 }).Render());
+                    actionRow.Append(deleteIconBtn);
+                }
+
+                card.Append(actionRow);
             }
 
             // ---- Edit form ----

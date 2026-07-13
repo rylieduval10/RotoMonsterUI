@@ -222,6 +222,8 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""9""/><path d=""M12 7v5h4""/>");
                 case IconType.IsTeamUpdate:
                     return WrapSvg(@"<path d=""M3 11v2a2 2 0 0 0 2 2h1l2 4h2l-1.5-4H11l7 3V6l-7 3H6a2 2 0 0 0-2 2z""/><path d=""M11 9v6""/>");
+                case IconType.Edit:
+                    return WrapSvg(@"<path d=""M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z""/>");
                 default:
                     return "";
             }
