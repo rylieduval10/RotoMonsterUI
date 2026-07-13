@@ -60,6 +60,7 @@ namespace RotoMonsterUI
             switch (level)
             {
                 case NewsLevel.Low: return "#8c8c8c";
+                case NewsLevel.Medium: return "#6699ff";
                 case NewsLevel.High: return "#e68a00";
                 case NewsLevel.Monster: return "#cc3300";
                 default: return null;
@@ -99,12 +100,11 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_input.SourceURL))
             {
                 var sourceLink = new HtmlTag("a")
-                .AddClass("news-card-source")
-                .Attr("href", _input.SourceURL)
-                .Attr("target", "_blank")
-                .Attr("rel", "noopener noreferrer")
-                .Attr("aria-label", "Source");
-                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 14 }).Render());
+                    .AddClass("news-card-source")
+                    .Attr("href", _input.SourceURL)
+                    .Attr("target", "_blank")
+                    .Attr("rel", "noopener noreferrer")
+                    .Text("source");
                 headerRight.Append(sourceLink);
             }
 
@@ -199,7 +199,8 @@ namespace RotoMonsterUI
                             .Attr("data-newsid", _input.NewsId.ToString())
                             .Attr("onclick", "EditNews(this)")
                             .Attr("aria-label", "Edit")
-                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render())
+                            .AppendHtml("<span class='sr-only'>Edit</span>");
                         actionRow.Append(editBtn);
                     }
 
@@ -236,22 +237,34 @@ namespace RotoMonsterUI
             return card.ToString();
         }
 
-        private HtmlTag RenderStatusBadge()
+        private HtmlTag RenderStatusBadge(string context = "main")
         {
+            var tooltipId = $"newsbadge-tooltip-{_input.NewsId}-{context}";
+
+            var tooltipText = $"{_input.StatusTypeText} - {_input.StatusTypeTag}";
+            if (_input.IsUnofficial)
+                tooltipText += " - Status is Unofficial";
+
+            var wrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
+
             var badge = new HtmlTag("span")
-                .AddClass("news-card-status-badge")
+                .AddClass("news-card-status-badge bm-tooltip-trigger")
+                .Attr("data-bm-tooltip", tooltipId)
                 .Attr("style", $"background:{NormalizeColor(_input.StatusTypeColorCode)}");
 
             badge.Append(new HtmlTag("span").Text(_input.StatusTypeAbbreviation));
 
             var tagIcon = StatusTagIcon(_input.StatusTypeTag);
             if (tagIcon.HasValue)
-                badge.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 12, Color = "white" }).Render());
+                badge.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 14, Color = "white" }).Render());
 
             if (_input.IsUnofficial)
-                badge.AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 12, Color = "white" }).Render());
+                badge.AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 14, Color = "white" }).Render());
 
-            return badge;
+            wrap.Append(badge);
+            wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(tooltipText));
+
+            return wrap;
         }
 
         private HtmlTag RenderEditForm()
@@ -260,7 +273,7 @@ namespace RotoMonsterUI
 
             var currentStatusRow = new HtmlTag("div").AddClass("news-card-field-row");
             currentStatusRow.Append(new HtmlTag("span").AddClass("news-card-field-label").Text("Current Status"));
-            currentStatusRow.Append(RenderStatusBadge());
+            currentStatusRow.Append(RenderStatusBadge("edit"));
             form.Append(currentStatusRow);
 
             var statusDropdown = new Dropdown("Status").WithName($"status_{_input.NewsId}").WithoutPostBack();
