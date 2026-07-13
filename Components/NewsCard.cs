@@ -177,43 +177,52 @@ namespace RotoMonsterUI
                 card.Append(tagList);
             }
 
-            // ---- Owned / free agent counts ----
-            if (_input.UserOwnCount.HasValue || _input.UserFreeAgentCount.HasValue)
-            {
-                var countsRow = new HtmlTag("div").AddClass("news-card-counts");
-                if (_input.UserOwnCount.HasValue)
-                    countsRow.AppendHtml($"yours {_input.UserOwnCount.Value}");
-                if (_input.UserFreeAgentCount.HasValue)
-                    countsRow.AppendHtml($" fa {_input.UserFreeAgentCount.Value}");
-                card.Append(countsRow);
-            }
+            // ---- Counts + edit/delete actions on one row ----
+            bool hasCounts = _input.UserOwnCount.HasValue || _input.UserFreeAgentCount.HasValue;
+            bool hasActions = _input.UserCanEdit || _input.UserCanDelete;
 
-            // ---- Edit / delete icon actions (always visible) ----
-            if (_input.UserCanEdit || _input.UserCanDelete)
+            if (hasCounts || hasActions)
             {
-                var actionRow = new HtmlTag("div").AddClass("news-card-actions");
+                var bottomRow = new HtmlTag("div").AddClass("news-card-bottom-row");
 
-                if (_input.UserCanEdit)
+                if (hasActions)
                 {
-                    var editBtn = new HtmlTag("button")
-                        .AddClass("news-card-action-btn")
-                        .Attr("name", $"editnews_{_input.NewsId}")
-                        .Attr("aria-label", "Edit")
-                        .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
-                    actionRow.Append(editBtn);
+                    var actionRow = new HtmlTag("div").AddClass("news-card-actions");
+
+                    if (_input.UserCanEdit)
+                    {
+                        var editBtn = new HtmlTag("button")
+                            .AddClass("news-card-action-btn")
+                            .Attr("name", $"editnews_{_input.NewsId}")
+                            .Attr("aria-label", "Edit")
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                        actionRow.Append(editBtn);
+                    }
+
+                    if (_input.UserCanDelete)
+                    {
+                        var deleteIconBtn = new HtmlTag("button")
+                            .AddClass("news-card-action-btn news-card-action-btn--delete")
+                            .Attr("name", $"deletenews_{_input.NewsId}")
+                            .Attr("aria-label", "Delete")
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15, Color = "#ef4444" }).Render());
+                        actionRow.Append(deleteIconBtn);
+                    }
+
+                    bottomRow.Append(actionRow);
                 }
 
-                if (_input.UserCanDelete)
+                if (hasCounts)
                 {
-                    var deleteIconBtn = new HtmlTag("button")
-                        .AddClass("news-card-action-btn news-card-action-btn--delete")
-                        .Attr("name", $"deletenews_{_input.NewsId}")
-                        .Attr("aria-label", "Delete")
-                        .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15 }).Render());
-                    actionRow.Append(deleteIconBtn);
+                    var countsRow = new HtmlTag("div").AddClass("news-card-counts");
+                    if (_input.UserOwnCount.HasValue)
+                        countsRow.AppendHtml($"yours {_input.UserOwnCount.Value}");
+                    if (_input.UserFreeAgentCount.HasValue)
+                        countsRow.AppendHtml($" fa {_input.UserFreeAgentCount.Value}");
+                    bottomRow.Append(countsRow);
                 }
 
-                card.Append(actionRow);
+                card.Append(bottomRow);
             }
 
             // ---- Edit form ----

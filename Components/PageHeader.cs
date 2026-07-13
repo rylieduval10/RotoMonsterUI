@@ -7,6 +7,7 @@ namespace RotoMonsterUI
         private string _title;
         private string _subtitle;
         private string _id;
+        private bool _isHomePage;
 
         public PageHeader(string title)
         {
@@ -25,9 +26,18 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public PageHeader WithIsHomePage(bool isHomePage = true)
+        {
+            _isHomePage = isHomePage;
+            return this;
+        }
+
         public string Render()
         {
             var wrapper = new HtmlTag("div").AddClass("page-header");
+
+            if (!_isHomePage)
+                wrapper.AddClass("page-header--compact");
 
             if (!string.IsNullOrEmpty(_id))
                 wrapper.Attr("id", _id);

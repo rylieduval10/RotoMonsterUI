@@ -467,7 +467,7 @@ body {
 .modern-filter-badge input[type="checkbox"] { display: none; }
 
 .modern-filter-buttons { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.5rem; }
-.modern-filter-btn { padding: 0.4rem 0.85rem; border: 2px solid transparent; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
+.modern-filter-btn { padding: 0.4rem 0.85rem; border: 2px solid transparent; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; text-align: center !important; }
 .modern-filter-btn-primary {
     background: var(--brand-primary); color: white;
     box-shadow: 0 0 15px rgba(var(--brand-primary-rgb), 0.3);
@@ -648,7 +648,7 @@ footer a:hover { color: var(--brand-primary-light); text-shadow: 0 0 10px var(--
     position: absolute; top: calc(100% + 0.5rem); left: 0; right: 0;
     background: rgba(15,23,42,0.98); border: 2px solid var(--brand-primary); border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(var(--brand-primary-rgb), 0.2);
-    max-height: 300px; overflow-y: auto; z-index: 9999;
+    max-height: 300px; overflow-y: auto; z-index: 100000;
     opacity: 0; visibility: hidden; transform: translateY(-10px);
     transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
 }
@@ -2617,7 +2617,7 @@ a.modern-filter-btn:hover {
     overflow: hidden; background: var(--season-progress-track);
 }
 .season-progress--pending {
-    border: 2px solid var(--season-progress-pending-border);
+    border: 1px solid var(--season-progress-pending-border);
 }
 .season-progress-fill {
     position: absolute; top: 0; left: 0; bottom: 0; z-index: 1;
@@ -2637,32 +2637,40 @@ a.modern-filter-btn:hover {
     font-size: 0.9rem; font-weight: 700; color: #ffffff;
     text-shadow: 0 1px 3px rgba(0,0,0,0.65), 0 0 2px rgba(0,0,0,0.55);
     padding: 0 0.5rem;
+    white-space: nowrap;
 }
 .season-progress-label--pending {
     color: #e2e8f0 !important;
     text-shadow: none !important;
 }
-
 .system-message {
     display: flex; align-items: flex-start; gap: 0.6rem;
-    padding: 0.7rem 1rem; border-radius: 0 6px 6px 0;
-    border-left: 3px solid;
+    padding: 0.7rem 1rem; border-radius: 6px;
+    border-left: none;
     font-size: 0.85rem; font-weight: 500; line-height: 1.5;
 }
 .system-message-icon { flex-shrink: 0; display: flex; align-items: center; margin-top: 0.1rem; }
 .system-message-text a { text-decoration: underline; font-weight: 600; }
 .system-message--info {
-    background: rgba(59, 130, 246, 0.12); border-left-color: var(--status-info);
+    background: var(--status-info);
 }
 .system-message--warning {
-    background: rgba(245, 158, 11, 0.12); border-left-color: var(--status-warning);
+    background: var(--status-warning);
 }
 .system-message--error {
-    background: rgba(239, 68, 68, 0.12); border-left-color: var(--status-error);
+    background: var(--status-error);
 }
 .system-message--info .system-message-text,
 .system-message--warning .system-message-text,
-.system-message--error .system-message-text { color: var(--color-text-primary); }
+.system-message--error .system-message-text {
+    color: white;
+    font-weight: 700;
+}
+.system-message--info .system-message-icon,
+.system-message--warning .system-message-icon,
+.system-message--error .system-message-icon {
+    color: white;
+}
 
 .yahoo-attribution {
     display: flex;
@@ -2699,6 +2707,14 @@ a.modern-filter-btn:hover {
     align-items: center;
     gap: 0.5rem;
     flex-wrap: wrap;
+}
+.news-card-bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.6rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border-light);
 }
 .news-card-status-badge {
     display: inline-flex;
@@ -2797,9 +2813,6 @@ a.modern-filter-btn:hover {
     text-align: right;
     font-size: 0.72rem;
     color: var(--color-text-tertiary);
-    margin-top: 0.6rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--color-border-light);
 }
 .news-card-edit-form {
     margin-top: 0.75rem;
@@ -2983,7 +2996,7 @@ a.modern-filter-btn:hover {
     flex-shrink: 0;
 }
 .bm-page-guide-section--open .bm-page-guide-section-header svg {
-    transform: rotate(180deg);
+    transform: rotate(90deg);
 }
 .bm-page-guide-section-content {
     display: none;
@@ -3030,7 +3043,6 @@ a.modern-filter-btn:hover {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-top: 0.6rem;
 }
 .news-card-action-btn {
     display: inline-flex;
@@ -3053,4 +3065,15 @@ a.modern-filter-btn:hover {
 .news-card-action-btn--delete:hover {
     border-color: var(--status-error);
     color: var(--status-error);
+}
+
+.page-header--compact {
+    background: var(--color-bg-secondary);
+    padding: 0.6rem 1rem;
+}
+.page-header--compact h1 {
+    font-size: 1.15rem;
+}
+.page-header--compact .subtitle {
+    font-size: 0.75rem;
 }

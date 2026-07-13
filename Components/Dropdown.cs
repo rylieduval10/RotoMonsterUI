@@ -58,6 +58,8 @@ namespace RotoMonsterUI
         }
 
         public string Id => _id ?? _name ?? "";
+        public string SelectedValue => _selectedValue;
+
 
         public string Render()
         {
