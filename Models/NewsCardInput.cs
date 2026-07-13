@@ -5,10 +5,10 @@ namespace RotoMonsterUI
 {
     public enum NewsLevel
     {
-        Low,
-        Medium,
-        High,
-        Monster
+        Low = 1,
+        Medium = 2,
+        High = 3,
+        Monster = 4
     }
 
     public enum NewsCardSport
