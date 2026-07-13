@@ -14,7 +14,11 @@ namespace RotoMonsterUI
             var result = new NewsCardResult();
 
             var editKey = $"editnews_{newsId}";
-            if (params_.ContainsKey(editKey))
+
+            var editViaFormKey = params_.ContainsKey(editKey);
+            var editViaEventTarget = params_.TryGetValue("__EVENTTARGET", out var eventTarget) && eventTarget == editKey;
+
+            if (editViaFormKey || editViaEventTarget)
                 result.ToggleEditNewsId = newsId;
 
             if (params_.ContainsKey($"deletenews_{newsId}"))

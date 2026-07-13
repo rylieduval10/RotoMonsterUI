@@ -662,3 +662,8 @@ document.addEventListener('click', function(e) {
         }
     });
 })();
+
+function EditNews(btn) {
+    var newsId = btn.getAttribute('data-newsid');
+    __doPostBack('editnews_' + newsId, 'edit');
+}

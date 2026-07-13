@@ -772,6 +772,7 @@ a.modern-filter-btn:hover {
     font-size: 0.75rem;
     color: var(--color-text-tertiary);
     text-decoration: none;
+    margin-left: 0.5rem;
 }
 
 .comment-card-viewall:hover {
@@ -2650,7 +2651,11 @@ a.modern-filter-btn:hover {
     font-size: 0.85rem; font-weight: 500; line-height: 1.5;
 }
 .system-message-icon { flex-shrink: 0; display: flex; align-items: center; margin-top: 0.1rem; }
-.system-message-text a { text-decoration: underline; font-weight: 600; }
+.system-message-text a {
+    color: white;
+    text-decoration: underline;
+    font-weight: 600;
+}
 .system-message--info {
     background: var(--status-info);
 }
@@ -3067,15 +3072,24 @@ a.modern-filter-btn:hover {
     color: var(--status-error);
 }
 
-.page-header--compact {
-    background: var(--color-bg-secondary);
-    padding: 0.6rem 1rem;
+.page-header.page-header--compact {
+    background: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    margin-bottom: 1.25rem;
 }
-.page-header--compact h1 {
-    font-size: 1.15rem;
+.page-header.page-header--compact h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    text-shadow: none;
+    margin: 0;
 }
-.page-header--compact .subtitle {
-    font-size: 0.75rem;
+.page-header.page-header--compact .subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    margin-top: 0.15rem;
 }
 
 .sr-only {

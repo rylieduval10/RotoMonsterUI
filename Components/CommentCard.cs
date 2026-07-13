@@ -21,8 +21,7 @@ namespace RotoMonsterUI
             {
                 var titleRow = new HtmlTag("div").AddClass("comment-card-title-row d-flex justify-content-between align-items-center");
                 var playerDisplay = new DisplayPlayer(_input.DisplayPlayerInput).Render();
-                var playerTitle = new HtmlTag("span").AddClass("comment-card-player").AppendHtml(playerDisplay);
-                titleRow.Append(playerTitle);
+                var playerTitle = new HtmlTag("span").AddClass("comment-card-player d-flex align-items-center gap-2").AppendHtml(playerDisplay);
 
                 if (_input.ShowViewAll)
                 {
@@ -30,8 +29,10 @@ namespace RotoMonsterUI
                         .AddClass("comment-card-viewall")
                         .Attr("href", $"/usercomments.aspx?i={_input.DisplayPlayerInput.PlayerId}")
                         .Text("view all");
-                    titleRow.Append(viewAll);
+                    playerTitle.Append(viewAll);
                 }
+
+                titleRow.Append(playerTitle);
 
                 if (_input.TimeSinceCreated.HasValue)
                 {
