@@ -77,6 +77,12 @@ namespace RotoMonsterUI
 
             if (_input.DisplayPlayerInput != null)
             {
+                if (string.IsNullOrEmpty(_input.DisplayPlayerInput.TeamColor))
+                {
+                    _input.DisplayPlayerInput.TeamColor = _input.Sport == NewsCardSport.NBA
+                        ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
+                        : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
+                }
                 headerRow.AppendHtml(new DisplayPlayer(_input.DisplayPlayerInput).Render());
             }
             else if (_input.DisplayTeamInput != null)
@@ -273,7 +279,7 @@ namespace RotoMonsterUI
                 .Render();
             form.AppendHtml($"<div class='news-card-field-row'><label>Source</label>{sourceBox}</div>");
 
-            var levelGroup = new RadioGroup($"level_{_input.NewsId}").WithSegmented();
+            var levelGroup = new RadioGroup($"level_{_input.NewsId}");
             levelGroup.AddOption("L", "Low", _input.NewsLevel == NewsLevel.Low);
             levelGroup.AddOption("M", "Medium", _input.NewsLevel == NewsLevel.Medium);
             levelGroup.AddOption("H", "High", _input.NewsLevel == NewsLevel.High);
@@ -311,15 +317,6 @@ namespace RotoMonsterUI
                 checkGrid.AppendHtml(cb);
             }
             form.Append(checkGrid);
-
-            if (_input.UserCanDelete)
-            {
-                var deleteBtn = new HtmlTag("button")
-                    .AddClass("news-card-delete-btn")
-                    .Attr("name", $"deletenews_{_input.NewsId}")
-                    .Text("Delete");
-                form.Append(deleteBtn);
-            }
 
             return form;
         }

@@ -11,6 +11,12 @@ namespace RotoMonsterUI
         Monster
     }
 
+    public enum NewsCardSport
+    {
+        MLB,
+        NBA
+    }
+
     public class NewsCardInput
     {
         public int NewsId { get; set; }
@@ -19,6 +25,10 @@ namespace RotoMonsterUI
         public DisplayPlayerInput DisplayPlayerInput { get; set; }
 
         public DisplayTeamInput DisplayTeamInput { get; set; }
+
+        public NewsCardSport Sport { get; set; } = NewsCardSport.MLB;
+
+        public bool IsDarkMode { get; set; }
 
 
         public string StatusTypeText { get; set; }

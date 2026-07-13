@@ -9,7 +9,7 @@ namespace RotoMonsterUI
         private List<(string label, string value, bool selected)> _options;
         private string _id;
         private bool _autoPostBack = false;
-        private bool _segmented = false;
+        private bool _segmented = true;
 
         public RadioGroup(string name)
         {
@@ -35,6 +35,12 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public RadioGroup WithBubbles()
+        {
+            _segmented = false;
+            return this;
+        }
+
         public string Id => _id ?? _name ?? "";
 
         public RadioGroup AddOption(string label, string value, bool isSelected = false)
@@ -45,7 +51,7 @@ namespace RotoMonsterUI
 
         public string Render()
         {
-            var wrapper = new HtmlTag("div").AddClass(_segmented ? "bm-segmented" : "adv-controls");
+            var wrapper = new HtmlTag("div").AddClass(_segmented ? "bm-segmented" : "bm-bubbles");
 
             if (!string.IsNullOrEmpty(_id))
                 wrapper.Attr("id", _id);
