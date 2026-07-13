@@ -195,7 +195,8 @@ namespace RotoMonsterUI
                             .AddClass("news-card-action-btn")
                             .Attr("name", $"editnews_{_input.NewsId}")
                             .Attr("aria-label", "Edit")
-                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render())
+                            .AppendHtml("<span class='sr-only'>Edit</span>");
                         actionRow.Append(editBtn);
                     }
 
