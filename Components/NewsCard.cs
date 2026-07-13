@@ -60,7 +60,6 @@ namespace RotoMonsterUI
             switch (level)
             {
                 case NewsLevel.Low: return "#8c8c8c";
-                case NewsLevel.Medium: return "#6699ff";
                 case NewsLevel.High: return "#e68a00";
                 case NewsLevel.Monster: return "#cc3300";
                 default: return null;
@@ -104,7 +103,8 @@ namespace RotoMonsterUI
                     .Attr("href", _input.SourceURL)
                     .Attr("target", "_blank")
                     .Attr("rel", "noopener noreferrer")
-                    .Text("source");
+                    .Attr("aria-label", "Source");
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 14 }).Render());
                 headerRight.Append(sourceLink);
             }
 
@@ -199,8 +199,7 @@ namespace RotoMonsterUI
                             .Attr("data-newsid", _input.NewsId.ToString())
                             .Attr("onclick", "EditNews(this)")
                             .Attr("aria-label", "Edit")
-                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render())
-                            .AppendHtml("<span class='sr-only'>Edit</span>");
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
                         actionRow.Append(editBtn);
                     }
 
