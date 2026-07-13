@@ -3257,3 +3257,8 @@ a.modern-filter-btn:hover {
 .poll-footer-link--delete {
     color: var(--status-error);
 }
+.news-card-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}

@@ -102,8 +102,9 @@ namespace RotoMonsterUI
                     .AddClass("news-card-source")
                     .Attr("href", _input.SourceURL)
                     .Attr("target", "_blank")
-                    .Attr("rel", "noopener noreferrer")
-                    .Text("source");
+                    .Attr("rel", "noopener noreferrer");
+                sourceLink.Append(new HtmlTag("span").Text("source"));
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 12 }).Render());
                 headerRight.Append(sourceLink);
             }
 

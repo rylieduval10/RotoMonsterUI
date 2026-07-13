@@ -26,11 +26,12 @@ namespace RotoMonsterUI
                     if (_input.CanEdit)
                     {
                         var removeBtn = new HtmlTag("button")
-                            .AddClass("poll-player-picker-remove")
-                            .Attr("type", "submit")
-                            .Attr("name", $"{_input.Id}-remove-{player.PlayerId}")
-                            .Attr("aria-label", "Remove player")
-                            .AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 14 }).Render());
+                        .AddClass("poll-player-picker-remove")
+                        .Attr("type", "submit")
+                        .Attr("name", $"{_input.Id}-remove-{player.PlayerId}")
+                        .Attr("aria-label", "Remove player")
+                        .AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 14 }).Render())
+                        .AppendHtml("<span class='sr-only'>Remove</span>");
                         chip.Append(removeBtn);
                     }
 
