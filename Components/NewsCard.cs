@@ -99,12 +99,12 @@ namespace RotoMonsterUI
             if (!string.IsNullOrEmpty(_input.SourceURL))
             {
                 var sourceLink = new HtmlTag("a")
-                    .AddClass("news-card-source")
-                    .Attr("href", _input.SourceURL)
-                    .Attr("target", "_blank")
-                    .Attr("rel", "noopener noreferrer");
-                sourceLink.Append(new HtmlTag("span").Text("source"));
-                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 12 }).Render());
+                .AddClass("news-card-source")
+                .Attr("href", _input.SourceURL)
+                .Attr("target", "_blank")
+                .Attr("rel", "noopener noreferrer")
+                .Attr("aria-label", "Source");
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 14 }).Render());
                 headerRight.Append(sourceLink);
             }
 
