@@ -218,6 +218,10 @@ namespace RotoMonsterUI
                     </svg>";
                 case IconType.SpotStart:
                     return WrapSvg(@"<circle cx=""9"" cy=""7"" r=""3""/><path d=""M4 20c0-4 2-7 5-7s5 3 5 7""/><path d=""M17 8v4""/><path d=""M15 10h4""/>");
+
+                case IconType.Kebab:
+                    return WrapSvg(@"<circle cx=""12"" cy=""5"" r=""1.5""/><circle cx=""12"" cy=""12"" r=""1.5""/><circle cx=""12"" cy=""19"" r=""1.5""/>");
+
                 case IconType.LimitedMinutes:
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""9""/><path d=""M12 7v5h4""/>");
                 case IconType.IsTeamUpdate:
