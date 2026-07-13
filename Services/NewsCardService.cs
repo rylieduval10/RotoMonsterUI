@@ -5,10 +5,6 @@ namespace RotoMonsterUI
 {
     public class NewsCardService
     {
-        /// <summary>
-        /// Process postback form data for a single news card. newsId is the NewsId of the
-        /// card you're processing results for - pass the same value used when rendering it.
-        /// </summary>
         public NewsCardResult Process(int newsId, Dictionary<string, string> params_)
         {
             var result = new NewsCardResult();
@@ -28,6 +24,12 @@ namespace RotoMonsterUI
             {
                 result.SavePressed = true;
                 result.SaveNewsId = newsId;
+            }
+
+            if (params_.ContainsKey($"cancelnews_{newsId}"))
+            {
+                result.CancelPressed = true;
+                result.CancelNewsId = newsId;
             }
 
             if (params_.ContainsKey($"settag_{newsId}"))

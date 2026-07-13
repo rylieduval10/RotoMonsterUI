@@ -228,6 +228,8 @@ namespace RotoMonsterUI
                     return WrapSvg(@"<path d=""M3 11v2a2 2 0 0 0 2 2h1l2 4h2l-1.5-4H11l7 3V6l-7 3H6a2 2 0 0 0-2 2z""/><path d=""M11 9v6""/>");
                 case IconType.Edit:
                     return WrapSvg(@"<path d=""M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z""/>");
+                case IconType.ExternalLink:
+                    return WrapSvg(@"<path d=""M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6""/><polyline points=""15 3 21 3 21 9""/><line x1=""10"" y1=""14"" x2=""21"" y2=""3""/>");
                 default:
                     return "";
             }

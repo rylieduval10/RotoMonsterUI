@@ -62,8 +62,9 @@ namespace RotoMonsterUI
         SpotStart,
         LimitedMinutes,
         IsTeamUpdate,
-        Edit, 
-        Kebab
+        Edit,
+        Kebab, 
+        ExternalLink
     }
 
     public class IconInput

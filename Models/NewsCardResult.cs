@@ -4,15 +4,16 @@ namespace RotoMonsterUI
 {
     public class NewsCardResult
     {
-        /// <summary>Set when the edit icon was clicked for this news item. Since this is now
-        /// a plain button (not a checkbox), it just signals "toggle this" - flip your own
-        /// stored IsEditing value for this NewsId and re-render.</summary>
+
         public int? ToggleEditNewsId { get; set; }
 
         public int? DeleteNewsId { get; set; }
 
         public bool SavePressed { get; set; }
         public int? SaveNewsId { get; set; }
+
+        public bool CancelPressed { get; set; }
+        public int? CancelNewsId { get; set; }
 
         public bool SetTagPressed { get; set; }
         public int? SetTagNewsId { get; set; }

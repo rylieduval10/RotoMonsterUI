@@ -59,9 +59,9 @@ namespace RotoMonsterUI
         {
             switch (level)
             {
-                case NewsLevel.Medium: return "#3b82f6";
-                case NewsLevel.High: return "#f59e0b";
-                case NewsLevel.Monster: return "#a855f7";
+                case NewsLevel.Low: return "#8c8c8c";
+                case NewsLevel.High: return "#e68a00";
+                case NewsLevel.Monster: return "#cc3300";
                 default: return null;
             }
         }
@@ -263,13 +263,13 @@ namespace RotoMonsterUI
             currentStatusRow.Append(RenderStatusBadge());
             form.Append(currentStatusRow);
 
-            var statusDropdown = new Dropdown("Status").WithName($"status_{_input.NewsId}");
+            var statusDropdown = new Dropdown("Status").WithName($"status_{_input.NewsId}").WithoutPostBack();
             foreach (var opt in _input.StatusTypeOptions)
                 statusDropdown.AddItem(opt, opt);
             statusDropdown.WithSelectedValue(_input.StatusTypeText);
             form.AppendHtml($"<div class='news-card-field-row'><label>Status</label>{statusDropdown.Render()}</div>");
 
-            var tagDropdown = new Dropdown("Tag").WithName($"tag_{_input.NewsId}");
+            var tagDropdown = new Dropdown("Tag").WithName($"tag_{_input.NewsId}").WithoutPostBack();
             foreach (var opt in _input.StatusTypeTagOptions)
                 tagDropdown.AddItem(opt, opt);
             tagDropdown.WithSelectedValue(_input.StatusTypeTag);
@@ -301,6 +301,7 @@ namespace RotoMonsterUI
 
             var saveRow = new HtmlTag("div").AddClass("news-card-field-row");
             saveRow.AppendHtml(new Button("Save").WithStyle(ButtonStyle.Primary).WithName($"savenews_{_input.NewsId}").Render());
+            saveRow.AppendHtml(new Button("Cancel").WithStyle(ButtonStyle.Secondary).WithName($"cancelnews_{_input.NewsId}").Render());
             var unofficialCheckbox = new Checkbox()
                 .WithLabel("Unofficial")
                 .WithName($"unofficial_{_input.NewsId}")
