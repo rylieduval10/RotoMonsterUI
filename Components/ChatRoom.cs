@@ -12,8 +12,6 @@ namespace RotoMonsterUI
             _input = input;
         }
 
-        // Renders the toggle button + composer. This part is NOT touched by the AJAX refresh -
-        // it holds whatever the user is actively typing, so it should only render once per page load.
         public string RenderControls()
         {
             var container = new HtmlTag("div").AddClass("chat-room-controls");
@@ -66,8 +64,6 @@ namespace RotoMonsterUI
             return container.ToString();
         }
 
-        // Renders the chatting-users pill row + message list. This is the part that should be
-        // swapped in on each AJAX poll - it's safe to fully rebuild since nothing here holds user input.
         public string RenderChatLog()
         {
             var container = new HtmlTag("div").AddClass("chat-room-log");
@@ -103,8 +99,6 @@ namespace RotoMonsterUI
             return container.ToString();
         }
 
-        // Convenience method for a normal full-page render (e.g. initial page load, or anywhere
-        // AJAX polling isn't in play). Just wraps RenderControls() + RenderChatLog() together.
         public string Render()
         {
             var container = new HtmlTag("div").AddClass("chat-room");
@@ -124,6 +118,8 @@ namespace RotoMonsterUI
             var body = new HtmlTag("div").AddClass("chat-card-body");
 
             var metaRow = new HtmlTag("div").AddClass("chat-card-meta");
+
+            usernameInput.ShowAvatar = false;
             metaRow.AppendHtml(new DisplayUsername(usernameInput).Render());
             metaRow.AppendHtml(new TimeSince(message.TimeSinceCreated).Render());
             body.Append(metaRow);
