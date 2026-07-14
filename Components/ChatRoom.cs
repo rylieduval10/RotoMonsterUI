@@ -11,10 +11,9 @@ namespace RotoMonsterUI
         {
             _input = input;
         }
-
-        public string Render()
+        public string RenderControls()
         {
-            var container = new HtmlTag("div").AddClass("chat-room");
+            var container = new HtmlTag("div").AddClass("chat-room-controls");
 
             if (_input.ChatState == ChatState.Watching)
             {
@@ -41,10 +40,10 @@ namespace RotoMonsterUI
                 }).Render();
                 container.AppendHtml(editor);
 
-                var actionRow = new HtmlTag("div").AddClass("chat-room-actions d-flex align-items-center gap-2");
+                var actionRow = new HtmlTag("div").AddClass("chat-room-actions");
 
                 var postBtn = new Button("Post Message")
-                    .WithStyle(ButtonStyle.Success)
+                    .WithStyle(ButtonStyle.Primary)
                     .WithName($"postmessage_{_input.Id}")
                     .Render();
                 actionRow.AppendHtml(postBtn);
@@ -62,21 +61,34 @@ namespace RotoMonsterUI
                 container.Append(actionRow);
             }
 
-            // Chatting Users / Watching line
-            var statusRow = new HtmlTag("div").AddClass("chat-room-status");
-            var chattingLabel = new HtmlTag("span")
-                .Text($"Chatting Users ({_input.ChattingUsers.Count}): ");
-            statusRow.Append(chattingLabel);
+            return container.ToString();
+        }
 
-            for (int i = 0; i < _input.ChattingUsers.Count; i++)
+        // Renders the chatting-users pill row + message list. This is the part that should be
+        // swapped in on each AJAX poll - it's safe to fully rebuild since nothing here holds user input.
+        public string RenderChatLog()
+        {
+            var container = new HtmlTag("div").AddClass("chat-room-log");
+
+            // Chatting Users / Watching line - pill badges with a small "active" dot
+            var statusRow = new HtmlTag("div").AddClass("chat-room-status");
+
+            foreach (var user in _input.ChattingUsers)
             {
-                var user = _input.ChattingUsers[i];
-                statusRow.AppendHtml(new DisplayUsername(user).Render());
-                if (i < _input.ChattingUsers.Count - 1)
-                    statusRow.AppendHtml(", ");
+                var pill = new HtmlTag("span").AddClass("chat-room-user-pill");
+                pill.AppendHtml("<span class=\"chat-room-user-dot\"></span>");
+                pill.AppendHtml(new DisplayUsername(user).Render());
+                statusRow.Append(pill);
             }
 
-            statusRow.AppendHtml($"&nbsp;&nbsp;Watching ({_input.WatchingCount})");
+            if (_input.WatchingCount > 0)
+            {
+                var watchingLabel = new HtmlTag("span")
+                    .AddClass("chat-room-watching-label")
+                    .Text($"+{_input.WatchingCount} watching");
+                statusRow.Append(watchingLabel);
+            }
+
             container.Append(statusRow);
 
             // Message list
@@ -89,18 +101,35 @@ namespace RotoMonsterUI
             return container.ToString();
         }
 
+        // Convenience method for a normal full-page render (e.g. initial page load, or anywhere
+        // AJAX polling isn't in play). Just wraps RenderControls() + RenderChatLog() together.
+        public string Render()
+        {
+            var container = new HtmlTag("div").AddClass("chat-room");
+            container.AppendHtml(RenderControls());
+            container.AppendHtml(RenderChatLog());
+            return container.ToString();
+        }
+
         private HtmlTag RenderMessage(ChatMessageInput message)
         {
-            var row = new HtmlTag("div").AddClass("chat-card d-flex align-items-center gap-2");
-
-            row.AppendHtml(new TimeSince(message.TimeSinceCreated).Render());
-
-            var bubble = new HtmlTag("span").AddClass("chat-card-bubble");
-            bubble.AppendHtml(new Icon(new IconInput { Type = IconType.ChatBubble, Size = 16, Color = "white" }).Render());
-            row.Append(bubble);
+            var row = new HtmlTag("div").AddClass("chat-card");
 
             var usernameInput = message.DisplayUsernameInput;
-            row.AppendHtml(new DisplayUsername(usernameInput).Render());
+            var avatarHtml = new DisplayUsername(usernameInput).RenderAvatar();
+            row.AppendHtml($"<span class=\"chat-card-avatar\">{avatarHtml}</span>");
+
+            var body = new HtmlTag("div").AddClass("chat-card-body");
+
+            var metaRow = new HtmlTag("div").AddClass("chat-card-meta");
+            metaRow.AppendHtml(new DisplayUsername(usernameInput).Render());
+            metaRow.AppendHtml(new TimeSince(message.TimeSinceCreated).Render());
+            body.Append(metaRow);
+
+            var text = new HtmlTag("div").AddClass("chat-card-text").Text(message.MessageText);
+            body.Append(text);
+
+            row.Append(body);
 
             if (message.UserCanDelete)
             {
@@ -109,12 +138,9 @@ namespace RotoMonsterUI
                     .Attr("type", "button")
                     .Attr("name", $"deletemsg_{_input.Id}_{message.MessageId}")
                     .Attr("aria-label", "Delete message")
-                    .AppendHtml(new Icon(new IconInput { Type = IconType.Close, Size = 14, Color = "#ef4444" }).Render());
+                    .AppendHtml(new Icon(new IconInput { Type = IconType.Close, Size = 14, Color = "currentColor" }).Render());
                 row.Append(deleteBtn);
             }
-
-            var text = new HtmlTag("span").AddClass("chat-card-text").Text(message.MessageText);
-            row.Append(text);
 
             return row;
         }

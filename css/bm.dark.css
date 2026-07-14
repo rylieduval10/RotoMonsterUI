@@ -1814,7 +1814,7 @@ a.modern-filter-btn:hover {
     align-items: center;
     gap: 0.2rem;
     padding: 0.5rem 0.75rem;
-    background: #2d7a3e;
+    background: var(--brand-primary);
     border-bottom: none;
     flex-wrap: wrap;
 }
@@ -1879,7 +1879,7 @@ a.modern-filter-btn:hover {
 
 .rte-footer {
     padding: 0.35rem 0.75rem;
-    background: #2d7a3e;
+    background: var(--brand-primary);
     border-top: none;
     font-size: 0.7rem;
     color: rgba(255,255,255,0.6);
@@ -3308,7 +3308,6 @@ a.modern-filter-btn:hover {
 .color-shaded, .color-shaded * {
     color: #000 !important;
 }
-
 /* ============================================
    CHAT ROOM
    ============================================ */
@@ -3318,58 +3317,115 @@ a.modern-filter-btn:hover {
     gap: 0.75rem;
 }
 
-.chat-room-status {
-    font-size: 0.85rem;
-    color: var(--color-text-tertiary);
-}
-
 .chat-room-actions {
     display: flex;
     align-items: center;
+    gap: 0.5rem;
     flex-wrap: wrap;
+}
+
+.chat-room-status {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.chat-room-user-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: var(--color-bg-secondary);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+}
+
+.chat-room-user-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+}
+
+.chat-room-watching-label {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
 }
 
 .chat-room-messages {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 0.5rem;
 }
 
 .chat-card {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--color-border);
-    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 0.6rem 0.75rem;
+    transition: all 0.15s ease;
 }
 
-.chat-card-bubble {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #22c55e;
+.chat-card:hover {
+    border-color: rgba(var(--brand-primary-rgb), 0.4);
+}
+
+.chat-card-avatar {
     flex-shrink: 0;
+}
+
+.chat-card-avatar .display-username-avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+}
+
+.chat-card-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-card-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.15rem;
+}
+
+.chat-card-meta .display-username {
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.chat-card-meta .time-since {
+    font-size: 0.7rem;
+    color: var(--color-text-tertiary);
+}
+
+.chat-card-text {
+    font-size: 0.85rem;
+    color: var(--color-text-primary);
+    word-break: break-word;
 }
 
 .chat-card-delete {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
+    padding: 2px;
     display: inline-flex;
     align-items: center;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
 }
 
-.chat-card-text {
-    color: var(--color-text-primary);
-    word-break: break-word;
-}
-
-.display-username-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+.chat-card-delete:hover {
+    color: #ef4444;
 }
 
 .display-username-avatar {
@@ -3388,4 +3444,20 @@ a.modern-filter-btn:hover {
     color: white;
     font-size: 0.7rem;
     font-weight: 700;
+}
+
+.chat-room-controls > .modern-filter-btn:first-child {
+    align-self: flex-start;
+}
+
+.chat-room-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.chat-room-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }

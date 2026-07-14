@@ -11,8 +11,12 @@ namespace RotoMonsterUI
             _input = input;
         }
 
-        private string RenderAvatar(string displayText)
+        public string RenderAvatar()
         {
+            var displayText = !string.IsNullOrEmpty(_input.Username)
+                ? _input.Username
+                : _input.UserId.HasValue ? $"#{_input.UserId}" : "";
+
             if (!string.IsNullOrEmpty(_input.AvatarUrl))
             {
                 var img = new HtmlTag("img")
@@ -38,7 +42,7 @@ namespace RotoMonsterUI
             var wrapper = new HtmlTag("span").AddClass("display-username-wrap");
 
             if (_input.ShowAvatar)
-                wrapper.AppendHtml(RenderAvatar(displayText));
+                wrapper.AppendHtml(RenderAvatar());
 
             var tag = new HtmlTag("span")
                 .AddClass("display-username");
