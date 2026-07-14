@@ -667,3 +667,13 @@ function EditNews(btn) {
     var newsId = btn.getAttribute('data-newsid');
     __doPostBack('editnews_' + newsId, 'edit');
 }
+
+function TriggerPostBack(btn, prefix, dataAttr, argument) {
+    var id = btn.getAttribute(dataAttr);
+    __doPostBack(prefix + id, argument || '');
+}
+
+function DeleteChat(btn) {
+    var messageId = btn.getAttribute('data-messageid');
+    __doPostBack('deletechat_' + messageId, 'delete');
+}

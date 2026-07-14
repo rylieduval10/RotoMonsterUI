@@ -56,7 +56,6 @@ namespace RotoMonsterUI
                     var checkbox = new Checkbox()
                         .WithLabel("Insert Team Analysis at end of post")
                         .WithName($"inserttA_{_input.Id}")
-                        .WithPostBack()
                         .Render();
                     actionRow.AppendHtml(checkbox);
                 }
@@ -142,7 +141,7 @@ namespace RotoMonsterUI
                     .Attr("data-messageid", message.MessageId.ToString())
                     .Attr("onclick", "DeleteChat(this)")
                     .Attr("aria-label", "Delete message")
-                    .AppendHtml(new Icon(new IconInput { Type = IconType.Close, Size = 14, Color = "currentColor" }).Render());
+                    .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15, Color = "#ef4444" }).Render());
                 row.Append(deleteBtn);
             }
 
