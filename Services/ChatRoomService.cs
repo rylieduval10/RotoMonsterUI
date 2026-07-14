@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace RotoMonsterUI
@@ -9,6 +10,7 @@ namespace RotoMonsterUI
         public bool PostMessagePressed { get; set; }
         public bool InsertTeamAnalysis { get; set; }
         public int? DeleteMessageId { get; set; }
+        public string PostedMessageHtml { get; set; }
     }
 
     public class ChatRoomService
@@ -27,6 +29,22 @@ namespace RotoMonsterUI
                 result.PostMessagePressed = true;
 
             result.InsertTeamAnalysis = formValues.ContainsKey($"inserttA_{id}") && formValues[$"inserttA_{id}"] == "1";
+
+            // The rich text editor posts its value Base64-encoded under "{id}-editor-value" -
+            // same decoding RichTextEditorService does, since ChatRoom uses the same editor component.
+            var editorFieldName = $"{id}-editor-value";
+            if (formValues.TryGetValue(editorFieldName, out var rawValue) && !string.IsNullOrEmpty(rawValue))
+            {
+                try
+                {
+                    var bytes = Convert.FromBase64String(rawValue);
+                    result.PostedMessageHtml = System.Text.Encoding.UTF8.GetString(bytes);
+                }
+                catch
+                {
+                    result.PostedMessageHtml = rawValue;
+                }
+            }
 
             foreach (var key in formValues.Keys)
             {

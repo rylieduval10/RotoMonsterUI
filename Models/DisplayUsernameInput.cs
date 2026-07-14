@@ -7,5 +7,6 @@ namespace RotoMonsterUI
         public string CssClass { get; set; }
         public string AvatarUrl { get; set; }
         public bool ShowAvatar { get; set; } = false;
+        public int? TotalPostCount { get; set; }
     }
 }

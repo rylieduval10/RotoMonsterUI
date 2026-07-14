@@ -3461,3 +3461,93 @@ a.modern-filter-btn:hover {
     flex-direction: column;
     gap: 0.75rem;
 }
+
+/* ============================================
+   FORUM POST CARD
+   ============================================ */
+   .forum-post-card {
+    background: var(--color-bg-card);
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.forum-post-card:hover {
+    border-color: rgba(var(--brand-primary-rgb), 0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.forum-post-card-username {
+    margin-bottom: 0.5rem;
+}
+
+.forum-post-card-username .display-username {
+    font-weight: 700;
+    color: var(--brand-primary);
+}
+
+.forum-post-card-time {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    margin-left: auto;
+}
+
+.forum-post-card-text {
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+}
+
+.forum-post-card-text p { margin: 0 0 0.75rem; }
+.forum-post-card-text ul, .forum-post-card-text ol { padding-left: 1.5rem; margin: 0 0 0.75rem; }
+.forum-post-card-text li { margin: 0.2rem 0; }
+.forum-post-card-text a { color: var(--brand-primary); text-decoration: underline; }
+
+.forum-post-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.forum-post-card-btn {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.15s ease;
+}
+
+.forum-post-card-btn:hover {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+.forum-post-card-btn-delete {
+    border: none;
+    background: none;
+}
+
+.forum-post-card-btn-edit {
+    gap: 4px;
+}
+
+.forum-post-card-votes {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+}
+
+/* Shared with any DisplayUsername that sets TotalPostCount (not just forum posts) */
+.display-username-postcount {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-text-tertiary);
+    margin-left: 0.3rem;
+}

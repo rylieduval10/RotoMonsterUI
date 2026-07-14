@@ -52,10 +52,19 @@ namespace RotoMonsterUI
 
             tag.Text(displayText);
 
-            if (!_input.ShowAvatar)
+            if (!_input.ShowAvatar && !_input.TotalPostCount.HasValue)
                 return tag.ToString();
 
             wrapper.Append(tag);
+
+            if (_input.TotalPostCount.HasValue)
+            {
+                var postCount = new HtmlTag("span")
+                    .AddClass("display-username-postcount")
+                    .Text($"({_input.TotalPostCount.Value} posts)");
+                wrapper.Append(postCount);
+            }
+
             return wrapper.ToString();
         }
     }
