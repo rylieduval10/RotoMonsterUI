@@ -16,6 +16,13 @@ namespace RotoMonsterUI
         {
             var card = new HtmlTag("div").AddClass("comment-card");
 
+            var ageShadeColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
+            if (ageShadeColor != null)
+            {
+                card.AddClass("age-shaded");
+                card.Attr("style", $"background:{ageShadeColor};");
+            }
+
             // Player title row
             if (_input.ShowPlayerInfo)
             {

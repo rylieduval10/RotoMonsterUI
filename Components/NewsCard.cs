@@ -70,6 +70,13 @@ namespace RotoMonsterUI
         {
             var card = new HtmlTag("div").AddClass("news-card");
 
+            var ageShadeColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
+            if (ageShadeColor != null)
+            {
+                card.AddClass("age-shaded");
+                card.Attr("style", $"background:{ageShadeColor};");
+            }
+
             // ---- Header row ----
             var headerRow = new HtmlTag("div").AddClass("news-card-header");
 

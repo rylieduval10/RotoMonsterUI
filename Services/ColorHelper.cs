@@ -74,5 +74,20 @@ namespace RotoMonsterUI
 
         public static string GetCyanColorCode(int value, int low, int high, bool colorHigh)
             => GetCyanColorCode((float)value, (float)low, (float)high, colorHigh);
+
+        public static int AgeShadeMaxSeconds = 900;
+
+        public static string GetAgeShadeHex(TimeSpan? age, int? maxSecondsOverride = null)
+        {
+            if (!age.HasValue) return null;
+
+            int maxSeconds = maxSecondsOverride ?? AgeShadeMaxSeconds;
+            double elapsed = age.Value.TotalSeconds;
+
+            if (elapsed < 0) elapsed = 0;
+            if (elapsed >= maxSeconds) return null; // past the window, no shading
+
+            return "#" + GetYellowColorCode((float)elapsed, 0f, (float)maxSeconds, false);
+        }
     }
 }

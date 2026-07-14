@@ -10,8 +10,8 @@
  */
 
  :root {
-    --brand-primary: #E66000;
-    --brand-primary-rgb: 230, 96, 0;
+    --brand-primary: #ff8833;
+    --brand-primary-rgb: 255, 136, 51;
     --brand-primary-light: #f97316;
     --brand-primary-dark: #ea580c;
     --brand-accent: #ff8c42;
@@ -446,7 +446,7 @@ footer a:hover {
 }
 
 .card-based h2 { color: #FF6B00; }
-.card-based h3 { color: #B01C34; }
+.card-based h3 { color: #E5E5E5; }
 
 .modern-filter-section-title {
     color: #ff8c42;
@@ -459,3 +459,5 @@ footer a:hover {
 .lineup-card-player-name a:hover {
     color: var(--color-link-hover);
 }
+
+.listItem { cursor: pointer; font-size: 0.875rem; color: #e2e8f0; border-radius: 6px; }

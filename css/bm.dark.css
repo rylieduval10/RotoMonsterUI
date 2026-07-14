@@ -36,7 +36,7 @@
     --status-success: #10b981;
     --status-warning: #f59e0b;
     --status-error: #ef4444;
-    --status-info: #3b82f6;
+    --status-info: #2196F3;
     --status-success-bg: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
     --status-warning-bg: linear-gradient(135deg, #422006 0%, #451a03 100%);
     --status-error-bg: linear-gradient(135deg, #450a0a 0%, #3f0a0a 100%);
@@ -3084,7 +3084,7 @@ a.modern-filter-btn:hover {
     margin-bottom: 1rem;
 }
 .page-header.page-header--compact h1 {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--color-text-primary);
     text-shadow: none;
@@ -3303,4 +3303,8 @@ a.modern-filter-btn:hover {
     display: inline-flex;
     align-items: center;
     gap: 3px;
+}
+
+.age-shaded, .age-shaded * {
+    color: #000 !important;
 }
