@@ -3305,6 +3305,6 @@ a.modern-filter-btn:hover {
     gap: 3px;
 }
 
-.age-shaded, .age-shaded * {
+.color-shaded, .color-shaded * {
     color: #000 !important;
 }

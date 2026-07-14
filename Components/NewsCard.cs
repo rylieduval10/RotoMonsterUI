@@ -71,11 +71,9 @@ namespace RotoMonsterUI
             var card = new HtmlTag("div").AddClass("news-card");
 
             var ageShadeColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
-            if (ageShadeColor != null)
-            {
-                card.AddClass("age-shaded");
+            bool isShaded = ageShadeColor != null;
+            if (isShaded)
                 card.Attr("style", $"background:{ageShadeColor};");
-            }
 
             // ---- Header row ----
             var headerRow = new HtmlTag("div").AddClass("news-card-header");
@@ -90,18 +88,38 @@ namespace RotoMonsterUI
                         ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
                         : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
                 }
-                headerRow.AppendHtml(new DisplayPlayer(_input.DisplayPlayerInput).Render());
+
+                // Player name and position badges are left as-is. Team code gets auto-darkened when
+                // shaded so it stays readable on yellow without just going flat black.
+                var displayPlayerInput = _input.DisplayPlayerInput;
+                if (isShaded && !string.IsNullOrEmpty(displayPlayerInput.TeamColor))
+                {
+                    displayPlayerInput = new DisplayPlayerInput
+                    {
+                        PlayerName = _input.DisplayPlayerInput.PlayerName,
+                        PlayerId = _input.DisplayPlayerInput.PlayerId,
+                        TeamCode = _input.DisplayPlayerInput.TeamCode,
+                        TeamColor = ColorHelper.GetAutoColorForLightBackground(_input.DisplayPlayerInput.TeamColor),
+                        Positions = _input.DisplayPlayerInput.Positions
+                    };
+                }
+                headerRow.AppendHtml(new DisplayPlayer(displayPlayerInput).Render());
             }
             else if (_input.DisplayTeamInput != null)
             {
+                var teamColor = isShaded
+                    ? ColorHelper.GetAutoColorForLightBackground(_input.DisplayTeamInput.ColorCode)
+                    : _input.DisplayTeamInput.ColorCode;
+
                 var teamSpan = new HtmlTag("span")
                     .AddClass("news-card-team")
-                    .Attr("style", $"color:{NormalizeColor(_input.DisplayTeamInput.ColorCode)}")
+                    .Attr("style", $"color:{NormalizeColor(teamColor)}")
                     .Text(_input.DisplayTeamInput.Name);
                 headerRow.Append(teamSpan);
             }
 
             var headerRight = new HtmlTag("div").AddClass("news-card-header-right");
+            if (isShaded) headerRight.AddClass("color-shaded");
 
             if (!string.IsNullOrEmpty(_input.SourceURL))
             {
@@ -125,11 +143,14 @@ namespace RotoMonsterUI
             if (_input.DisplayTeamInput != null && _input.TeamPlayerNames.Any())
             {
                 var rosterRow = new HtmlTag("div").AddClass("news-card-roster");
-                rosterRow.Append(new HtmlTag("span").Text(string.Join(", ", _input.TeamPlayerNames)));
+                var rosterNames = new HtmlTag("span").Text(string.Join(", ", _input.TeamPlayerNames));
+                if (isShaded) rosterNames.AddClass("color-shaded");
+                rosterRow.Append(rosterNames);
 
                 var teamLevelColor = LevelColor(_input.NewsLevel);
                 if (teamLevelColor != null)
                 {
+                    // Level badge keeps its own background/text color - already reads fine on its own.
                     var teamLevelBadge = new HtmlTag("span")
                         .AddClass("news-card-level-badge")
                         .Attr("style", $"background:{teamLevelColor}")
@@ -142,13 +163,21 @@ namespace RotoMonsterUI
             else if (!string.IsNullOrEmpty(_input.StatusTypeText))
             {
                 var statusRow = new HtmlTag("div").AddClass("news-card-status-row");
-                statusRow.Append(new HtmlTag("span").AddClass("news-card-status-text").Text(_input.StatusTypeText));
+                var statusText = new HtmlTag("span").AddClass("news-card-status-text").Text(_input.StatusTypeText);
+                if (isShaded) statusText.AddClass("color-shaded");
+                statusRow.Append(statusText);
+
                 if (!string.IsNullOrEmpty(_input.NewsTitle))
-                    statusRow.Append(new HtmlTag("span").AddClass("news-card-news-title").Text(_input.NewsTitle));
+                {
+                    var newsTitle = new HtmlTag("span").AddClass("news-card-news-title").Text(_input.NewsTitle);
+                    if (isShaded) newsTitle.AddClass("color-shaded");
+                    statusRow.Append(newsTitle);
+                }
 
                 var levelColor = LevelColor(_input.NewsLevel);
                 if (levelColor != null)
                 {
+                    // Level badge keeps its own background/text color - already reads fine on its own.
                     var levelBadge = new HtmlTag("span")
                         .AddClass("news-card-level-badge")
                         .Attr("style", $"background:{levelColor}")
@@ -207,11 +236,13 @@ namespace RotoMonsterUI
                             .Attr("onclick", "EditNews(this)")
                             .Attr("aria-label", "Edit")
                             .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                        if (isShaded) editBtn.AddClass("color-shaded");
                         actionRow.Append(editBtn);
                     }
 
                     if (_input.UserCanDelete)
                     {
+                        // Delete icon has its own hardcoded red color already - no shading needed.
                         var deleteIconBtn = new HtmlTag("button")
                             .AddClass("news-card-action-btn news-card-action-btn--delete")
                             .Attr("name", $"deletenews_{_input.NewsId}")
@@ -226,6 +257,7 @@ namespace RotoMonsterUI
                 if (hasCounts)
                 {
                     var countsRow = new HtmlTag("div").AddClass("news-card-counts");
+                    if (isShaded) countsRow.AddClass("color-shaded");
                     if (_input.UserOwnCount.HasValue)
                         countsRow.AppendHtml($"yours {_input.UserOwnCount.Value}");
                     if (_input.UserFreeAgentCount.HasValue)

@@ -75,6 +75,7 @@ namespace RotoMonsterUI
         public static string GetCyanColorCode(int value, int low, int high, bool colorHigh)
             => GetCyanColorCode((float)value, (float)low, (float)high, colorHigh);
 
+        // Configurable "freshness window" in seconds — 900 = 15 minutes
         public static int AgeShadeMaxSeconds = 900;
 
         public static string GetAgeShadeHex(TimeSpan? age, int? maxSecondsOverride = null)
@@ -88,6 +89,32 @@ namespace RotoMonsterUI
             if (elapsed >= maxSeconds) return null; // past the window, no shading
 
             return "#" + GetYellowColorCode((float)elapsed, 0f, (float)maxSeconds, false);
+        }
+
+        // Darkens a color if it's too light to read against a bright yellow background (like the age-shading).
+        // Colors that are already dark enough (navy, maroon, black, etc.) are returned unchanged.
+        public static string GetAutoColorForLightBackground(string hexColor, double maxLuminance = 0.55)
+        {
+            if (string.IsNullOrEmpty(hexColor)) return hexColor;
+
+            var hex = hexColor.TrimStart('#');
+            if (hex.Length != 6) return hexColor;
+
+            int r = Convert.ToInt32(hex.Substring(0, 2), 16);
+            int g = Convert.ToInt32(hex.Substring(2, 2), 16);
+            int b = Convert.ToInt32(hex.Substring(4, 2), 16);
+
+            double luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255.0;
+
+            if (luminance <= maxLuminance)
+                return "#" + hex;
+
+            double darkenFactor = maxLuminance / luminance;
+            r = (int)Math.Round(r * darkenFactor);
+            g = (int)Math.Round(g * darkenFactor);
+            b = (int)Math.Round(b * darkenFactor);
+
+            return "#" + GetColorCode(r, g, b);
         }
     }
 }
