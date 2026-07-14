@@ -50,32 +50,42 @@ namespace RotoMonsterUI
 
             if (_input.ShowUpDownControls)
             {
-                if (_input.UserVoteInput == null || !_input.UserVoteInput.HasVoted)
-                {
-                    var upBtn = new HtmlTag("button")
-                        .AddClass("forum-post-card-btn forum-post-card-btn-up")
-                        .Attr("name", $"forumupvote_{_input.PostId}")
-                        .Text("Up");
-                    var downBtn = new HtmlTag("button")
-                        .AddClass("forum-post-card-btn forum-post-card-btn-down")
-                        .Attr("name", $"forumdownvote_{_input.PostId}")
-                        .Text("Down");
-                    actionsRow.Append(upBtn);
-                    actionsRow.Append(downBtn);
-                }
+                bool votedUp = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedUp;
+                bool votedDown = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedDown;
 
                 var total = _input.UpVoteCount + _input.DownVoteCount;
                 var percent = total > 0 ? (int)Math.Round((double)_input.UpVoteCount / total * 100) : 0;
-                var voteCount = new HtmlTag("span").AddClass("forum-post-card-votes")
-                    .Text($"{percent}% ({total}) UP");
-                actionsRow.Append(voteCount);
 
-                if (_input.UserVoteInput != null && _input.UserVoteInput.HasVoted)
-                {
-                    // Reuses UserVote, just needs the vote input's CommentId to line up with PostId for the change-vote button name.
-                    var userVote = new HtmlTag("span").AppendHtml(new UserVote(_input.UserVoteInput).Render());
-                    actionsRow.Append(userVote);
-                }
+                var votePill = new HtmlTag("span").AddClass("forum-post-vote-pill");
+
+                // Both arrows are always clickable - clicking the opposite arrow just switches
+                // the vote directly, no separate "Change" step needed.
+                var upBtn = new HtmlTag("button")
+                    .AddClass("forum-post-vote-btn")
+                    .Attr("type", "button")
+                    .Attr("name", $"forumupvote_{_input.PostId}")
+                    .Attr("aria-label", "Upvote");
+                if (votedUp) upBtn.AddClass("forum-post-vote-btn--active-up");
+                upBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowUp, Size = 14, Color = "currentColor" }).Render());
+                votePill.Append(upBtn);
+
+                var percentSpan = new HtmlTag("span").AddClass("forum-post-vote-percent").Text($"{percent}%");
+                votePill.Append(percentSpan);
+
+                var downBtn = new HtmlTag("button")
+                    .AddClass("forum-post-vote-btn")
+                    .Attr("type", "button")
+                    .Attr("name", $"forumdownvote_{_input.PostId}")
+                    .Attr("aria-label", "Downvote");
+                if (votedDown) downBtn.AddClass("forum-post-vote-btn--active-down");
+                downBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowDown, Size = 14, Color = "currentColor" }).Render());
+                votePill.Append(downBtn);
+
+                actionsRow.Append(votePill);
+
+                var voteCount = new HtmlTag("span").AddClass("forum-post-vote-count")
+                    .Text(total == 1 ? "1 vote" : $"{total} votes");
+                actionsRow.Append(voteCount);
             }
 
             if (_input.UserCanEdit)

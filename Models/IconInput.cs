@@ -66,7 +66,9 @@ namespace RotoMonsterUI
         Kebab, 
         ExternalLink,
         Close,
-        ChatBubble
+        ChatBubble,
+        ArrowUp,
+        ArrowDown
     }
 
     public class IconInput

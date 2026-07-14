@@ -3419,7 +3419,6 @@ a.modern-filter-btn:hover {
     flex-direction: column;
     gap: 0.75rem;
 }
-
 /* ============================================
    FORUM POST CARD
    ============================================ */
@@ -3444,6 +3443,12 @@ a.modern-filter-btn:hover {
 .forum-post-card-username .display-username {
     font-weight: 700;
     color: var(--brand-primary);
+}
+
+.forum-post-card-username .display-username-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
 }
 
 .forum-post-card-time {
@@ -3488,18 +3493,74 @@ a.modern-filter-btn:hover {
     color: var(--brand-primary);
 }
 
+.forum-post-card-btn-edit {
+    gap: 4px;
+}
+
 .forum-post-card-btn-delete {
     border: none;
     background: none;
 }
 
-.forum-post-card-votes {
-    font-size: 0.8rem;
-    color: var(--color-text-tertiary);
+/* Vote pill (up/down toggle control) */
+.forum-post-vote-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(0,0,0,0.08);
+    border-radius: 999px;
+    padding: 3px;
 }
 
-.forum-post-card-btn-edit {
-    gap: 4px;
+.display-username-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.forum-post-vote-btn {
+    background: none;
+    border: none;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: all 0.15s ease;
+}
+
+.forum-post-vote-btn:hover {
+    background: rgba(255,255,255,0.08);
+}
+
+.forum-post-vote-btn--active-up {
+    background: rgba(34,197,94,0.2);
+    color: #22c55e;
+}
+
+.forum-post-vote-btn--active-down {
+    background: rgba(239,68,68,0.2);
+    color: #ef4444;
+}
+
+.forum-post-vote-percent {
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0 8px;
+    color: var(--color-text-primary);
+}
+
+.forum-post-vote-count {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    margin-left: 0.5rem;
+}
+
+.forum-post-card-username .display-username-wrap {
+    gap: 0.6rem;
 }
 
 /* Shared with any DisplayUsername that sets TotalPostCount (not just forum posts) */

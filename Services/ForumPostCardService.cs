@@ -16,9 +16,6 @@ namespace RotoMonsterUI
                 else if (key.StartsWith("forumdownvote_") && int.TryParse(key.Replace("forumdownvote_", ""), out int downId))
                     result.DownVotePostId = downId;
 
-                else if (key.StartsWith("forumchangevote_") && int.TryParse(key.Replace("forumchangevote_", ""), out int changeId))
-                    result.ChangeVotePostId = changeId;
-
                 else if (key.StartsWith("forumdelete_") && int.TryParse(key.Replace("forumdelete_", ""), out int deleteId))
                     result.DeletePostId = deleteId;
 

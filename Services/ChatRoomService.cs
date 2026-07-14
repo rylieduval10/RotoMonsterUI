@@ -46,12 +46,25 @@ namespace RotoMonsterUI
                 }
             }
 
-            foreach (var key in formValues.Keys)
+            // Delete button now fires via manual __doPostBack (DeleteChat JS function) since the
+            // chat log runs under AJAX and normal button postback resolution doesn't fire there -
+            // same issue and same fix as NewsCard's edit button. That means the target comes through
+            // as the __EVENTTARGET value ("deletechat_123"), not as its own form key. Checking both
+            // paths so this still works if the button is ever rendered as a normal postback button too.
+            if (formValues.TryGetValue("__EVENTTARGET", out var eventTarget) && eventTarget.StartsWith("deletechat_"))
             {
-                if (key.StartsWith($"deletemsg_{id}_") && int.TryParse(key.Substring($"deletemsg_{id}_".Length), out var msgId))
+                if (int.TryParse(eventTarget.Substring("deletechat_".Length), out var targetMsgId))
+                    result.DeleteMessageId = targetMsgId;
+            }
+            else
+            {
+                foreach (var key in formValues.Keys)
                 {
-                    result.DeleteMessageId = msgId;
-                    break;
+                    if (key.StartsWith($"deletemsg_{id}_") && int.TryParse(key.Substring($"deletemsg_{id}_".Length), out var msgId))
+                    {
+                        result.DeleteMessageId = msgId;
+                        break;
+                    }
                 }
             }
 

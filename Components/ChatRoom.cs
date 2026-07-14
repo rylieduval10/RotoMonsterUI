@@ -11,6 +11,9 @@ namespace RotoMonsterUI
         {
             _input = input;
         }
+
+        // Renders the toggle button + composer. This part is NOT touched by the AJAX refresh -
+        // it holds whatever the user is actively typing, so it should only render once per page load.
         public string RenderControls()
         {
             var container = new HtmlTag("div").AddClass("chat-room-controls");
@@ -136,7 +139,8 @@ namespace RotoMonsterUI
                 var deleteBtn = new HtmlTag("button")
                     .AddClass("chat-card-delete")
                     .Attr("type", "button")
-                    .Attr("name", $"deletemsg_{_input.Id}_{message.MessageId}")
+                    .Attr("data-messageid", message.MessageId.ToString())
+                    .Attr("onclick", "DeleteChat(this)")
                     .Attr("aria-label", "Delete message")
                     .AppendHtml(new Icon(new IconInput { Type = IconType.Close, Size = 14, Color = "currentColor" }).Render());
                 row.Append(deleteBtn);
