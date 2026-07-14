@@ -191,7 +191,9 @@ namespace RotoMonsterUI
             // ---- More details ----
             if (!_input.IsEditing && !string.IsNullOrEmpty(_input.NewsDetails))
             {
-                card.Append(new HtmlTag("div").AddClass("news-card-details").Text(_input.NewsDetails));
+                var detailsDiv = new HtmlTag("div").AddClass("news-card-details").Text(_input.NewsDetails);
+                if (isShaded) detailsDiv.AddClass("color-shaded");
+                card.Append(detailsDiv);
             }
 
             // ---- Applied news tags ----

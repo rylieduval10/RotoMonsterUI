@@ -64,7 +64,9 @@ namespace RotoMonsterUI
         IsTeamUpdate,
         Edit,
         Kebab, 
-        ExternalLink
+        ExternalLink,
+        Close,
+        ChatBubble
     }
 
     public class IconInput
