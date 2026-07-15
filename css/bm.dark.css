@@ -3617,8 +3617,8 @@ a.modern-filter-btn:hover {
     min-width: 350px;
 }
 
-.news-card--test-dark .display-player-name {
-    color: #ffffff;
+.display-player-name {
+    color: var(--color-text-primary);
 }
 
 .news-card-test-corner-group {
@@ -3631,14 +3631,10 @@ a.modern-filter-btn:hover {
 }
 
 .news-card-test-source {
-    color: #1a1a1a;
+    color: var(--color-text-primary);
     display: inline-flex;
     align-items: center;
     margin-top: 2px;
-}
-
-.news-card--test-dark .news-card-test-source {
-    color: white;
 }
 
 .news-card-test-status-corner {
@@ -3676,11 +3672,7 @@ a.modern-filter-btn:hover {
 }
 
 .news-card-test-time-badge--expired .time-since {
-    color: #1a1a1a;
-}
-
-.news-card--test-dark .news-card-test-time-badge--expired .time-since {
-    color: white;
+    color: var(--color-text-primary);
 }
 
 .news-card-test-level {
@@ -3707,13 +3699,9 @@ a.modern-filter-btn:hover {
 .news-card-test-tag-icon {
     display: inline-flex;
     cursor: pointer;
-    color: #1a1a1a;
-}
-
-.news-card--test-dark .news-card-test-tag-icon {
-    color: white;
+    color: var(--color-text-primary);
 }
 
 .news-card--test .news-card-bottom-row {
-    border-top: 3px solid var(--color-border-strong, var(--color-border));
+    border-top: 1px solid var(--color-border-strong, var(--color-border));
 }

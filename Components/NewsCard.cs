@@ -398,8 +398,6 @@ namespace RotoMonsterUI
 public string RenderTest()
         {
             var card = new HtmlTag("div").AddClass("news-card news-card--test");
-            if (_input.IsDarkMode)
-                card.AddClass("news-card--test-dark");
 
             var cardTint = TintBackground(_input.StatusTypeColorCode, 0.15);
             card.Attr("style", $"background:{cardTint};");
@@ -412,6 +410,16 @@ public string RenderTest()
             var headerRow = new HtmlTag("div").AddClass("news-card-test-header");
 
             var headerLeft = new HtmlTag("div").AddClass("news-card-test-header-left");
+
+            var levelColor = LevelColor(_input.NewsLevel);
+            if (levelColor != null)
+            {
+                var levelBadge = new HtmlTag("span")
+                    .AddClass("news-card-test-level")
+                    .Attr("style", $"background:{levelColor}")
+                    .Text(_input.NewsLevel.ToString().ToLower());
+                headerLeft.Append(levelBadge);
+            }
 
             if (_input.TimeSinceCreated.HasValue)
             {
@@ -437,16 +445,6 @@ public string RenderTest()
                 headerLeft.Append(sourceLink);
             }
 
-            var levelColor = LevelColor(_input.NewsLevel);
-            if (levelColor != null)
-            {
-                var levelBadge = new HtmlTag("span")
-                    .AddClass("news-card-test-level")
-                    .Attr("style", $"background:{levelColor}")
-                    .Text(_input.NewsLevel.ToString().ToLower());
-                headerLeft.Append(levelBadge);
-            }
-
             headerRow.Append(headerLeft);
             card.Append(headerRow);
 
@@ -462,9 +460,11 @@ public string RenderTest()
             }
 
             // Body row: an icon for the status tag (Injury, Illness, etc.) with a tooltip, next to
-            // the actual news text (NewsDetails, falling back to NewsTitle) - matches Ken's original
-            // sketch. StatusTypeText is the short status word shown on the corner ribbon, not here.
-            var bodyContent = !string.IsNullOrEmpty(_input.NewsDetails) ? _input.NewsDetails : _input.NewsTitle;
+            // the actual news text - shows NewsTitle and NewsDetails together per Ken's request.
+            var bodyParts = new List<string>();
+            if (!string.IsNullOrEmpty(_input.NewsTitle)) bodyParts.Add(_input.NewsTitle);
+            if (!string.IsNullOrEmpty(_input.NewsDetails)) bodyParts.Add(_input.NewsDetails);
+            var bodyContent = string.Join(" - ", bodyParts);
             if (!string.IsNullOrEmpty(bodyContent))
             {
                 var bodyRow = new HtmlTag("div").AddClass("news-card-test-body-row");
@@ -530,10 +530,12 @@ public string RenderTest()
                 if (hasCounts)
                 {
                     var countsRow = new HtmlTag("div").AddClass("news-card-counts");
+                    var countParts = new List<string>();
                     if (_input.UserOwnCount.HasValue)
-                        countsRow.AppendHtml($"own {_input.UserOwnCount.Value}");
-                    if (_input.UserFreeAgentCount.HasValue)
-                        countsRow.AppendHtml($" &middot; fa {_input.UserFreeAgentCount.Value}");
+                        countParts.Add($"own {_input.UserOwnCount.Value}");
+                    if (_input.UserFreeAgentCount.HasValue && _input.UserFreeAgentCount.Value != 0)
+                        countParts.Add($"fa {_input.UserFreeAgentCount.Value}");
+                    countsRow.AppendHtml(string.Join(" &middot; ", countParts));
                     bottomRow.Append(countsRow);
                 }
 
@@ -543,8 +545,6 @@ public string RenderTest()
             return card.ToString();
         }
 
-        // Flush corner ribbon showing the short status word (e.g. "STARTING"), not the abbreviation -
-        // this is the badge Ken specifically liked the look of in his sample screenshot.
         private HtmlTag RenderCornerStatusBadge()
         {
             var tooltipId = $"newsbadge-tooltip-{_input.NewsId}-corner";
