@@ -395,7 +395,7 @@ namespace RotoMonsterUI
             return form;
         }
 
-public string RenderTest()
+        public string RenderTest()
         {
             var card = new HtmlTag("div").AddClass("news-card news-card--test");
 
@@ -477,7 +477,7 @@ public string RenderTest()
                     var tagIconTrigger = new HtmlTag("span")
                         .AddClass("news-card-test-tag-icon bm-tooltip-trigger")
                         .Attr("data-bm-tooltip", tagTooltipId);
-                    tagIconTrigger.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 20, Color = "currentColor" }).Render());
+                    tagIconTrigger.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 16, Color = "currentColor" }).Render());
                     tagIconWrap.Append(tagIconTrigger);
                     tagIconWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tagTooltipId).Text(_input.StatusTypeTag));
                     bodyRow.Append(tagIconWrap);
@@ -541,6 +541,9 @@ public string RenderTest()
 
                 card.Append(bottomRow);
             }
+
+            if (_input.IsEditing)
+                card.Append(RenderEditForm());
 
             return card.ToString();
         }

@@ -3705,3 +3705,31 @@ a.modern-filter-btn:hover {
 .news-card--test .news-card-bottom-row {
     border-top: 1px solid var(--color-border-strong, var(--color-border));
 }
+
+.position-usage-header {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.position-usage-header-label {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+}
+
+.position-usage-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+}
+
+.position-usage-pill {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 0;
+    border-radius: 6px;
+}
