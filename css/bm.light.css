@@ -2441,7 +2441,7 @@ a.modern-filter-btn:hover {
 }
 
 .bm-segmented input[type=radio]:checked + label {
-    background: var(--brand-primary);
+    background: var(--segment-color, var(--brand-primary));
     color: white !important;
     border-radius: 6px;
 }

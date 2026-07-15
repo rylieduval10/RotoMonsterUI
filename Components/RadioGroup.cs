@@ -6,7 +6,7 @@ namespace RotoMonsterUI
     public class RadioGroup
     {
         private string _name;
-        private List<(string label, string value, bool selected)> _options;
+        private List<(string label, string value, bool selected, string color)> _options;
         private string _id;
         private bool _autoPostBack = false;
         private bool _segmented = true;
@@ -14,7 +14,7 @@ namespace RotoMonsterUI
         public RadioGroup(string name)
         {
             _name = name;
-            _options = new List<(string, string, bool)>();
+            _options = new List<(string, string, bool, string)>();
         }
 
         public RadioGroup WithId(string id)
@@ -43,9 +43,9 @@ namespace RotoMonsterUI
 
         public string Id => _id ?? _name ?? "";
 
-        public RadioGroup AddOption(string label, string value, bool isSelected = false)
+        public RadioGroup AddOption(string label, string value, bool isSelected = false, string color = null)
         {
-            _options.Add((label, value, isSelected));
+            _options.Add((label, value, isSelected, color));
             return this;
         }
 
@@ -78,6 +78,9 @@ namespace RotoMonsterUI
                 var label = new HtmlTag("label")
                     .Attr("for", inputId)
                     .Text(option.label);
+
+                if (!string.IsNullOrEmpty(option.color))
+                    label.Attr("style", $"--segment-color:{option.color};");
 
                 wrapper.Append(input);
                 wrapper.Append(label);
