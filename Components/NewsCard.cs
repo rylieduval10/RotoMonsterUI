@@ -394,18 +394,32 @@ namespace RotoMonsterUI
             return form;
         }
 
-// Experimental layout from Ken's Interface 7/15 doc. Whole card is lightly tinted by the
-        // status color (like the sample he liked), status badge sits as a flush corner ribbon,
-        // time-since badge shades separately by recency, and source/level sit left-justified
-        // next to it.
-        public string RenderTest()
+public string RenderTest()
         {
             var card = new HtmlTag("div").AddClass("news-card news-card--test");
 
             var cardTint = TintBackground(_input.StatusTypeColorCode, 0.15);
             card.Attr("style", $"background:{cardTint};");
 
-            card.Append(RenderCornerStatusBadge());
+            // Source icon and status ribbon are grouped together in one absolutely-positioned
+            // corner unit, so the source always sits right next to the ribbon regardless of how
+            // the rest of the header row lays out.
+            var cornerGroup = new HtmlTag("div").AddClass("news-card-test-corner-group");
+
+            if (!string.IsNullOrEmpty(_input.SourceURL))
+            {
+                var sourceLink = new HtmlTag("a")
+                    .AddClass("news-card-test-source")
+                    .Attr("href", _input.SourceURL)
+                    .Attr("target", "_blank")
+                    .Attr("rel", "noopener noreferrer")
+                    .Attr("aria-label", "Source");
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "white" }).Render());
+                cornerGroup.Append(sourceLink);
+            }
+
+            cornerGroup.Append(RenderCornerStatusBadge());
+            card.Append(cornerGroup);
 
             var headerRow = new HtmlTag("div").AddClass("news-card-test-header");
 
@@ -417,20 +431,10 @@ namespace RotoMonsterUI
                 var timeBadge = new HtmlTag("span").AddClass("news-card-test-time-badge");
                 if (ageColor != null)
                     timeBadge.Attr("style", $"background:{ageColor};");
+                else
+                    timeBadge.AddClass("news-card-test-time-badge--expired");
                 timeBadge.AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
                 headerLeft.Append(timeBadge);
-            }
-
-            if (!string.IsNullOrEmpty(_input.SourceURL))
-            {
-                var sourceLink = new HtmlTag("a")
-                    .AddClass("news-card-source")
-                    .Attr("href", _input.SourceURL)
-                    .Attr("target", "_blank")
-                    .Attr("rel", "noopener noreferrer")
-                    .Attr("aria-label", "Source");
-                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 14 }).Render());
-                headerLeft.Append(sourceLink);
             }
 
             var levelColor = LevelColor(_input.NewsLevel);

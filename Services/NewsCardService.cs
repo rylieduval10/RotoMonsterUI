@@ -5,6 +5,46 @@ namespace RotoMonsterUI
 {
     public class NewsCardService
     {
+
+        private static readonly string[] KeyPrefixes =
+        {
+            "editnews_", "deletenews_", "savenews_", "cancelnews_", "settag_",
+            "status_", "tag_", "newstitle_", "source_", "newsdetails_", "unofficial_", "level_", "newstag_"
+        };
+
+        public static int? GetActiveNewsId(Dictionary<string, string> params_)
+        {
+            if (params_.TryGetValue("__EVENTTARGET", out var eventTarget) && eventTarget != null)
+            {
+                foreach (var prefix in new[] { "editnews_", "deletenews_" })
+                {
+                    if (eventTarget.StartsWith(prefix) && int.TryParse(eventTarget.Substring(prefix.Length), out var idFromTarget))
+                        return idFromTarget;
+                }
+            }
+
+            foreach (var key in params_.Keys)
+            {
+                foreach (var prefix in KeyPrefixes)
+                {
+                    if (!key.StartsWith(prefix)) continue;
+                    var rest = key.Substring(prefix.Length);
+                    var idPart = prefix == "newstag_" ? rest.Split('_')[0] : rest;
+
+                    if (int.TryParse(idPart, out var id))
+                        return id;
+                }
+            }
+
+            return null;
+        }
+
+        public NewsCardResult Process(Dictionary<string, string> params_)
+        {
+            var newsId = GetActiveNewsId(params_);
+            return newsId.HasValue ? Process(newsId.Value, params_) : new NewsCardResult();
+        }
+
         public static int? GetDeletedNewsId(Dictionary<string, string> params_)
         {
             if (params_.TryGetValue("__EVENTTARGET", out var eventTarget) &&
