@@ -97,8 +97,8 @@ namespace RotoMonsterUI
                             .AddClass("give-get-picker-remove")
                             .Attr("type", "submit")
                             .Attr("name", $"{pickerId}-remove-{player.PlayerId}")
-                            .Attr("aria-label", "Remove player");
-                        removeBtn.AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 14 }).Render());
+                            .Attr("aria-label", "Remove player")
+                            .Text("\u00d7");
                         chip.Append(removeBtn);
                     }
 

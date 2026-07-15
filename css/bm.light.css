@@ -3666,10 +3666,11 @@ a.modern-filter-btn:hover {
 
 .position-usage-header {
     display: grid;
-    grid-template-columns: repeat(5, 32px);
-    gap: 2px;
+    grid-template-columns: repeat(5, 24px);
+    gap: 1px;
     margin-bottom: 2px;
 }
+
 
 .position-usage-header-label {
     text-align: center;
@@ -3679,8 +3680,8 @@ a.modern-filter-btn:hover {
 
 .position-usage-row {
     display: grid;
-    grid-template-columns: repeat(5, 32px);
-    gap: 2px;
+    grid-template-columns: repeat(5, 24px);
+    gap: 1px;
 }
 
 .position-usage-row > .bm-tooltip-wrap {

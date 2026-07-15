@@ -68,7 +68,7 @@ namespace RotoMonsterUI
 
                     var wrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
                     wrap.Append(pill);
-                    wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(pos.FullName));
+                    wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content bm-tooltip-content--centered").Attr("id", tooltipId).Text(pos.FullName));
                     row.Append(wrap);
                 }
                 else
