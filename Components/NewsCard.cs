@@ -401,23 +401,8 @@ public string RenderTest()
             var cardTint = TintBackground(_input.StatusTypeColorCode, 0.15);
             card.Attr("style", $"background:{cardTint};");
 
-            // Source icon and status ribbon are grouped together in one absolutely-positioned
-            // corner unit, so the source always sits right next to the ribbon regardless of how
-            // the rest of the header row lays out.
+            // Status ribbon is absolutely positioned flush in the top-right corner.
             var cornerGroup = new HtmlTag("div").AddClass("news-card-test-corner-group");
-
-            if (!string.IsNullOrEmpty(_input.SourceURL))
-            {
-                var sourceLink = new HtmlTag("a")
-                    .AddClass("news-card-test-source")
-                    .Attr("href", _input.SourceURL)
-                    .Attr("target", "_blank")
-                    .Attr("rel", "noopener noreferrer")
-                    .Attr("aria-label", "Source");
-                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "white" }).Render());
-                cornerGroup.Append(sourceLink);
-            }
-
             cornerGroup.Append(RenderCornerStatusBadge());
             card.Append(cornerGroup);
 
@@ -445,6 +430,18 @@ public string RenderTest()
                     .Attr("style", $"color:{levelColor}")
                     .Text(_input.NewsLevel.ToString().ToLower());
                 headerLeft.Append(levelBadge);
+            }
+
+            if (!string.IsNullOrEmpty(_input.SourceURL))
+            {
+                var sourceLink = new HtmlTag("a")
+                    .AddClass("news-card-test-source")
+                    .Attr("href", _input.SourceURL)
+                    .Attr("target", "_blank")
+                    .Attr("rel", "noopener noreferrer")
+                    .Attr("aria-label", "Source");
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "white" }).Render());
+                headerLeft.Append(sourceLink);
             }
 
             headerRow.Append(headerLeft);

@@ -101,7 +101,7 @@ namespace RotoMonsterUI
 
             if (_input.ShowUpDownControls)
             {
-                if (_input.UserVoteInput == null || !_input.UserVoteInput.HasVoted)
+                if (_input.CanVote && (_input.UserVoteInput == null || !_input.UserVoteInput.HasVoted))
                 {
                     var upBtn = new HtmlTag("button")
                         .AddClass("comment-card-btn comment-card-btn-up")

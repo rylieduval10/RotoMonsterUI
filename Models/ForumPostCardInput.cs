@@ -14,6 +14,7 @@ namespace RotoMonsterUI
 
         public UserVoteInput UserVoteInput { get; set; }
         public bool ShowUpDownControls { get; set; }
+        public bool CanVote { get; set; } = true;
         public int UpVoteCount { get; set; }
         public int DownVoteCount { get; set; }
         public bool UserCanDelete { get; set; }

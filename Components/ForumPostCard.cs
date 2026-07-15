@@ -58,30 +58,36 @@ namespace RotoMonsterUI
 
                 var votePill = new HtmlTag("span").AddClass("forum-post-vote-pill");
 
-                var upBtn = new HtmlTag("button")
-                    .AddClass("forum-post-vote-btn")
-                    .Attr("type", "button")
-                    .Attr("name", $"forumupvote_{_input.PostId}")
-                    .Attr("data-postid", _input.PostId.ToString())
-                    .Attr("onclick", "TriggerPostBack(this, 'forumupvote_', 'data-postid')")
-                    .Attr("aria-label", "Upvote");
-                if (votedUp) upBtn.AddClass("forum-post-vote-btn--active-up");
-                upBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowUp, Size = 14, Color = "currentColor" }).Render());
-                votePill.Append(upBtn);
+                if (_input.CanVote)
+                {
+                    var upBtn = new HtmlTag("button")
+                        .AddClass("forum-post-vote-btn")
+                        .Attr("type", "button")
+                        .Attr("name", $"forumupvote_{_input.PostId}")
+                        .Attr("data-postid", _input.PostId.ToString())
+                        .Attr("onclick", "TriggerPostBack(this, 'forumupvote_', 'data-postid')")
+                        .Attr("aria-label", "Upvote");
+                    if (votedUp) upBtn.AddClass("forum-post-vote-btn--active-up");
+                    upBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowUp, Size = 14, Color = "currentColor" }).Render());
+                    votePill.Append(upBtn);
+                }
 
                 var percentSpan = new HtmlTag("span").AddClass("forum-post-vote-percent").Text($"{percent}%");
                 votePill.Append(percentSpan);
 
-                var downBtn = new HtmlTag("button")
-                    .AddClass("forum-post-vote-btn")
-                    .Attr("type", "button")
-                    .Attr("name", $"forumdownvote_{_input.PostId}")
-                    .Attr("data-postid", _input.PostId.ToString())
-                    .Attr("onclick", "TriggerPostBack(this, 'forumdownvote_', 'data-postid')")
-                    .Attr("aria-label", "Downvote");
-                if (votedDown) downBtn.AddClass("forum-post-vote-btn--active-down");
-                downBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowDown, Size = 14, Color = "currentColor" }).Render());
-                votePill.Append(downBtn);
+                if (_input.CanVote)
+                {
+                    var downBtn = new HtmlTag("button")
+                        .AddClass("forum-post-vote-btn")
+                        .Attr("type", "button")
+                        .Attr("name", $"forumdownvote_{_input.PostId}")
+                        .Attr("data-postid", _input.PostId.ToString())
+                        .Attr("onclick", "TriggerPostBack(this, 'forumdownvote_', 'data-postid')")
+                        .Attr("aria-label", "Downvote");
+                    if (votedDown) downBtn.AddClass("forum-post-vote-btn--active-down");
+                    downBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowDown, Size = 14, Color = "currentColor" }).Render());
+                    votePill.Append(downBtn);
+                }
 
                 actionsRow.Append(votePill);
 
@@ -89,10 +95,13 @@ namespace RotoMonsterUI
                     .Text(total == 1 ? "1 vote" : $"{total} votes");
                 actionsRow.Append(voteCount);
 
-                // Records the current vote state at render time so the service can tell "vote again"
-                // apart from "clicking the same arrow means remove my vote".
-                var voteStateValue = votedUp ? "up" : votedDown ? "down" : "none";
-                actionsRow.AppendHtml($"<input type='hidden' name='forumcurrentvote_{_input.PostId}' value='{voteStateValue}' />");
+                if (_input.CanVote)
+                {
+                    // Records the current vote state at render time so the service can tell "vote again"
+                    // apart from "clicking the same arrow means remove my vote".
+                    var voteStateValue = votedUp ? "up" : votedDown ? "down" : "none";
+                    actionsRow.AppendHtml($"<input type='hidden' name='forumcurrentvote_{_input.PostId}' value='{voteStateValue}' />");
+                }
             }
 
             if (_input.UserCanEdit)
