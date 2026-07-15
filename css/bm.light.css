@@ -3663,6 +3663,7 @@ a.modern-filter-btn:hover {
 .news-card--test .news-card-bottom-row {
     border-top: 1px solid var(--color-border-strong, var(--color-border));
 }
+
 .position-usage-header {
     display: grid;
     grid-template-columns: repeat(5, 32px);
@@ -3682,10 +3683,120 @@ a.modern-filter-btn:hover {
     gap: 2px;
 }
 
+.position-usage-row > .bm-tooltip-wrap {
+    justify-self: start;
+    display: inline-flex;
+}
+
 .position-usage-pill {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 18px;
     font-size: 11px;
     font-weight: 500;
-    padding: 2px 0;
     border-radius: 4px;
+    box-sizing: border-box;
 }
+
+.position-usage-pill--outline {
+    background: transparent !important;
+    border: 2px solid;
+}
+
+.position-usage-row .bm-tooltip-content {
+    min-width: 0;
+    width: max-content;
+}
+
+.give-get-picker {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.give-get-picker-columns {
+    display: flex;
+    gap: 1rem;
+}
+
+.give-get-picker-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: var(--color-bg-secondary);
+    border-radius: 10px;
+    padding: 0.75rem;
+}
+
+.give-get-picker-column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.give-get-picker-clear-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-tertiary);
+    cursor: pointer;
+    font-size: 0.8rem;
+}
+
+.give-get-picker-search-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.give-get-picker-search-row input {
+    flex: 1;
+}
+
+.give-get-picker-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.give-get-picker-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--brand-primary);
+    border-radius: 999px;
+    padding: 0.3rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.give-get-picker-chip .display-player-name,
+.give-get-picker-chip .display-player-team,
+.give-get-picker-chip .display-player-pos {
+    color: white !important;
+}
+
+.give-get-picker-remove {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0;
+    display: inline-flex;
+}
+
+.give-get-picker-swap-row {
+    display: flex;
+    justify-content: center;
+}
+
+.give-get-picker-swap-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+

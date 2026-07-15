@@ -5,30 +5,32 @@ namespace RotoMonsterUI
     public class PositionUsageGrid
     {
         private readonly PositionUsageColors _colors;
+        private readonly bool _showTooltips;
 
-        public PositionUsageGrid(PositionUsageColors colors = null)
+        public PositionUsageGrid(PositionUsageColors colors = null, bool showTooltips = true)
         {
             _colors = colors ?? new PositionUsageColors();
+            _showTooltips = showTooltips;
         }
 
-        private (string Position, string BgColor, string TextColor)[] Positions => new[]
+        private (string Abbreviation, string FullName, string BgColor, string TextColor)[] Positions => new[]
         {
-            ("PG", _colors.PG, _colors.PGText),
-            ("SG", _colors.SG, _colors.SGText),
-            ("SF", _colors.SF, _colors.SFText),
-            ("PF", _colors.PF, _colors.PFText),
-            ("C",  _colors.C,  _colors.CText),
+            ("PG", "Point guard",    _colors.PG, _colors.PGText),
+            ("SG", "Shooting guard", _colors.SG, _colors.SGText),
+            ("SF", "Small forward",  _colors.SF, _colors.SFText),
+            ("PF", "Power forward",  _colors.PF, _colors.PFText),
+            ("C",  "Center",         _colors.C,  _colors.CText),
         };
 
         public string RenderHeader()
         {
             var row = new HtmlTag("div").AddClass("position-usage-header");
             foreach (var pos in Positions)
-                row.AppendHtml($"<span class='position-usage-header-label' style='color:{pos.BgColor};'>{pos.Position}</span>");
+                row.AppendHtml($"<span class='position-usage-header-label' style='color:{pos.BgColor};'>{pos.Abbreviation}</span>");
             return row.ToString();
         }
 
-        public string Render(PositionUsageInput input)
+        public string Render(PositionUsageInput input, int rowId = 0)
         {
             var values = new int?[] { input.PG, input.SG, input.SF, input.PF, input.C };
             var row = new HtmlTag("div").AddClass("position-usage-row");
@@ -36,17 +38,42 @@ namespace RotoMonsterUI
             for (int i = 0; i < Positions.Length; i++)
             {
                 var value = values[i];
-                if (value.HasValue)
+                var pos = Positions[i];
+
+                if (!value.HasValue)
                 {
-                    var pill = new HtmlTag("span")
-                        .AddClass("position-usage-pill")
-                        .Attr("style", $"background:{Positions[i].BgColor}; color:{Positions[i].TextColor};")
-                        .Text(value.Value.ToString());
-                    row.Append(pill);
+                    row.AppendHtml("<span class='position-usage-empty'></span>");
+                    continue;
+                }
+
+                HtmlTag pill;
+                if (value.Value == 0)
+                {
+                    pill = new HtmlTag("span")
+                        .AddClass("position-usage-pill position-usage-pill--outline")
+                        .Attr("style", $"border-color:{pos.BgColor}; color:{pos.BgColor};");
                 }
                 else
                 {
-                    row.AppendHtml("<span class='position-usage-empty'></span>");
+                    pill = new HtmlTag("span")
+                        .AddClass("position-usage-pill")
+                        .Attr("style", $"background:{pos.BgColor}; color:{pos.TextColor};")
+                        .Text(value.Value.ToString());
+                }
+
+                if (_showTooltips)
+                {
+                    var tooltipId = $"position-usage-tooltip-{rowId}-{pos.Abbreviation}";
+                    pill.AddClass("bm-tooltip-trigger").Attr("data-bm-tooltip", tooltipId);
+
+                    var wrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
+                    wrap.Append(pill);
+                    wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(pos.FullName));
+                    row.Append(wrap);
+                }
+                else
+                {
+                    row.Append(pill);
                 }
             }
 
