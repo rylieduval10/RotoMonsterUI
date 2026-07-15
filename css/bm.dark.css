@@ -3612,3 +3612,96 @@ a.modern-filter-btn:hover {
     color: var(--color-text-tertiary);
     margin-left: 0.3rem;
 }
+
+.news-card--test {
+    position: relative;
+    overflow: hidden;
+}
+
+.news-card--test .display-player-name {
+    color: #ffffff;
+}
+
+.news-card-test-corner-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-card-test-source {
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 2px;
+}
+
+.news-card-test-status-corner {
+    display: inline-block;
+    padding: 6px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: white;
+    border-radius: 0 12px 0 12px;
+}
+
+.news-card-test-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-right: 80px;
+}
+
+.news-card-test-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.news-card-test-time-badge {
+    font-size: 12px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+.news-card-test-time-badge .time-since {
+    color: #000;
+}
+
+.news-card-test-time-badge--expired .time-since {
+    color: white;
+}
+
+.news-card-test-level {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    color: white;
+}
+
+.news-card-test-body-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.news-card-test-body {
+    font-size: 0.9rem;
+    color: var(--color-text-primary);
+}
+
+.news-card-test-tag-icon {
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.news-card--test .news-card-bottom-row {
+    border-top: 3px solid var(--color-border-strong, var(--color-border));
+}

@@ -422,16 +422,6 @@ public string RenderTest()
                 headerLeft.Append(timeBadge);
             }
 
-            var levelColor = LevelColor(_input.NewsLevel);
-            if (levelColor != null)
-            {
-                var levelBadge = new HtmlTag("span")
-                    .AddClass("news-card-test-level")
-                    .Attr("style", $"color:{levelColor}")
-                    .Text(_input.NewsLevel.ToString().ToLower());
-                headerLeft.Append(levelBadge);
-            }
-
             if (!string.IsNullOrEmpty(_input.SourceURL))
             {
                 var sourceLink = new HtmlTag("a")
@@ -442,6 +432,16 @@ public string RenderTest()
                     .Attr("aria-label", "Source");
                 sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "white" }).Render());
                 headerLeft.Append(sourceLink);
+            }
+
+            var levelColor = LevelColor(_input.NewsLevel);
+            if (levelColor != null)
+            {
+                var levelBadge = new HtmlTag("span")
+                    .AddClass("news-card-test-level")
+                    .Attr("style", $"background:{levelColor}")
+                    .Text(_input.NewsLevel.ToString().ToLower());
+                headerLeft.Append(levelBadge);
             }
 
             headerRow.Append(headerLeft);
@@ -458,64 +458,32 @@ public string RenderTest()
                 card.AppendHtml(new DisplayPlayer(_input.DisplayPlayerInput).Render());
             }
 
-            // Body text is the actual news text (NewsDetails, falling back to NewsTitle) -
-            // StatusTypeText is the short status word shown on the corner ribbon, not the body.
+            // Body row: an icon for the status tag (Injury, Illness, etc.) with a tooltip, next to
+            // the actual news text (NewsDetails, falling back to NewsTitle) - matches Ken's original
+            // sketch. StatusTypeText is the short status word shown on the corner ribbon, not here.
             var bodyContent = !string.IsNullOrEmpty(_input.NewsDetails) ? _input.NewsDetails : _input.NewsTitle;
             if (!string.IsNullOrEmpty(bodyContent))
             {
-                var bodyText = new HtmlTag("div").AddClass("news-card-test-body").Text(bodyContent);
-                card.Append(bodyText);
-            }
+                var bodyRow = new HtmlTag("div").AddClass("news-card-test-body-row");
 
-            bool hasCounts = _input.UserOwnCount.HasValue || _input.UserFreeAgentCount.HasValue;
-            bool hasActions = _input.UserCanEdit || _input.UserCanDelete;
-
-            if (hasCounts || hasActions)
-            {
-                var bottomRow = new HtmlTag("div").AddClass("news-card-bottom-row");
-
-                if (hasActions)
+                var tagIcon = StatusTagIcon(_input.StatusTypeTag);
+                if (tagIcon.HasValue)
                 {
-                    var actionRow = new HtmlTag("div").AddClass("news-card-actions");
-
-                    if (_input.UserCanEdit)
-                    {
-                        var editBtn = new HtmlTag("button")
-                            .AddClass("news-card-action-btn")
-                            .Attr("type", "button")
-                            .Attr("data-newsid", _input.NewsId.ToString())
-                            .Attr("onclick", "EditNews(this)")
-                            .Attr("aria-label", "Edit")
-                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
-                        actionRow.Append(editBtn);
-                    }
-
-                    if (_input.UserCanDelete)
-                    {
-                        var deleteIconBtn = new HtmlTag("button")
-                            .AddClass("news-card-action-btn news-card-action-btn--delete")
-                            .Attr("type", "button")
-                            .Attr("data-newsid", _input.NewsId.ToString())
-                            .Attr("onclick", "DeleteNews(this)")
-                            .Attr("aria-label", "Delete")
-                            .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15, Color = "#ef4444" }).Render());
-                        actionRow.Append(deleteIconBtn);
-                    }
-
-                    bottomRow.Append(actionRow);
+                    var tagTooltipId = $"newsbadge-tooltip-{_input.NewsId}-tag";
+                    var tagIconWrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
+                    var tagIconTrigger = new HtmlTag("span")
+                        .AddClass("news-card-test-tag-icon bm-tooltip-trigger")
+                        .Attr("data-bm-tooltip", tagTooltipId);
+                    tagIconTrigger.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 20, Color = "white" }).Render());
+                    tagIconWrap.Append(tagIconTrigger);
+                    tagIconWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tagTooltipId).Text(_input.StatusTypeTag));
+                    bodyRow.Append(tagIconWrap);
                 }
 
-                if (hasCounts)
-                {
-                    var countsRow = new HtmlTag("div").AddClass("news-card-counts");
-                    if (_input.UserOwnCount.HasValue)
-                        countsRow.AppendHtml($"own {_input.UserOwnCount.Value}");
-                    if (_input.UserFreeAgentCount.HasValue)
-                        countsRow.AppendHtml($" &middot; fa {_input.UserFreeAgentCount.Value}");
-                    bottomRow.Append(countsRow);
-                }
+                var bodyText = new HtmlTag("span").AddClass("news-card-test-body").Text(bodyContent);
+                bodyRow.Append(bodyText);
 
-                card.Append(bottomRow);
+                card.Append(bodyRow);
             }
 
             return card.ToString();
