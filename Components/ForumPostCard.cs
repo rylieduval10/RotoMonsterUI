@@ -58,12 +58,12 @@ namespace RotoMonsterUI
 
                 var votePill = new HtmlTag("span").AddClass("forum-post-vote-pill");
 
-                // Both arrows are always clickable - clicking the opposite arrow just switches
-                // the vote directly, no separate "Change" step needed.
                 var upBtn = new HtmlTag("button")
                     .AddClass("forum-post-vote-btn")
                     .Attr("type", "button")
                     .Attr("name", $"forumupvote_{_input.PostId}")
+                    .Attr("data-postid", _input.PostId.ToString())
+                    .Attr("onclick", "TriggerPostBack(this, 'forumupvote_', 'data-postid')")
                     .Attr("aria-label", "Upvote");
                 if (votedUp) upBtn.AddClass("forum-post-vote-btn--active-up");
                 upBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowUp, Size = 14, Color = "currentColor" }).Render());
@@ -76,6 +76,8 @@ namespace RotoMonsterUI
                     .AddClass("forum-post-vote-btn")
                     .Attr("type", "button")
                     .Attr("name", $"forumdownvote_{_input.PostId}")
+                    .Attr("data-postid", _input.PostId.ToString())
+                    .Attr("onclick", "TriggerPostBack(this, 'forumdownvote_', 'data-postid')")
                     .Attr("aria-label", "Downvote");
                 if (votedDown) downBtn.AddClass("forum-post-vote-btn--active-down");
                 downBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowDown, Size = 14, Color = "currentColor" }).Render());
@@ -86,6 +88,11 @@ namespace RotoMonsterUI
                 var voteCount = new HtmlTag("span").AddClass("forum-post-vote-count")
                     .Text(total == 1 ? "1 vote" : $"{total} votes");
                 actionsRow.Append(voteCount);
+
+                // Records the current vote state at render time so the service can tell "vote again"
+                // apart from "clicking the same arrow means remove my vote".
+                var voteStateValue = votedUp ? "up" : votedDown ? "down" : "none";
+                actionsRow.AppendHtml($"<input type='hidden' name='forumcurrentvote_{_input.PostId}' value='{voteStateValue}' />");
             }
 
             if (_input.UserCanEdit)
@@ -94,6 +101,8 @@ namespace RotoMonsterUI
                     .AddClass("forum-post-card-btn forum-post-card-btn-edit")
                     .Attr("type", "button")
                     .Attr("name", $"forumedit_{_input.PostId}")
+                    .Attr("data-postid", _input.PostId.ToString())
+                    .Attr("onclick", "TriggerPostBack(this, 'forumedit_', 'data-postid')")
                     .Attr("aria-label", "Edit post");
                 editBtn.AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
                 editBtn.AppendHtml("Edit");
@@ -105,7 +114,10 @@ namespace RotoMonsterUI
                 var trashIcon = new Icon(new IconInput { Type = IconType.Trash, Size = 16, Color = "#ef4444" }).Render();
                 var deleteBtn = new HtmlTag("button")
                     .AddClass("forum-post-card-btn forum-post-card-btn-delete")
+                    .Attr("type", "button")
                     .Attr("name", $"forumdelete_{_input.PostId}")
+                    .Attr("data-postid", _input.PostId.ToString())
+                    .Attr("onclick", "TriggerPostBack(this, 'forumdelete_', 'data-postid')")
                     .Attr("style", "margin-left: auto;")
                     .AppendHtml(trashIcon);
                 actionsRow.Append(deleteBtn);

@@ -668,6 +668,11 @@ function EditNews(btn) {
     __doPostBack('editnews_' + newsId, 'edit');
 }
 
+function DeleteNews(btn) {
+    var newsId = btn.getAttribute('data-newsid');
+    __doPostBack('deletenews_' + newsId, 'delete');
+}
+
 function TriggerPostBack(btn, prefix, dataAttr, argument) {
     var id = btn.getAttribute(dataAttr);
     __doPostBack(prefix + id, argument || '');

@@ -5,6 +5,18 @@ namespace RotoMonsterUI
 {
     public class NewsCardService
     {
+        public static int? GetDeletedNewsId(Dictionary<string, string> params_)
+        {
+            if (params_.TryGetValue("__EVENTTARGET", out var eventTarget) &&
+                eventTarget != null &&
+                eventTarget.StartsWith("deletenews_") &&
+                int.TryParse(eventTarget.Substring("deletenews_".Length), out var newsId))
+            {
+                return newsId;
+            }
+            return null;
+        }
+
         public NewsCardResult Process(int newsId, Dictionary<string, string> params_)
         {
             var result = new NewsCardResult();
@@ -17,7 +29,8 @@ namespace RotoMonsterUI
             if (editViaFormKey || editViaEventTarget)
                 result.ToggleEditNewsId = newsId;
 
-            if (params_.ContainsKey($"deletenews_{newsId}"))
+            var deleteKey = $"deletenews_{newsId}";
+            if (params_.ContainsKey(deleteKey) || (eventTarget != null && eventTarget == deleteKey))
                 result.DeleteNewsId = newsId;
 
             if (params_.ContainsKey($"savenews_{newsId}"))

@@ -245,9 +245,13 @@ namespace RotoMonsterUI
                     if (_input.UserCanDelete)
                     {
                         // Delete icon has its own hardcoded red color already - no shading needed.
+                        // Fires via manual __doPostBack (DeleteNews JS function) so it runs under AJAX,
+                        // same fix as EditNews and ChatRoom's DeleteChat.
                         var deleteIconBtn = new HtmlTag("button")
                             .AddClass("news-card-action-btn news-card-action-btn--delete")
-                            .Attr("name", $"deletenews_{_input.NewsId}")
+                            .Attr("type", "button")
+                            .Attr("data-newsid", _input.NewsId.ToString())
+                            .Attr("onclick", "DeleteNews(this)")
                             .Attr("aria-label", "Delete")
                             .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15, Color = "#ef4444" }).Render());
                         actionRow.Append(deleteIconBtn);
@@ -282,6 +286,8 @@ namespace RotoMonsterUI
             var tooltipId = $"newsbadge-tooltip-{_input.NewsId}-{context}";
 
             var tooltipText = $"{_input.StatusTypeText} - {_input.StatusTypeTag}";
+            if (!string.IsNullOrEmpty(_input.NewsTitle))
+                tooltipText += $" - {_input.NewsTitle}";
             if (_input.IsUnofficial)
                 tooltipText += " - Status is Unofficial";
 
@@ -386,6 +392,158 @@ namespace RotoMonsterUI
             form.Append(checkGrid);
 
             return form;
+        }
+
+// Experimental layout from Ken's Interface 7/15 doc. Whole card is lightly tinted by the
+        // status color (like the sample he liked), status badge sits as a flush corner ribbon,
+        // time-since badge shades separately by recency, and source/level sit left-justified
+        // next to it.
+        public string RenderTest()
+        {
+            var card = new HtmlTag("div").AddClass("news-card news-card--test");
+
+            var cardTint = TintBackground(_input.StatusTypeColorCode, 0.15);
+            card.Attr("style", $"background:{cardTint};");
+
+            card.Append(RenderCornerStatusBadge());
+
+            var headerRow = new HtmlTag("div").AddClass("news-card-test-header");
+
+            var headerLeft = new HtmlTag("div").AddClass("news-card-test-header-left");
+
+            if (_input.TimeSinceCreated.HasValue)
+            {
+                var ageColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
+                var timeBadge = new HtmlTag("span").AddClass("news-card-test-time-badge");
+                if (ageColor != null)
+                    timeBadge.Attr("style", $"background:{ageColor};");
+                timeBadge.AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
+                headerLeft.Append(timeBadge);
+            }
+
+            if (!string.IsNullOrEmpty(_input.SourceURL))
+            {
+                var sourceLink = new HtmlTag("a")
+                    .AddClass("news-card-source")
+                    .Attr("href", _input.SourceURL)
+                    .Attr("target", "_blank")
+                    .Attr("rel", "noopener noreferrer")
+                    .Attr("aria-label", "Source");
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 14 }).Render());
+                headerLeft.Append(sourceLink);
+            }
+
+            var levelColor = LevelColor(_input.NewsLevel);
+            if (levelColor != null)
+            {
+                var levelBadge = new HtmlTag("span")
+                    .AddClass("news-card-test-level")
+                    .Attr("style", $"color:{levelColor}")
+                    .Text(_input.NewsLevel.ToString().ToLower());
+                headerLeft.Append(levelBadge);
+            }
+
+            headerRow.Append(headerLeft);
+            card.Append(headerRow);
+
+            if (_input.DisplayPlayerInput != null)
+            {
+                if (string.IsNullOrEmpty(_input.DisplayPlayerInput.TeamColor))
+                {
+                    _input.DisplayPlayerInput.TeamColor = _input.Sport == NewsCardSport.NBA
+                        ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
+                        : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
+                }
+                card.AppendHtml(new DisplayPlayer(_input.DisplayPlayerInput).Render());
+            }
+
+            // Body text is the actual news text (NewsDetails, falling back to NewsTitle) -
+            // StatusTypeText is the short status word shown on the corner ribbon, not the body.
+            var bodyContent = !string.IsNullOrEmpty(_input.NewsDetails) ? _input.NewsDetails : _input.NewsTitle;
+            if (!string.IsNullOrEmpty(bodyContent))
+            {
+                var bodyText = new HtmlTag("div").AddClass("news-card-test-body").Text(bodyContent);
+                card.Append(bodyText);
+            }
+
+            bool hasCounts = _input.UserOwnCount.HasValue || _input.UserFreeAgentCount.HasValue;
+            bool hasActions = _input.UserCanEdit || _input.UserCanDelete;
+
+            if (hasCounts || hasActions)
+            {
+                var bottomRow = new HtmlTag("div").AddClass("news-card-bottom-row");
+
+                if (hasActions)
+                {
+                    var actionRow = new HtmlTag("div").AddClass("news-card-actions");
+
+                    if (_input.UserCanEdit)
+                    {
+                        var editBtn = new HtmlTag("button")
+                            .AddClass("news-card-action-btn")
+                            .Attr("type", "button")
+                            .Attr("data-newsid", _input.NewsId.ToString())
+                            .Attr("onclick", "EditNews(this)")
+                            .Attr("aria-label", "Edit")
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                        actionRow.Append(editBtn);
+                    }
+
+                    if (_input.UserCanDelete)
+                    {
+                        var deleteIconBtn = new HtmlTag("button")
+                            .AddClass("news-card-action-btn news-card-action-btn--delete")
+                            .Attr("type", "button")
+                            .Attr("data-newsid", _input.NewsId.ToString())
+                            .Attr("onclick", "DeleteNews(this)")
+                            .Attr("aria-label", "Delete")
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15, Color = "#ef4444" }).Render());
+                        actionRow.Append(deleteIconBtn);
+                    }
+
+                    bottomRow.Append(actionRow);
+                }
+
+                if (hasCounts)
+                {
+                    var countsRow = new HtmlTag("div").AddClass("news-card-counts");
+                    if (_input.UserOwnCount.HasValue)
+                        countsRow.AppendHtml($"own {_input.UserOwnCount.Value}");
+                    if (_input.UserFreeAgentCount.HasValue)
+                        countsRow.AppendHtml($" &middot; fa {_input.UserFreeAgentCount.Value}");
+                    bottomRow.Append(countsRow);
+                }
+
+                card.Append(bottomRow);
+            }
+
+            return card.ToString();
+        }
+
+        // Flush corner ribbon showing the short status word (e.g. "STARTING"), not the abbreviation -
+        // this is the badge Ken specifically liked the look of in his sample screenshot.
+        private HtmlTag RenderCornerStatusBadge()
+        {
+            var tooltipId = $"newsbadge-tooltip-{_input.NewsId}-corner";
+
+            var tooltipText = $"{_input.StatusTypeText} - {_input.StatusTypeTag}";
+            if (!string.IsNullOrEmpty(_input.NewsTitle))
+                tooltipText += $" - {_input.NewsTitle}";
+            if (_input.IsUnofficial)
+                tooltipText += " - Status is Unofficial";
+
+            var wrap = new HtmlTag("span").AddClass("bm-tooltip-wrap news-card-test-status-corner-wrap");
+
+            var badge = new HtmlTag("span")
+                .AddClass("news-card-test-status-corner bm-tooltip-trigger")
+                .Attr("data-bm-tooltip", tooltipId)
+                .Attr("style", $"background:{NormalizeColor(_input.StatusTypeColorCode)}")
+                .Text((_input.StatusTypeText ?? "").ToUpper());
+
+            wrap.Append(badge);
+            wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(tooltipText));
+
+            return wrap;
         }
     }
 }

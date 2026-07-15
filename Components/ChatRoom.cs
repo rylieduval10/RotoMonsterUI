@@ -124,7 +124,8 @@ namespace RotoMonsterUI
             metaRow.AppendHtml(new TimeSince(message.TimeSinceCreated).Render());
             body.Append(metaRow);
 
-            var text = new HtmlTag("div").AddClass("chat-card-text").Text(message.MessageText);
+            var text = new HtmlTag("div").AddClass("chat-card-text");
+            text.AppendHtml(message.MessageText);
             body.Append(text);
 
             row.Append(body);

@@ -8,19 +8,43 @@ namespace RotoMonsterUI
         {
             var result = new ForumPostCardResult();
 
-            foreach (var key in params_.Keys)
+            params_.TryGetValue("__EVENTTARGET", out var eventTarget);
+
+            int? ExtractId(string prefix)
             {
-                if (key.StartsWith("forumupvote_") && int.TryParse(key.Replace("forumupvote_", ""), out int upId))
+                if (eventTarget != null && eventTarget.StartsWith(prefix) &&
+                    int.TryParse(eventTarget.Substring(prefix.Length), out var idFromTarget))
+                    return idFromTarget;
+
+                foreach (var key in params_.Keys)
+                {
+                    if (key.StartsWith(prefix) && int.TryParse(key.Substring(prefix.Length), out var idFromKey))
+                        return idFromKey;
+                }
+                return null;
+            }
+
+            var upId = ExtractId("forumupvote_");
+            var downId = ExtractId("forumdownvote_");
+            result.DeletePostId = ExtractId("forumdelete_");
+            result.EditPostId = ExtractId("forumedit_");
+
+            if (upId.HasValue)
+            {
+                var currentVote = params_.TryGetValue($"forumcurrentvote_{upId.Value}", out var cv) ? cv : "none";
+                if (currentVote == "up")
+                    result.CancelVotePostId = upId;
+                else
                     result.UpVotePostId = upId;
+            }
 
-                else if (key.StartsWith("forumdownvote_") && int.TryParse(key.Replace("forumdownvote_", ""), out int downId))
+            if (downId.HasValue)
+            {
+                var currentVote = params_.TryGetValue($"forumcurrentvote_{downId.Value}", out var cv) ? cv : "none";
+                if (currentVote == "down")
+                    result.CancelVotePostId = downId;
+                else
                     result.DownVotePostId = downId;
-
-                else if (key.StartsWith("forumdelete_") && int.TryParse(key.Replace("forumdelete_", ""), out int deleteId))
-                    result.DeletePostId = deleteId;
-
-                else if (key.StartsWith("forumedit_") && int.TryParse(key.Replace("forumedit_", ""), out int editId))
-                    result.EditPostId = editId;
             }
 
             return result;
