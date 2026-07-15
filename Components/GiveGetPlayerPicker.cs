@@ -29,7 +29,7 @@ namespace RotoMonsterUI
                     .Attr("type", "submit")
                     .Attr("name", $"{_input.Id}-swap");
                 swapBtn.AppendHtml(new Icon(new IconInput { Type = IconType.RefreshRosters, Size = 14 }).Render());
-                swapBtn.AppendHtml("Swap give and get");
+                swapBtn.AppendHtml("Swap");
                 swapRow.Append(swapBtn);
                 wrapper.Append(swapRow);
             }

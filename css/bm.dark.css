@@ -3751,7 +3751,6 @@ a.modern-filter-btn:hover {
     min-width: 0;
     width: max-content;
 }
-
 .give-get-picker {
     display: flex;
     flex-direction: column;
@@ -3842,11 +3841,3 @@ a.modern-filter-btn:hover {
     gap: 0.4rem;
 }
 
-.position-usage-pill--outline {
-    background: transparent !important;
-    border: 2px solid;
-    display: inline-block;
-    min-width: 18px;
-    height: 14px;
-    box-sizing: border-box;
-}
