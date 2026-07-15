@@ -3611,14 +3611,13 @@ a.modern-filter-btn:hover {
     font-style: italic;
     color: var(--color-text-tertiary);
     margin-left: 0.3rem;
-}
-
-.news-card--test {
+}.news-card--test {
     position: relative;
     overflow: hidden;
+    min-width: 350px;
 }
 
-.news-card--test .display-player-name {
+.news-card--test-dark .display-player-name {
     color: #ffffff;
 }
 
@@ -3632,20 +3631,24 @@ a.modern-filter-btn:hover {
 }
 
 .news-card-test-source {
-    color: white;
+    color: #1a1a1a;
     display: inline-flex;
     align-items: center;
     margin-top: 2px;
 }
 
+.news-card--test-dark .news-card-test-source {
+    color: white;
+}
+
 .news-card-test-status-corner {
     display: inline-block;
     padding: 6px 18px;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 600;
     letter-spacing: 0.4px;
     color: white;
-    border-radius: 0 12px 0 12px;
+    border-radius: 0 10px 0 10px;
 }
 
 .news-card-test-header {
@@ -3673,12 +3676,16 @@ a.modern-filter-btn:hover {
 }
 
 .news-card-test-time-badge--expired .time-since {
+    color: #1a1a1a;
+}
+
+.news-card--test-dark .news-card-test-time-badge--expired .time-since {
     color: white;
 }
 
 .news-card-test-level {
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 600;
     letter-spacing: 0.3px;
     padding: 2px 10px;
     border-radius: 10px;
@@ -3700,6 +3707,11 @@ a.modern-filter-btn:hover {
 .news-card-test-tag-icon {
     display: inline-flex;
     cursor: pointer;
+    color: #1a1a1a;
+}
+
+.news-card--test-dark .news-card-test-tag-icon {
+    color: white;
 }
 
 .news-card--test .news-card-bottom-row {

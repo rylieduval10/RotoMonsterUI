@@ -66,9 +66,9 @@ namespace RotoMonsterUI
             }
         }
 
-        public string Render()
-        {
-            var card = new HtmlTag("div").AddClass("news-card");
+            public string Render()
+            {
+                var card = new HtmlTag("div").AddClass("news-card");
 
             var ageShadeColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
             bool isShaded = ageShadeColor != null;
@@ -285,11 +285,12 @@ namespace RotoMonsterUI
         {
             var tooltipId = $"newsbadge-tooltip-{_input.NewsId}-{context}";
 
-            var tooltipText = $"{_input.StatusTypeText} - {_input.StatusTypeTag}";
-            if (!string.IsNullOrEmpty(_input.NewsTitle))
-                tooltipText += $" - {_input.NewsTitle}";
-            if (_input.IsUnofficial)
-                tooltipText += " - Status is Unofficial";
+            var tooltipParts = new List<string>();
+            if (!string.IsNullOrEmpty(_input.StatusTypeText)) tooltipParts.Add(_input.StatusTypeText);
+            if (!string.IsNullOrEmpty(_input.StatusTypeTag)) tooltipParts.Add(_input.StatusTypeTag);
+            if (!string.IsNullOrEmpty(_input.NewsTitle)) tooltipParts.Add(_input.NewsTitle);
+            if (_input.IsUnofficial) tooltipParts.Add("Status is Unofficial");
+            var tooltipText = string.Join(" - ", tooltipParts);
 
             var wrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
 
@@ -397,6 +398,8 @@ namespace RotoMonsterUI
 public string RenderTest()
         {
             var card = new HtmlTag("div").AddClass("news-card news-card--test");
+            if (_input.IsDarkMode)
+                card.AddClass("news-card--test-dark");
 
             var cardTint = TintBackground(_input.StatusTypeColorCode, 0.15);
             card.Attr("style", $"background:{cardTint};");
@@ -430,7 +433,7 @@ public string RenderTest()
                     .Attr("target", "_blank")
                     .Attr("rel", "noopener noreferrer")
                     .Attr("aria-label", "Source");
-                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "white" }).Render());
+                sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "currentColor" }).Render());
                 headerLeft.Append(sourceLink);
             }
 
@@ -474,7 +477,7 @@ public string RenderTest()
                     var tagIconTrigger = new HtmlTag("span")
                         .AddClass("news-card-test-tag-icon bm-tooltip-trigger")
                         .Attr("data-bm-tooltip", tagTooltipId);
-                    tagIconTrigger.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 20, Color = "white" }).Render());
+                    tagIconTrigger.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 20, Color = "currentColor" }).Render());
                     tagIconWrap.Append(tagIconTrigger);
                     tagIconWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tagTooltipId).Text(_input.StatusTypeTag));
                     bodyRow.Append(tagIconWrap);
@@ -484,6 +487,57 @@ public string RenderTest()
                 bodyRow.Append(bodyText);
 
                 card.Append(bodyRow);
+            }
+
+            bool hasCounts = _input.UserOwnCount.HasValue || _input.UserFreeAgentCount.HasValue;
+            bool hasActions = _input.UserCanEdit || _input.UserCanDelete;
+
+            if (hasCounts || hasActions)
+            {
+                var bottomRow = new HtmlTag("div").AddClass("news-card-bottom-row");
+
+                if (hasActions)
+                {
+                    var actionRow = new HtmlTag("div").AddClass("news-card-actions");
+
+                    if (_input.UserCanEdit)
+                    {
+                        var editBtn = new HtmlTag("button")
+                            .AddClass("news-card-action-btn")
+                            .Attr("type", "button")
+                            .Attr("data-newsid", _input.NewsId.ToString())
+                            .Attr("onclick", "EditNews(this)")
+                            .Attr("aria-label", "Edit")
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Edit, Size = 15 }).Render());
+                        actionRow.Append(editBtn);
+                    }
+
+                    if (_input.UserCanDelete)
+                    {
+                        var deleteIconBtn = new HtmlTag("button")
+                            .AddClass("news-card-action-btn news-card-action-btn--delete")
+                            .Attr("type", "button")
+                            .Attr("data-newsid", _input.NewsId.ToString())
+                            .Attr("onclick", "DeleteNews(this)")
+                            .Attr("aria-label", "Delete")
+                            .AppendHtml(new Icon(new IconInput { Type = IconType.Trash, Size = 15, Color = "#ef4444" }).Render());
+                        actionRow.Append(deleteIconBtn);
+                    }
+
+                    bottomRow.Append(actionRow);
+                }
+
+                if (hasCounts)
+                {
+                    var countsRow = new HtmlTag("div").AddClass("news-card-counts");
+                    if (_input.UserOwnCount.HasValue)
+                        countsRow.AppendHtml($"own {_input.UserOwnCount.Value}");
+                    if (_input.UserFreeAgentCount.HasValue)
+                        countsRow.AppendHtml($" &middot; fa {_input.UserFreeAgentCount.Value}");
+                    bottomRow.Append(countsRow);
+                }
+
+                card.Append(bottomRow);
             }
 
             return card.ToString();
