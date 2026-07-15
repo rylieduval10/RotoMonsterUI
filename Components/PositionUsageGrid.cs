@@ -11,22 +11,23 @@ namespace RotoMonsterUI
             _colors = colors ?? new PositionUsageColors();
         }
 
-        private (string Position, string Color)[] Positions => new[]
+        private (string Position, string BgColor, string TextColor)[] Positions => new[]
         {
-            ("PG", _colors.PG),
-            ("SG", _colors.SG),
-            ("SF", _colors.SF),
-            ("PF", _colors.PF),
-            ("C",  _colors.C),
+            ("PG", _colors.PG, _colors.PGText),
+            ("SG", _colors.SG, _colors.SGText),
+            ("SF", _colors.SF, _colors.SFText),
+            ("PF", _colors.PF, _colors.PFText),
+            ("C",  _colors.C,  _colors.CText),
         };
 
         public string RenderHeader()
         {
             var row = new HtmlTag("div").AddClass("position-usage-header");
             foreach (var pos in Positions)
-                row.AppendHtml($"<span class='position-usage-header-label' style='color:{pos.Color};'>{pos.Position}</span>");
+                row.AppendHtml($"<span class='position-usage-header-label' style='color:{pos.BgColor};'>{pos.Position}</span>");
             return row.ToString();
         }
+
         public string Render(PositionUsageInput input)
         {
             var values = new int?[] { input.PG, input.SG, input.SF, input.PF, input.C };
@@ -39,7 +40,7 @@ namespace RotoMonsterUI
                 {
                     var pill = new HtmlTag("span")
                         .AddClass("position-usage-pill")
-                        .Attr("style", $"background:{Positions[i].Color};")
+                        .Attr("style", $"background:{Positions[i].BgColor}; color:{Positions[i].TextColor};")
                         .Text(value.Value.ToString());
                     row.Append(pill);
                 }
