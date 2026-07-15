@@ -4,27 +4,29 @@ namespace RotoMonsterUI
 {
     public class PositionUsageGrid
     {
-        // Same color always maps to the same position, across every row - lets you scan down a
-        // column and instantly recognize "that's the PF column" regardless of which player's row.
-        private static readonly (string Position, string BgColor, string TextColor)[] Positions = new[]
+        private readonly PositionUsageColors _colors;
+
+        public PositionUsageGrid(PositionUsageColors colors = null)
         {
-            ("PG", "#D3D1C7", "#444441"),
-            ("SG", "#FAC775", "#633806"),
-            ("SF", "#F09595", "#501313"),
-            ("PF", "#7F77DD", "#26215C"),
-            ("C",  "#9FE1CB", "#04342C"),
+            _colors = colors ?? new PositionUsageColors();
+        }
+
+        private (string Position, string Color)[] Positions => new[]
+        {
+            ("PG", _colors.PG),
+            ("SG", _colors.SG),
+            ("SF", _colors.SF),
+            ("PF", _colors.PF),
+            ("C",  _colors.C),
         };
 
-        // Render once, above the rows that use this grid.
-        public static string RenderHeader()
+        public string RenderHeader()
         {
             var row = new HtmlTag("div").AddClass("position-usage-header");
             foreach (var pos in Positions)
-                row.AppendHtml($"<span class='position-usage-header-label'>{pos.Position}</span>");
+                row.AppendHtml($"<span class='position-usage-header-label' style='color:{pos.Color};'>{pos.Position}</span>");
             return row.ToString();
         }
-
-        // Render once per player row - meant to slot into an existing table cell, not stand alone.
         public string Render(PositionUsageInput input)
         {
             var values = new int?[] { input.PG, input.SG, input.SF, input.PF, input.C };
@@ -37,7 +39,7 @@ namespace RotoMonsterUI
                 {
                     var pill = new HtmlTag("span")
                         .AddClass("position-usage-pill")
-                        .Attr("style", $"background:{Positions[i].BgColor}; color:{Positions[i].TextColor};")
+                        .Attr("style", $"background:{Positions[i].Color};")
                         .Text(value.Value.ToString());
                     row.Append(pill);
                 }
