@@ -14,6 +14,14 @@ namespace RotoMonsterUI
 
         public string Render()
         {
+            if (_input.ShowPlayerInfo && _input.DisplayPlayerInput != null
+                && string.IsNullOrEmpty(_input.DisplayPlayerInput.TeamColor))
+                
+            {
+                _input.DisplayPlayerInput.TeamColor = _input.Sport == NewsCardSport.NBA
+                    ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
+                    : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
+            }
             var card = new HtmlTag("div").AddClass("comment-card");
 
             var ageShadeColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);

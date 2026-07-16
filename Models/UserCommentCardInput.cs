@@ -23,5 +23,8 @@ namespace RotoMonsterUI
         public bool ShowPlayerInfo { get; set; } = true;
         public bool ShowViewAll { get; set; } = false;
         public bool IsNew { get; set; } = false;
+
+        public NewsCardSport Sport { get; set; } = NewsCardSport.NBA;
+        public bool IsDarkMode { get; set; }
     }
 }
