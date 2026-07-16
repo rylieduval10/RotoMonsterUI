@@ -3713,7 +3713,6 @@ a.modern-filter-btn:hover {
 }.news-card--test {
     position: relative;
     overflow: hidden;
-    min-width: 350px;
 }
 
 .display-player-name {
