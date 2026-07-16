@@ -752,8 +752,13 @@ a.modern-filter-btn:hover {
     color: var(--color-text-primary);
 }
 
+.comment-card-player .display-player-name {
+    font-weight: 400;
+}
+
 .comment-card-viewall {
-    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
     color: var(--color-text-tertiary);
     text-decoration: none;
     margin-left: 0.5rem;
@@ -3618,18 +3623,18 @@ a.modern-filter-btn:hover {
     gap: 8px;
 }
 
-.news-card-test-time-badge {
+.time-since-badge {
     font-size: 12px;
     font-weight: 500;
     padding: 2px 8px;
     border-radius: 10px;
 }
 
-.news-card-test-time-badge .time-since {
+.time-since-badge .time-since {
     color: #000;
 }
 
-.news-card-test-time-badge--expired .time-since {
+.time-since-badge--expired .time-since {
     color: var(--color-text-primary);
 }
 
@@ -3860,4 +3865,12 @@ a.modern-filter-btn:hover {
 
 .give-get-picker-remove:hover {
     opacity: 1;
+}
+
+.news-card-test-unofficial-icon {
+    color: #f59e0b;
+}
+
+.comment-card-player--shaded .display-player-name {
+    color: #000;
 }

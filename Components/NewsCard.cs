@@ -399,7 +399,7 @@ namespace RotoMonsterUI
         {
             var card = new HtmlTag("div").AddClass("news-card news-card--test");
 
-            var cardTint = TintBackground(_input.StatusTypeColorCode, 0.15);
+            var cardTint = TintBackground(_input.StatusTypeColorCode, 0.08);
             card.Attr("style", $"background:{cardTint};");
 
             // Status ribbon is absolutely positioned flush in the top-right corner.
@@ -423,13 +423,7 @@ namespace RotoMonsterUI
 
             if (_input.TimeSinceCreated.HasValue)
             {
-                var ageColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
-                var timeBadge = new HtmlTag("span").AddClass("news-card-test-time-badge");
-                if (ageColor != null)
-                    timeBadge.Attr("style", $"background:{ageColor};");
-                else
-                    timeBadge.AddClass("news-card-test-time-badge--expired");
-                timeBadge.AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
+                var timeBadge = new HtmlTag("span").AppendHtml(new TimeSinceBadge(_input.TimeSinceCreated.Value).Render());
                 headerLeft.Append(timeBadge);
             }
 
@@ -481,6 +475,19 @@ namespace RotoMonsterUI
                     tagIconWrap.Append(tagIconTrigger);
                     tagIconWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tagTooltipId).Text(_input.StatusTypeTag));
                     bodyRow.Append(tagIconWrap);
+                }
+
+                if (_input.IsUnofficial)
+                {
+                    var unofficialTooltipId = $"newsbadge-tooltip-{_input.NewsId}-unofficial";
+                    var unofficialWrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
+                    var unofficialTrigger = new HtmlTag("span")
+                        .AddClass("news-card-test-tag-icon news-card-test-unofficial-icon bm-tooltip-trigger")
+                        .Attr("data-bm-tooltip", unofficialTooltipId);
+                    unofficialTrigger.AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 14, Color = "currentColor" }).Render());
+                    unofficialWrap.Append(unofficialTrigger);
+                    unofficialWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", unofficialTooltipId).Text("Status is Unofficial"));
+                    bodyRow.Append(unofficialWrap);
                 }
 
                 var bodyText = new HtmlTag("span").AddClass("news-card-test-body").Text(bodyContent);

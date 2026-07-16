@@ -63,12 +63,13 @@ namespace RotoMonsterUI
         LimitedMinutes,
         IsTeamUpdate,
         Edit,
-        Kebab, 
+        Kebab,
         ExternalLink,
         Close,
         ChatBubble,
         ArrowUp,
-        ArrowDown
+        ArrowDown, 
+        Filter
     }
 
     public class IconInput

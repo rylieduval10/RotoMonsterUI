@@ -35,7 +35,7 @@ namespace RotoMonsterUI
             {
                 var timeSince = new HtmlTag("span")
                     .AddClass("forum-post-card-time")
-                    .AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
+                    .AppendHtml(new TimeSinceBadge(_input.TimeSinceCreated.Value).Render());
                 usernameRow.Append(timeSince);
             }
 

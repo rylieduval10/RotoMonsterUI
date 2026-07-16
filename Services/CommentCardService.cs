@@ -8,29 +8,52 @@ namespace RotoMonsterUI
         {
             var result = new CommentCardResult();
 
+            params_.TryGetValue("__EVENTTARGET", out var eventTarget);
+
+            int? ExtractId(string prefix)
+            {
+                if (eventTarget != null && eventTarget.StartsWith(prefix) &&
+                    int.TryParse(eventTarget.Substring(prefix.Length), out var idFromTarget))
+                    return idFromTarget;
+
+                foreach (var key in params_.Keys)
+                {
+                    if (key.StartsWith(prefix) && int.TryParse(key.Substring(prefix.Length), out var idFromKey))
+                        return idFromKey;
+                }
+                return null;
+            }
+
+            var upId = ExtractId("commentupvote_");
+            var downId = ExtractId("commentdownvote_");
+            result.DeleteCommentId = ExtractId("delete_");
+            result.ExpandCommentId = ExtractId("expand_");
+
+            if (upId.HasValue)
+            {
+                var currentVote = params_.TryGetValue($"commentcurrentvote_{upId.Value}", out var cv) ? cv : "none";
+                if (currentVote == "up")
+                    result.CancelVoteCommentId = upId;
+                else
+                    result.UpVoteCommentId = upId;
+            }
+
+            if (downId.HasValue)
+            {
+                var currentVote = params_.TryGetValue($"commentcurrentvote_{downId.Value}", out var cv) ? cv : "none";
+                if (currentVote == "down")
+                    result.CancelVoteCommentId = downId;
+                else
+                    result.DownVoteCommentId = downId;
+            }
+
             foreach (var key in params_.Keys)
             {
-                if (key.StartsWith("upvote_") && int.TryParse(key.Replace("upvote_", ""), out int upId))
-                    result.UpVoteCommentId = upId;
-
-                else if (key.StartsWith("downvote_") && int.TryParse(key.Replace("downvote_", ""), out int downId))
-                    result.DownVoteCommentId = downId;
-
-                else if (key.StartsWith("changevote_") && int.TryParse(key.Replace("changevote_", ""), out int changeId))
-                    result.ChangeVoteCommentId = changeId;
-
-                else if (key.StartsWith("delete_") && int.TryParse(key.Replace("delete_", ""), out int deleteId))
-                    result.DeleteCommentId = deleteId;
-
-                else if (key.StartsWith("expand_") && int.TryParse(key.Replace("expand_", ""), out int expandId))
-                    result.ExpandCommentId = expandId;
-
-                else if (key.StartsWith("post_") && int.TryParse(key.Replace("post_", ""), out int postId))
+                if (key.StartsWith("post_") && int.TryParse(key.Replace("post_", ""), out int postId))
                 {
                     result.PostPressed = true;
                     result.PostCommentId = postId;
                 }
-
                 else if (key.StartsWith("comment_"))
                     result.UserComment = params_[key];
             }

@@ -4,7 +4,7 @@ namespace RotoMonsterUI
     {
         public int? UpVoteCommentId { get; set; }
         public int? DownVoteCommentId { get; set; }
-        public int? ChangeVoteCommentId { get; set; }
+        public int? CancelVoteCommentId { get; set; }
         public int? DeleteCommentId { get; set; }
         public int? ExpandCommentId { get; set; }
         public bool PostPressed { get; set; } = false;
