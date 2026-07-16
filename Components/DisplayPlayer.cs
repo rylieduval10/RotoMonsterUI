@@ -14,7 +14,8 @@ namespace RotoMonsterUI
         private string NormalizeColor(string color)
         {
             if (string.IsNullOrEmpty(color)) return color;
-            return color.StartsWith("#") ? color : "#" + color;
+            if (color.StartsWith("var(") || color.StartsWith("#")) return color;
+            return "#" + color;
         }
 
         public string Render()

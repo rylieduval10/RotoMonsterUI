@@ -16,12 +16,13 @@ namespace RotoMonsterUI
         {
             if (_input.ShowPlayerInfo && _input.DisplayPlayerInput != null
                 && string.IsNullOrEmpty(_input.DisplayPlayerInput.TeamColor))
-                
             {
+
                 _input.DisplayPlayerInput.TeamColor = _input.Sport == NewsCardSport.NBA
-                    ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
-                    : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
+                    ? TeamColorHelper.GetNbaTeamColorVar(_input.DisplayPlayerInput.TeamCode)
+                    : TeamColorHelper.GetTeamColorVar(_input.DisplayPlayerInput.TeamCode);
             }
+
             var card = new HtmlTag("div").AddClass("comment-card");
 
             var ageShadeColor = ColorHelper.GetAgeShadeHex(_input.TimeSinceCreated);
@@ -34,8 +35,6 @@ namespace RotoMonsterUI
             {
                 var titleRow = new HtmlTag("div").AddClass("comment-card-title-row d-flex justify-content-between align-items-center");
 
-                // Player name and position badges are left as-is. Team code gets auto-darkened when
-                // shaded so it stays readable on yellow without just going flat black.
                 var displayPlayerInput = _input.DisplayPlayerInput;
                 if (isShaded && !string.IsNullOrEmpty(displayPlayerInput.TeamColor))
                 {
@@ -44,7 +43,7 @@ namespace RotoMonsterUI
                         PlayerName = _input.DisplayPlayerInput.PlayerName,
                         PlayerId = _input.DisplayPlayerInput.PlayerId,
                         TeamCode = _input.DisplayPlayerInput.TeamCode,
-                        TeamColor = ColorHelper.GetAutoColorForLightBackground(_input.DisplayPlayerInput.TeamColor),
+                        TeamColor = "#000000",
                         Positions = _input.DisplayPlayerInput.Positions
                     };
                 }

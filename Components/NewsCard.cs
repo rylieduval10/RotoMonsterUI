@@ -84,13 +84,12 @@ namespace RotoMonsterUI
             {
                 if (string.IsNullOrEmpty(_input.DisplayPlayerInput.TeamColor))
                 {
+
                     _input.DisplayPlayerInput.TeamColor = _input.Sport == NewsCardSport.NBA
-                        ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
-                        : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
+                        ? TeamColorHelper.GetNbaTeamColorVar(_input.DisplayPlayerInput.TeamCode)
+                        : TeamColorHelper.GetTeamColorVar(_input.DisplayPlayerInput.TeamCode);
                 }
 
-                // Player name and position badges are left as-is. Team code gets auto-darkened when
-                // shaded so it stays readable on yellow without just going flat black.
                 var displayPlayerInput = _input.DisplayPlayerInput;
                 if (isShaded && !string.IsNullOrEmpty(displayPlayerInput.TeamColor))
                 {
@@ -99,7 +98,7 @@ namespace RotoMonsterUI
                         PlayerName = _input.DisplayPlayerInput.PlayerName,
                         PlayerId = _input.DisplayPlayerInput.PlayerId,
                         TeamCode = _input.DisplayPlayerInput.TeamCode,
-                        TeamColor = ColorHelper.GetAutoColorForLightBackground(_input.DisplayPlayerInput.TeamColor),
+                        TeamColor = "#000000",
                         Positions = _input.DisplayPlayerInput.Positions
                     };
                 }
@@ -447,14 +446,12 @@ namespace RotoMonsterUI
                 if (string.IsNullOrEmpty(_input.DisplayPlayerInput.TeamColor))
                 {
                     _input.DisplayPlayerInput.TeamColor = _input.Sport == NewsCardSport.NBA
-                        ? TeamColorHelper.GetNbaTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode)
-                        : TeamColorHelper.GetTeamColor(_input.DisplayPlayerInput.TeamCode, _input.IsDarkMode);
+                        ? TeamColorHelper.GetNbaTeamColorVar(_input.DisplayPlayerInput.TeamCode)
+                        : TeamColorHelper.GetTeamColorVar(_input.DisplayPlayerInput.TeamCode);
                 }
                 card.AppendHtml(new DisplayPlayer(_input.DisplayPlayerInput).Render());
             }
 
-            // Body row: an icon for the status tag (Injury, Illness, etc.) with a tooltip, next to
-            // the actual news text - shows NewsTitle and NewsDetails together per Ken's request.
             var bodyParts = new List<string>();
             if (!string.IsNullOrEmpty(_input.NewsTitle)) bodyParts.Add(_input.NewsTitle);
             if (!string.IsNullOrEmpty(_input.NewsDetails)) bodyParts.Add(_input.NewsDetails);

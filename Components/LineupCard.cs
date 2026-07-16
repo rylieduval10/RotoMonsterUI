@@ -126,7 +126,8 @@ namespace RotoMonsterUI
         private string NormalizeColor(string color)
         {
             if (string.IsNullOrEmpty(color)) return color;
-            return color.StartsWith("#") ? color : "#" + color;
+            if (color.StartsWith("var(") || color.StartsWith("#")) return color;
+            return "#" + color;
         }
 
         private string FormatLineupExpected(int minutes)
@@ -169,7 +170,7 @@ namespace RotoMonsterUI
             // Away team
             var awayTeamColor = NormalizeColor(!string.IsNullOrEmpty(_input.AwayTeam.TeamColor)
                 ? _input.AwayTeam.TeamColor
-                : TeamColorHelper.GetTeamColor(_input.AwayTeam.TeamCode, _input.IsDarkMode));
+                : TeamColorHelper.GetTeamColorVar(_input.AwayTeam.TeamCode));
 
             var awayCol = new HtmlTag("div").AddClass("lineup-card-col");
             awayCol.Append(BuildTeamHeader(_input.AwayTeam));
@@ -179,7 +180,7 @@ namespace RotoMonsterUI
             // Home team
             var homeTeamColor = NormalizeColor(!string.IsNullOrEmpty(_input.HomeTeam.TeamColor)
                 ? _input.HomeTeam.TeamColor
-                : TeamColorHelper.GetTeamColor(_input.HomeTeam.TeamCode, _input.IsDarkMode));
+                : TeamColorHelper.GetTeamColorVar(_input.HomeTeam.TeamCode));
 
             var homeCol = new HtmlTag("div").AddClass("lineup-card-col");
             homeCol.Append(BuildTeamHeader(_input.HomeTeam));
