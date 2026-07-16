@@ -3511,7 +3511,7 @@ a.modern-filter-btn:hover {
 .forum-post-card-time {
     font-size: 0.8rem;
     color: var(--color-text-tertiary);
-    margin-left: auto;
+    margin-left: 0.5rem;
 }
 
 .forum-post-card-text {
@@ -3643,7 +3643,9 @@ a.modern-filter-btn:hover {
 }
 
 .news-card-test-status-corner {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     padding: 6px 18px;
     font-size: 12px;
     font-weight: 600;

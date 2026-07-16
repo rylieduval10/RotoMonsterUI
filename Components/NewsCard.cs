@@ -477,19 +477,6 @@ namespace RotoMonsterUI
                     bodyRow.Append(tagIconWrap);
                 }
 
-                if (_input.IsUnofficial)
-                {
-                    var unofficialTooltipId = $"newsbadge-tooltip-{_input.NewsId}-unofficial";
-                    var unofficialWrap = new HtmlTag("span").AddClass("bm-tooltip-wrap");
-                    var unofficialTrigger = new HtmlTag("span")
-                        .AddClass("news-card-test-tag-icon news-card-test-unofficial-icon bm-tooltip-trigger")
-                        .Attr("data-bm-tooltip", unofficialTooltipId);
-                    unofficialTrigger.AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 14, Color = "currentColor" }).Render());
-                    unofficialWrap.Append(unofficialTrigger);
-                    unofficialWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", unofficialTooltipId).Text("Status is Unofficial"));
-                    bodyRow.Append(unofficialWrap);
-                }
-
                 var bodyText = new HtmlTag("span").AddClass("news-card-test-body").Text(bodyContent);
                 bodyRow.Append(bodyText);
 
@@ -572,6 +559,9 @@ namespace RotoMonsterUI
                 .Attr("data-bm-tooltip", tooltipId)
                 .Attr("style", $"background:{NormalizeColor(_input.StatusTypeColorCode)}")
                 .Text((_input.StatusTypeText ?? "").ToUpper());
+
+            if (_input.IsUnofficial)
+                badge.AppendHtml(new Icon(new IconInput { Type = IconType.Error, Size = 12, Color = "white" }).Render());
 
             wrap.Append(badge);
             wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(tooltipText));
