@@ -4045,3 +4045,11 @@ a.modern-filter-btn:hover {
     word-break: break-word;
     line-height: 1.2;
 }
+
+.system-message--success {
+    background: var(--status-success);
+}
+.system-message--success .system-message-text,
+.system-message--success .system-message-icon {
+    color: white;
+}

@@ -68,8 +68,10 @@ namespace RotoMonsterUI
         Close,
         ChatBubble,
         ArrowUp,
-        ArrowDown, 
-        Filter
+        ArrowDown,
+        Filter,
+        UnofficialTag,
+        Success
     }
 
     public class IconInput

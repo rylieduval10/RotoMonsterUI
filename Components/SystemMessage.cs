@@ -17,6 +17,7 @@ namespace RotoMonsterUI
             {
                 case SystemMessageType.Warning: return "warning";
                 case SystemMessageType.Error: return "error";
+                case SystemMessageType.Success: return "success";
                 default: return "info";
             }
         }
@@ -27,6 +28,7 @@ namespace RotoMonsterUI
             {
                 case SystemMessageType.Warning: return IconType.Warning;
                 case SystemMessageType.Error: return IconType.Error;
+                case SystemMessageType.Success: return IconType.Success;
                 default: return IconType.Info;
             }
         }

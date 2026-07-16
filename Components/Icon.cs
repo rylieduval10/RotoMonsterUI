@@ -240,6 +240,13 @@ namespace RotoMonsterUI
                     return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""{_input.Color}"">
                         <polygon points=""3,4 21,4 14,13 14,20 10,18 10,13""/>
                     </svg>";
+                case IconType.UnofficialTag:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 640 640"">
+                        <path fill=""{_input.Color}"" d=""M448 96L439.4 96C428.4 76.9 407.7 64 384 64L256 64C232.3 64 211.6 76.9 200.6 96L192 96C156.7 96 128 124.7 128 160L128 512C128 547.3 156.7 576 192 576L448 576C483.3 576 512 547.3 512 512L512 160C512 124.7 483.3 96 448 96zM264 176C250.7 176 240 165.3 240 152C240 138.7 250.7 128 264 128L376 128C389.3 128 400 138.7 400 152C400 165.3 389.3 176 376 176L264 176z""/>
+                        <text x=""320"" y=""380"" font-family=""system-ui, -apple-system, sans-serif"" font-size=""280"" font-weight=""bold"" fill=""{(_input.Color == "white" ? "#222222" : "white")}"" text-anchor=""middle"" dominant-baseline=""central"">?</text>
+                    </svg>";
+                case IconType.Success:
+                     return WrapSvg(@"<path d=""M22 11.08V12a10 10 0 1 1-5.93-9.14""/><polyline points=""22 4 12 14.01 9 11.01""/>");
                 case IconType.ArrowDown:
                     return WrapSvg(@"<polyline points=""6 9 12 15 18 9""/>");
                 default:

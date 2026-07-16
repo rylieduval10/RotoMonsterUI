@@ -4,7 +4,8 @@ namespace RotoMonsterUI
     {
         Info,
         Warning,
-        Error
+        Error, 
+        Success
     }
 
     public class SystemMessageInput
