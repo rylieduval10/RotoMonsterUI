@@ -24,28 +24,13 @@ namespace RotoMonsterUI
                 return null;
             }
 
-            var upId = ExtractId("forumupvote_");
-            var downId = ExtractId("forumdownvote_");
             result.DeletePostId = ExtractId("forumdelete_");
             result.EditPostId = ExtractId("forumedit_");
 
-            if (upId.HasValue)
-            {
-                var currentVote = params_.TryGetValue($"forumcurrentvote_{upId.Value}", out var cv) ? cv : "none";
-                if (currentVote == "up")
-                    result.CancelVotePostId = upId;
-                else
-                    result.UpVotePostId = upId;
-            }
-
-            if (downId.HasValue)
-            {
-                var currentVote = params_.TryGetValue($"forumcurrentvote_{downId.Value}", out var cv) ? cv : "none";
-                if (currentVote == "down")
-                    result.CancelVotePostId = downId;
-                else
-                    result.DownVotePostId = downId;
-            }
+            var voteResult = new VoteControlService().Process("forum", params_);
+            result.UpVotePostId = voteResult.UpVoteId;
+            result.DownVotePostId = voteResult.DownVoteId;
+            result.CancelVotePostId = voteResult.CancelVoteId;
 
             return result;
         }

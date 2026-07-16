@@ -24,28 +24,13 @@ namespace RotoMonsterUI
                 return null;
             }
 
-            var upId = ExtractId("commentupvote_");
-            var downId = ExtractId("commentdownvote_");
             result.DeleteCommentId = ExtractId("delete_");
             result.ExpandCommentId = ExtractId("expand_");
 
-            if (upId.HasValue)
-            {
-                var currentVote = params_.TryGetValue($"commentcurrentvote_{upId.Value}", out var cv) ? cv : "none";
-                if (currentVote == "up")
-                    result.CancelVoteCommentId = upId;
-                else
-                    result.UpVoteCommentId = upId;
-            }
-
-            if (downId.HasValue)
-            {
-                var currentVote = params_.TryGetValue($"commentcurrentvote_{downId.Value}", out var cv) ? cv : "none";
-                if (currentVote == "down")
-                    result.CancelVoteCommentId = downId;
-                else
-                    result.DownVoteCommentId = downId;
-            }
+            var voteResult = new VoteControlService().Process("comment", params_);
+            result.UpVoteCommentId = voteResult.UpVoteId;
+            result.DownVoteCommentId = voteResult.DownVoteId;
+            result.CancelVoteCommentId = voteResult.CancelVoteId;
 
             foreach (var key in params_.Keys)
             {

@@ -73,17 +73,7 @@ namespace RotoMonsterUI
 
                 card.Append(titleRow);
             }
-            else if (_input.TimeSinceCreated.HasValue)
-            {
-                var timeRow = new HtmlTag("div").AddClass("comment-card-title-row d-flex justify-content-end");
-                var timeSince = new HtmlTag("span").AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
-                if (isShaded) timeSince.AddClass("color-shaded");
-                timeRow.Append(timeSince);
-                card.Append(timeRow);
-            }
-
-            // Username row with optional New badge
-            // Username is NOT force-shaded - Ken has something specific planned for that separately.
+           
             var usernameRow = new HtmlTag("div").AddClass("comment-card-username d-flex align-items-center gap-2");
             usernameRow.AppendHtml(new DisplayUsername(_input.DisplayUsernameInput).Render());
 
@@ -98,6 +88,13 @@ namespace RotoMonsterUI
                 usernameRow.AppendHtml(newBadge);
             }
 
+            if (!_input.ShowPlayerInfo && _input.TimeSinceCreated.HasValue)
+            {
+                var timeSince = new HtmlTag("span").AddClass("comment-card-time").AppendHtml(new TimeSince(_input.TimeSinceCreated.Value).Render());
+                if (isShaded) timeSince.AddClass("color-shaded");
+                usernameRow.Append(timeSince);
+            }
+
             card.Append(usernameRow);
 
             // Comment text
@@ -110,61 +107,18 @@ namespace RotoMonsterUI
 
             if (_input.ShowUpDownControls)
             {
-                bool votedUp = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedUp;
-                bool votedDown = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedDown;
-
-                var total = _input.UpVoteCount + _input.DownVoteCount;
-                var percent = total > 0 ? (int)Math.Round((double)_input.UpVoteCount / total * 100) : 0;
-
-                var votePill = new HtmlTag("span").AddClass("forum-post-vote-pill");
-                if (isShaded) votePill.Attr("style", "background:rgba(0,0,0,0.1);");
-
-                if (_input.CanVote)
+                var voteControl = new VoteControl(new VoteControlInput
                 {
-                    var upBtn = new HtmlTag("button")
-                        .AddClass("forum-post-vote-btn")
-                        .Attr("type", "button")
-                        .Attr("name", $"commentupvote_{_input.CommentId}")
-                        .Attr("data-commentid", _input.CommentId.ToString())
-                        .Attr("onclick", "TriggerPostBack(this, 'commentupvote_', 'data-commentid')")
-                        .Attr("aria-label", "Upvote");
-                    if (votedUp) upBtn.AddClass("forum-post-vote-btn--active-up");
-                    else if (isShaded) upBtn.Attr("style", "color:#334155;");
-                    upBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowUp, Size = 14, Color = "currentColor" }).Render());
-                    votePill.Append(upBtn);
-                }
-
-                var percentSpan = new HtmlTag("span").AddClass("forum-post-vote-percent").Text($"{percent}%");
-                if (isShaded) percentSpan.AddClass("color-shaded");
-                votePill.Append(percentSpan);
-
-                if (_input.CanVote)
-                {
-                    var downBtn = new HtmlTag("button")
-                        .AddClass("forum-post-vote-btn")
-                        .Attr("type", "button")
-                        .Attr("name", $"commentdownvote_{_input.CommentId}")
-                        .Attr("data-commentid", _input.CommentId.ToString())
-                        .Attr("onclick", "TriggerPostBack(this, 'commentdownvote_', 'data-commentid')")
-                        .Attr("aria-label", "Downvote");
-                    if (votedDown) downBtn.AddClass("forum-post-vote-btn--active-down");
-                    else if (isShaded) downBtn.Attr("style", "color:#334155;");
-                    downBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowDown, Size = 14, Color = "currentColor" }).Render());
-                    votePill.Append(downBtn);
-                }
-
-                actionsRow.Append(votePill);
-
-                var voteCount = new HtmlTag("span").AddClass("forum-post-vote-count")
-                    .Text(total == 1 ? "1 vote" : $"{total} votes");
-                if (isShaded) voteCount.AddClass("color-shaded");
-                actionsRow.Append(voteCount);
-
-                if (_input.CanVote)
-                {
-                    var voteStateValue = votedUp ? "up" : votedDown ? "down" : "none";
-                    actionsRow.AppendHtml($"<input type='hidden' name='commentcurrentvote_{_input.CommentId}' value='{voteStateValue}' />");
-                }
+                    Id = _input.CommentId.ToString(),
+                    NamePrefix = "comment",
+                    CanVote = _input.CanVote,
+                    UpVoteCount = _input.UpVoteCount,
+                    DownVoteCount = _input.DownVoteCount,
+                    VotedUp = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedUp,
+                    VotedDown = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedDown,
+                    ForceDarkText = isShaded
+                }).Render();
+                actionsRow.Append(new HtmlTag("span").AppendHtml(voteControl));
             }
 
             if (_input.UserCanDelete)

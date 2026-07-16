@@ -50,58 +50,17 @@ namespace RotoMonsterUI
 
             if (_input.ShowUpDownControls)
             {
-                bool votedUp = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedUp;
-                bool votedDown = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedDown;
-
-                var total = _input.UpVoteCount + _input.DownVoteCount;
-                var percent = total > 0 ? (int)Math.Round((double)_input.UpVoteCount / total * 100) : 0;
-
-                var votePill = new HtmlTag("span").AddClass("forum-post-vote-pill");
-
-                if (_input.CanVote)
+                var voteControl = new VoteControl(new VoteControlInput
                 {
-                    var upBtn = new HtmlTag("button")
-                        .AddClass("forum-post-vote-btn")
-                        .Attr("type", "button")
-                        .Attr("name", $"forumupvote_{_input.PostId}")
-                        .Attr("data-postid", _input.PostId.ToString())
-                        .Attr("onclick", "TriggerPostBack(this, 'forumupvote_', 'data-postid')")
-                        .Attr("aria-label", "Upvote");
-                    if (votedUp) upBtn.AddClass("forum-post-vote-btn--active-up");
-                    upBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowUp, Size = 14, Color = "currentColor" }).Render());
-                    votePill.Append(upBtn);
-                }
-
-                var percentSpan = new HtmlTag("span").AddClass("forum-post-vote-percent").Text($"{percent}%");
-                votePill.Append(percentSpan);
-
-                if (_input.CanVote)
-                {
-                    var downBtn = new HtmlTag("button")
-                        .AddClass("forum-post-vote-btn")
-                        .Attr("type", "button")
-                        .Attr("name", $"forumdownvote_{_input.PostId}")
-                        .Attr("data-postid", _input.PostId.ToString())
-                        .Attr("onclick", "TriggerPostBack(this, 'forumdownvote_', 'data-postid')")
-                        .Attr("aria-label", "Downvote");
-                    if (votedDown) downBtn.AddClass("forum-post-vote-btn--active-down");
-                    downBtn.AppendHtml(new Icon(new IconInput { Type = IconType.ArrowDown, Size = 14, Color = "currentColor" }).Render());
-                    votePill.Append(downBtn);
-                }
-
-                actionsRow.Append(votePill);
-
-                var voteCount = new HtmlTag("span").AddClass("forum-post-vote-count")
-                    .Text(total == 1 ? "1 vote" : $"{total} votes");
-                actionsRow.Append(voteCount);
-
-                if (_input.CanVote)
-                {
-                    // Records the current vote state at render time so the service can tell "vote again"
-                    // apart from "clicking the same arrow means remove my vote".
-                    var voteStateValue = votedUp ? "up" : votedDown ? "down" : "none";
-                    actionsRow.AppendHtml($"<input type='hidden' name='forumcurrentvote_{_input.PostId}' value='{voteStateValue}' />");
-                }
+                    Id = _input.PostId.ToString(),
+                    NamePrefix = "forum",
+                    CanVote = _input.CanVote,
+                    UpVoteCount = _input.UpVoteCount,
+                    DownVoteCount = _input.DownVoteCount,
+                    VotedUp = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedUp,
+                    VotedDown = _input.UserVoteInput != null && _input.UserVoteInput.HasVoted && _input.UserVoteInput.VotedDown
+                }).Render();
+                actionsRow.AppendHtml(voteControl);
             }
 
             if (_input.UserCanEdit)
