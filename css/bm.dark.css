@@ -4052,3 +4052,21 @@ a.modern-filter-btn:hover {
 .system-message--success .system-message-icon {
     color: white;
 }
+
+.game-state-quarter-clock {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.game-state-quarter-label {
+    color: var(--brand-primary);
+}
+
+.game-state-clock-label {
+    font-variant-numeric: tabular-nums;
+}

@@ -49,9 +49,15 @@ namespace RotoMonsterUI
 
             sb.Append(new GameState(new GameStateInput
             {
+                Sport = _input.Sport,
                 IsGameLive = _input.IsGameLive,
                 IsGameFinished = _input.IsGameFinished,
                 CurrentOuts = _input.CurrentOuts,
+                CurrentQuarter = _input.CurrentQuarter,
+                TotalQuarters = _input.TotalQuarters,
+                QuarterLengthMinutes = _input.QuarterLengthMinutes,
+                QuarterMinutesRemaining = _input.QuarterMinutesRemaining,
+                IsOvertime = _input.IsOvertime,
                 GameTimeUtc = _input.GameTimeUtc,
                 DisplayTimezone = _input.DisplayTimezone,
                 Weather = _input.Weather

@@ -26,12 +26,30 @@ namespace RotoMonsterUI
                 }
                 else
                 {
-                    float avgGameRuns = 4.5f;
-                    float avgRuns = avgGameRuns * (float)Math.Min(1, _input.CurrentOuts / 54.0);
-                    if (runs >= avgRuns)
-                        bgColor = ColorHelper.GetGreenColorCode(runs - avgRuns, 0f, avgRuns * 2.5f, true);
+                    float avgRuns;
+                    if (_input.Sport == GameSport.Basketball)
+                    {
+                        float avgGameScore = 112f; // rough average NBA team total score
+                        var totalMinutes = _input.TotalQuarters * _input.QuarterLengthMinutes;
+                        var elapsedMinutes = (_input.CurrentQuarter - 1) * _input.QuarterLengthMinutes
+                            + (_input.QuarterLengthMinutes - _input.QuarterMinutesRemaining);
+                        var elapsedFraction = totalMinutes > 0 ? Math.Max(0, Math.Min(1, elapsedMinutes / totalMinutes)) : 0;
+                        avgRuns = avgGameScore * (float)elapsedFraction;
+
+                        if (runs >= avgRuns)
+                            bgColor = ColorHelper.GetGreenColorCode(runs - avgRuns, 0f, avgRuns * 2.5f, true);
+                        else
+                            bgColor = ColorHelper.GetRedColorCode(avgRuns - runs, 0f, avgGameScore, true);
+                    }
                     else
-                        bgColor = ColorHelper.GetRedColorCode(avgRuns - runs, 0f, avgGameRuns, true);
+                    {
+                        float avgGameRuns = 4.5f;
+                        avgRuns = avgGameRuns * (float)Math.Min(1, _input.CurrentOuts / 54.0);
+                        if (runs >= avgRuns)
+                            bgColor = ColorHelper.GetGreenColorCode(runs - avgRuns, 0f, avgRuns * 2.5f, true);
+                        else
+                            bgColor = ColorHelper.GetRedColorCode(avgRuns - runs, 0f, avgGameRuns, true);
+                    }
                 }
             }
 
