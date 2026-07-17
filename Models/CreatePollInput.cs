@@ -29,6 +29,8 @@ namespace RotoMonsterUI
         public int MaxExpiresHours { get; set; } = 72;
 
         public int MaxOptions { get; set; } = 6;
+
+        public List<DisplayPlayerInput> AvailablePlayers { get; set; } = new List<DisplayPlayerInput>();
         public List<CreatePollOptionDraftInput> Options { get; set; } = new List<CreatePollOptionDraftInput>
         {
             new CreatePollOptionDraftInput { OptionId = 1 },

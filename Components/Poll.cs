@@ -113,6 +113,7 @@ namespace RotoMonsterUI
                     {
                         Id = $"poll-{_input.PollId}-option-{option.OptionId}-players",
                         AddedPlayers = option.Players,
+                        AvailablePlayers = _input.AvailablePlayers,
                         CanEdit = isEditingThisOption
                     }).Render();
 

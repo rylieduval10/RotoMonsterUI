@@ -133,6 +133,7 @@ namespace RotoMonsterUI
             {
                 Id = $"create-poll-option-{option.OptionId}-players",
                 AddedPlayers = option.Players,
+                AvailablePlayers = _input.AvailablePlayers,
                 CanEdit = true
             }).Render();
             playersCell.AppendHtml(picker);

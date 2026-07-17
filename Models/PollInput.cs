@@ -27,6 +27,8 @@ namespace RotoMonsterUI
         public bool IsEditingPlayers { get; set; }
         public int? EditingOptionId { get; set; }
 
+        public List<DisplayPlayerInput> AvailablePlayers { get; set; } = new List<DisplayPlayerInput>();
+
         public int TotalVoteCount
         {
             get
