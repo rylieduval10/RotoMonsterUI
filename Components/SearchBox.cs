@@ -42,7 +42,7 @@ namespace RotoMonsterUI
         {
             var input = new HtmlTag("input")
                 .Attr("type", "text")
-                .AddClass("form-control")
+                .AddClass("form-control bm-search-box")
                 .Attr("placeholder", _placeholder)
                 .Attr("autocomplete", "off");
 

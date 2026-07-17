@@ -71,7 +71,10 @@ namespace RotoMonsterUI
         ArrowDown,
         Filter,
         UnofficialTag,
-        Success
+        Success,
+        Plus,
+        Moon,
+        Sun
     }
 
     public class IconInput

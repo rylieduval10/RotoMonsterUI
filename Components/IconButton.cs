@@ -10,6 +10,8 @@ namespace RotoMonsterUI
         private ButtonStyle _style;
         private string _name;
         private bool _centered;
+        private bool _iconOnly;
+        private string _onClick;
 
         public string Id { get; private set; }
         public IconInput IconInput { get; set; }
@@ -76,6 +78,18 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public IconButton WithIconOnly()
+        {
+            _iconOnly = true;
+            return this;
+        }
+
+        public IconButton WithOnClick(string js)
+        {
+            _onClick = js;
+            return this;
+        }
+
         public string Render()
         {
             if (IconInput != null)
@@ -105,6 +119,23 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_name))
                 tag.Attr("name", _name);
+
+            if (!string.IsNullOrEmpty(_onClick))
+                tag.Attr("onclick", _onClick);
+
+            if (_iconOnly)
+            {
+                tag.AddClass("modern-filter-btn-icon-only");
+                tag.Attr("aria-label", _text);
+                tag.AppendHtml(_icon);
+
+                var tooltipped = new CustomTooltip(tag.ToString(), _text).WithHoverTrigger().Render();
+
+                if (_centered)
+                    return $"<div style='text-align:center;'>{tooltipped}</div>";
+
+                return tooltipped;
+            }
 
             tag.AppendHtml($"<span style='margin-right:0.35rem;'>{_icon}</span>{_text}");
 

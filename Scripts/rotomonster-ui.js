@@ -13,22 +13,12 @@
         }
     }
 
-    document.addEventListener('click', function (e) {
-        var trigger = e.target.closest('[data-bm-tooltip]');
-
-        if (!trigger) {
-            closeTooltip();
-            return;
-        }
-
+    function showTooltip(trigger) {
         var id = trigger.getAttribute('data-bm-tooltip');
         var tooltip = document.getElementById(id);
         if (!tooltip) return;
 
-        if (activeTooltip === tooltip) {
-            closeTooltip();
-            return;
-        }
+        if (activeTooltip === tooltip) return;
 
         closeTooltip();
 
@@ -68,19 +58,55 @@
         document.body.appendChild(arrow);
         activeTooltip = tooltip;
         activeArrow = arrow;
+    }
+
+    document.addEventListener('click', function (e) {
+        var trigger = e.target.closest('[data-bm-tooltip]');
+
+        if (!trigger) {
+            closeTooltip();
+            return;
+        }
+
+        var id = trigger.getAttribute('data-bm-tooltip');
+        var tooltip = document.getElementById(id);
+        if (!tooltip) return;
+
+        if (activeTooltip === tooltip) {
+            closeTooltip();
+            return;
+        }
+
+        showTooltip(trigger);
         e.stopPropagation();
+    });
+
+    // Hover-triggered tooltips (icon-only buttons) - opt-in via the
+    // bm-tooltip-trigger--hover class. Click still works too as a touch
+    // fallback, since hover doesn't exist on touch devices.
+    document.addEventListener('mouseover', function (e) {
+        var trigger = e.target.closest('.bm-tooltip-trigger--hover');
+        if (!trigger) return;
+        showTooltip(trigger);
+    });
+
+    document.addEventListener('mouseout', function (e) {
+        var trigger = e.target.closest('.bm-tooltip-trigger--hover');
+        if (!trigger) return;
+        if (trigger.contains(e.relatedTarget)) return;
+        closeTooltip();
     });
 })();
 
 $(document).on('show.bs.collapse', function(e) {
     var btn = $('[data-target="#' + e.target.id + '"]');
-    btn.find('polyline').attr('points', '6 9 12 15 18 9');
+    btn.find('polyline').attr('points', '18 15 12 9 6 15');
     $('#' + e.target.id.replace('-content', '-toggle')).val('1');
 });
 
 $(document).on('hide.bs.collapse', function(e) {
     var btn = $('[data-target="#' + e.target.id + '"]');
-    btn.find('polyline').attr('points', '9 6 15 12 9 18');
+    btn.find('polyline').attr('points', '6 9 12 15 18 9');
     $('#' + e.target.id.replace('-content', '-toggle')).val('0');
 });
 
@@ -665,22 +691,47 @@ document.addEventListener('click', function(e) {
 
 function EditNews(btn) {
     var newsId = btn.getAttribute('data-newsid');
-    __doPostBack('editnews_' + newsId, 'edit');
+    __doPostBack('editnews_' + newsId, 'edit', btn.closest('form'));
 }
 
 function DeleteNews(btn) {
     var newsId = btn.getAttribute('data-newsid');
-    __doPostBack('deletenews_' + newsId, 'delete');
+    __doPostBack('deletenews_' + newsId, 'delete', btn.closest('form'));
 }
 
 function TriggerPostBack(btn, prefix, dataAttr, argument) {
     var id = btn.getAttribute(dataAttr);
-    __doPostBack(prefix + id, argument || '');
+    __doPostBack(prefix + id, argument || '', btn.closest('form'));
 }
 
 function DeleteChat(btn) {
     var messageId = btn.getAttribute('data-messageid');
-    __doPostBack('deletechat_' + messageId, 'delete');
+    __doPostBack('deletechat_' + messageId, 'delete', btn.closest('form'));
+}
+
+function __doPostBack(eventTarget, eventArgument, form) {
+    form = form || document.forms[0];
+    if (!form) return;
+
+    var et = form.querySelector('input[name="__EVENTTARGET"]');
+    if (!et) {
+        et = document.createElement('input');
+        et.type = 'hidden';
+        et.name = '__EVENTTARGET';
+        form.appendChild(et);
+    }
+    et.value = eventTarget;
+
+    var ea = form.querySelector('input[name="__EVENTARGUMENT"]');
+    if (!ea) {
+        ea = document.createElement('input');
+        ea.type = 'hidden';
+        ea.name = '__EVENTARGUMENT';
+        form.appendChild(ea);
+    }
+    ea.value = eventArgument || '';
+
+    form.submit();
 }
 
 // Poll player picker - client-side search/filter against the embedded AvailablePlayers list
@@ -727,6 +778,62 @@ document.addEventListener('input', function (e) {
 document.addEventListener('click', function (e) {
     if (e.target.closest('.poll-player-picker-search-row')) return;
     document.querySelectorAll('.poll-player-picker-results').forEach(function (el) {
+        el.style.display = 'none';
+    });
+});
+
+// Page title row player search - same embedded-JSON pattern as the poll picker
+document.addEventListener('input', function (e) {
+    if (!e.target.matches('.player-search input[id$="-search"]')) return;
+    var wrapper = e.target.closest('.player-search');
+    if (!wrapper) return;
+    var baseId = wrapper.id;
+    var dataEl = document.getElementById(baseId + '-data');
+    var resultsEl = document.getElementById(baseId + '-results');
+    if (!dataEl || !resultsEl) return;
+
+    var query = e.target.value.trim().toLowerCase();
+    resultsEl.innerHTML = '';
+    if (!query) { resultsEl.style.display = 'none'; return; }
+
+    var players;
+    try { players = JSON.parse(dataEl.textContent); } catch (err) { return; }
+
+    var max = parseInt(wrapper.getAttribute('data-maxresults'), 10) || 8;
+    var urlFormat = wrapper.getAttribute('data-urlformat');
+
+    var matches = players.filter(function (p) {
+        return p.name.toLowerCase().indexOf(query) !== -1;
+    }).slice(0, max);
+
+    if (matches.length === 0) { resultsEl.style.display = 'none'; return; }
+
+    matches.forEach(function (p) {
+        var li = document.createElement('li');
+        li.className = 'listItem';
+        li.textContent = p.name + (p.team ? ' (' + p.team + (p.pos ? ' ' + p.pos : '') + ')' : '');
+        li.addEventListener('click', function () {
+            if (urlFormat) {
+                window.location.href = urlFormat.replace('{id}', p.id);
+                return;
+            }
+            var selectedInput = document.getElementById(baseId + '-selected');
+            var searchInput = document.getElementById(baseId + '-search');
+            if (selectedInput) selectedInput.value = p.id;
+            if (searchInput) searchInput.value = p.name;
+            resultsEl.innerHTML = '';
+            resultsEl.style.display = 'none';
+            if (typeof __doPostBack === 'function') __doPostBack(baseId + '-selected', '');
+        });
+        resultsEl.appendChild(li);
+    });
+
+    resultsEl.style.display = 'block';
+});
+
+document.addEventListener('click', function (e) {
+    if (e.target.closest('.player-search')) return;
+    document.querySelectorAll('.player-search-results').forEach(function (el) {
         el.style.display = 'none';
     });
 });

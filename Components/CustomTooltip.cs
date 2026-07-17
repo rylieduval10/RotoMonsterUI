@@ -10,6 +10,7 @@ namespace RotoMonsterUI
         private string _id;
         private bool _centered;
         private int? _maxWidth;
+        private bool _hoverTrigger;
 
         public CustomTooltip(string triggerHtml, string contentHtml)
         {
@@ -30,12 +31,20 @@ namespace RotoMonsterUI
             return this;
         }
 
+        public CustomTooltip WithHoverTrigger()
+        {
+            _hoverTrigger = true;
+            return this;
+        }
+
         public string Render()
         {
             var wrapper = new HtmlTag("span")
                 .AddClass("bm-tooltip-trigger")
                 .Attr("data-bm-tooltip", _id)
                 .AppendHtml(_triggerHtml);
+            if (_hoverTrigger)
+                wrapper.AddClass("bm-tooltip-trigger--hover");
 
             var content = new HtmlTag("div")
                 .AddClass("bm-tooltip-content")
