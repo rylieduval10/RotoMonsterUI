@@ -682,3 +682,51 @@ function DeleteChat(btn) {
     var messageId = btn.getAttribute('data-messageid');
     __doPostBack('deletechat_' + messageId, 'delete');
 }
+
+// Poll player picker - client-side search/filter against the embedded AvailablePlayers list
+document.addEventListener('input', function (e) {
+    if (!e.target.matches('.poll-player-picker input[id$="-search"]')) return;
+    var wrapper = e.target.closest('.poll-player-picker');
+    if (!wrapper) return;
+    var baseId = wrapper.id;
+    var dataEl = document.getElementById(baseId + '-data');
+    var resultsEl = document.getElementById(baseId + '-results');
+    if (!dataEl || !resultsEl) return;
+
+    var query = e.target.value.trim().toLowerCase();
+    resultsEl.innerHTML = '';
+    if (!query) { resultsEl.style.display = 'none'; return; }
+
+    var players;
+    try { players = JSON.parse(dataEl.textContent); } catch (err) { return; }
+
+    var matches = players.filter(function (p) {
+        return p.name.toLowerCase().indexOf(query) !== -1;
+    }).slice(0, 8);
+
+    if (matches.length === 0) { resultsEl.style.display = 'none'; return; }
+
+    matches.forEach(function (p) {
+        var li = document.createElement('li');
+        li.className = 'listItem';
+        li.textContent = p.name + (p.team ? ' (' + p.team + (p.pos ? ' ' + p.pos : '') + ')' : '');
+        li.addEventListener('click', function () {
+            var selectedInput = document.getElementById(baseId + '-selected');
+            var searchInput = document.getElementById(baseId + '-search');
+            if (selectedInput) selectedInput.value = p.id;
+            if (searchInput) searchInput.value = p.name;
+            resultsEl.innerHTML = '';
+            resultsEl.style.display = 'none';
+        });
+        resultsEl.appendChild(li);
+    });
+
+    resultsEl.style.display = 'block';
+});
+
+document.addEventListener('click', function (e) {
+    if (e.target.closest('.poll-player-picker-search-row')) return;
+    document.querySelectorAll('.poll-player-picker-results').forEach(function (el) {
+        el.style.display = 'none';
+    });
+});

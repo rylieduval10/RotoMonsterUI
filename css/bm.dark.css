@@ -4182,3 +4182,14 @@ a.modern-filter-btn:hover {
     color: var(--color-text-tertiary);
     margin: 0.25rem 0;
 }
+
+.poll-player-picker-search-row {
+    position: relative;
+}
+
+.poll-player-picker-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+}

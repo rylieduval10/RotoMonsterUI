@@ -1,3 +1,4 @@
+using System.Text;
 using HtmlTags;
 
 namespace RotoMonsterUI
@@ -9,6 +10,33 @@ namespace RotoMonsterUI
         public PollOptionPlayerPicker(PollOptionPlayerPickerInput input)
         {
             _input = input;
+        }
+
+        private string EscapeJson(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            return s.Replace("\\", "\\\\").Replace("\"", "\\\"");
+        }
+
+        private string SerializePlayersJson()
+        {
+            var sb = new StringBuilder("[");
+            for (int i = 0; i < _input.AvailablePlayers.Count; i++)
+            {
+                var p = _input.AvailablePlayers[i];
+                if (i > 0) sb.Append(",");
+                var posText = p.Positions != null && p.Positions.Count > 0
+                    ? string.Join("/", p.Positions.ConvertAll(x => x.Abbreviation))
+                    : "";
+                sb.Append("{");
+                sb.Append($"\"id\":{p.PlayerId},");
+                sb.Append($"\"name\":\"{EscapeJson(p.PlayerName)}\",");
+                sb.Append($"\"team\":\"{EscapeJson(p.TeamCode)}\",");
+                sb.Append($"\"pos\":\"{EscapeJson(posText)}\"");
+                sb.Append("}");
+            }
+            sb.Append("]");
+            return sb.ToString();
         }
 
         public string Render()
@@ -61,10 +89,18 @@ namespace RotoMonsterUI
                     .Attr("name", $"{_input.Id}-add")
                     .Text("Add");
 
+                var resultsList = new HtmlTag("ul")
+                    .AddClass("completionList poll-player-picker-results")
+                    .Attr("id", $"{_input.Id}-results")
+                    .Attr("style", "display:none;");
+
                 searchRow.AppendHtml(searchBox);
                 searchRow.Append(hiddenSelected);
                 searchRow.Append(addBtn);
+                searchRow.Append(resultsList);
                 wrapper.Append(searchRow);
+
+                wrapper.AppendHtml($"<script type=\"application/json\" id=\"{_input.Id}-data\">{SerializePlayersJson()}</script>");
             }
 
             return wrapper.ToString();
