@@ -305,7 +305,7 @@ namespace RotoMonsterUI
                 badge.AppendHtml(new Icon(new IconInput { Type = tagIcon.Value, Size = 14, Color = "white" }).Render());
 
             if (_input.IsUnofficial)
-                badge.AppendHtml(new Icon(new IconInput { Type = IconType.UnofficialTag, Size = 24, Color = "white" }).Render());
+                badge.AppendHtml(new Icon(new IconInput { Type = IconType.UnofficialTag, Size = 20, Color = "white" }).Render());
 
             wrap.Append(badge);
             wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(tooltipText));
@@ -558,7 +558,7 @@ namespace RotoMonsterUI
                 .Text((_input.StatusTypeText ?? "").ToUpper());
 
             if (_input.IsUnofficial)
-                badge.AppendHtml(new Icon(new IconInput { Type = IconType.UnofficialTag, Size = 24, Color = "white" }).Render());
+                badge.AppendHtml(new Icon(new IconInput { Type = IconType.UnofficialTag, Size = 20, Color = "white" }).Render());
 
             wrap.Append(badge);
             wrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content").Attr("id", tooltipId).Text(tooltipText));

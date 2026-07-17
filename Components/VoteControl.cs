@@ -54,20 +54,14 @@ namespace RotoMonsterUI
                 pill.Append(downBtn);
             }
 
-            // Vote count now lives inside the pill - person icon, click for a "N vote(s)" tooltip
-            var tooltipId = $"votecontrol-tooltip-{_input.NamePrefix}-{_input.Id}";
-            var countWrap = new HtmlTag("span").AddClass("bm-tooltip-wrap vote-control-count-wrap");
-            var countTrigger = new HtmlTag("span")
-                .AddClass("vote-control-count bm-tooltip-trigger")
-                .Attr("data-bm-tooltip", tooltipId);
-            if (_input.ForceDarkText) countTrigger.AddClass("color-shaded");
-            countTrigger.AppendHtml($"<span class='vote-control-count-number'>{total}</span>");
-            countTrigger.AppendHtml(new Icon(new IconInput { Type = IconType.PersonSimple, Size = 14, Color = "currentColor" }).Render());
-            countWrap.Append(countTrigger);
-
-            var tooltipText = total == 0 ? "no votes" : (total == 1 ? "1 vote" : $"{total} votes");
-            countWrap.Append(new HtmlTag("div").AddClass("bm-tooltip-content bm-tooltip-content--centered").Attr("id", tooltipId).Text(tooltipText));
-            pill.Append(countWrap);
+            
+            if (total > 0)
+            {
+                var countText = total == 1 ? "1 vote" : $"{total} votes";
+                var countSpan = new HtmlTag("span").AddClass("vote-control-count").Text(countText);
+                if (_input.ForceDarkText) countSpan.AddClass("color-shaded");
+                pill.Append(countSpan);
+            }
 
             if (_input.CanVote)
             {

@@ -609,8 +609,8 @@ body {
 }
 .listItem { padding: 0.6rem 1rem; cursor: pointer; font-size: 0.875rem; color: #e2e8f0; border-radius: 6px; transition: background 0.15s ease, color 0.15s ease; }
 .listItem:hover, .itemHighlighted {
-    background: linear-gradient(90deg, rgba(var(--brand-primary-rgb), 0.25) 0%, rgba(var(--brand-primary-rgb), 0.1) 100%);
-    color: var(--brand-accent);
+    background: rgba(255,255,255,0.1);
+    color: #ffffff;
 }
 .completionList::-webkit-scrollbar { width: 8px; }
 .completionList::-webkit-scrollbar-track { background: #1e293b; border-radius: 10px; }
@@ -844,6 +844,11 @@ a.modern-filter-btn:hover {
 }
 
 .comment-card-player .display-player-name {
+    font-weight: 400;
+}
+
+.comment-card-player .display-player-team,
+.comment-card-player .display-player-pos {
     font-weight: 400;
 }
 
@@ -2727,7 +2732,7 @@ a.modern-filter-btn:hover {
 .system-message {
     display: flex; align-items: flex-start; gap: 0.6rem;
     padding: 0.7rem 1rem; border-radius: 6px;
-    border-left: none;
+    border-left: none; margin: 0.4rem 0.1rem 0.4rem 0.1rem;
     font-size: 0.85rem; font-weight: 500; line-height: 1.5;
 }
 .system-message-icon { flex-shrink: 0; display: flex; align-items: center; margin-top: 0.1rem; }
@@ -3580,6 +3585,9 @@ a.modern-filter-btn:hover {
 
 .forum-post-card-username .display-username {
     font-weight: 700;
+}
+
+.forum-post-card-username .display-username--default-color {
     color: var(--brand-primary);
 }
 
@@ -3690,14 +3698,12 @@ a.modern-filter-btn:hover {
 .vote-control-count {
     display: flex;
     align-items: center;
-    gap: 3px;
     padding: 0 8px;
     height: 24px;
-    border-radius: 12px;
     color: var(--color-text-tertiary);
-    cursor: pointer;
     font-size: 0.75rem;
     font-weight: 600;
+    cursor: default;
 }
 
 .vote-control-count:hover {

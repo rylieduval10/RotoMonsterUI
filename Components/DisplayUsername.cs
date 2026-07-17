@@ -49,6 +49,8 @@ namespace RotoMonsterUI
 
             if (!string.IsNullOrEmpty(_input.CssClass))
                 tag.AddClass(_input.CssClass);
+            else
+                tag.AddClass("display-username--default-color");
 
             tag.Text(displayText);
 
