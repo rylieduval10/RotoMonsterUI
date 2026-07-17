@@ -43,7 +43,8 @@ namespace RotoMonsterUI
             var input = new HtmlTag("input")
                 .Attr("type", "text")
                 .AddClass("form-control")
-                .Attr("placeholder", _placeholder);
+                .Attr("placeholder", _placeholder)
+                .Attr("autocomplete", "off");
 
             if (!string.IsNullOrEmpty(_name))
                 input.Attr("name", _name);
