@@ -4076,3 +4076,109 @@ a.modern-filter-btn:hover {
 .game-state-clock-label {
     font-variant-numeric: tabular-nums;
 }
+
+.create-poll-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.create-poll-league-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.create-poll-field-label {
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.create-poll-options-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0.5rem 0 0;
+}
+
+.create-poll-column-labels {
+    display: grid;
+    grid-template-columns: 110px 1fr 1fr;
+    gap: 0.75rem;
+    padding: 0 0.1rem;
+    margin-top: 0.5rem;
+}
+
+.create-poll-column-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--color-text-tertiary);
+}
+
+.create-poll-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.create-poll-option-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 1fr;
+    gap: 0.75rem;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.6rem;
+}
+
+.create-poll-tools-cell,
+.create-poll-players-cell,
+.create-poll-comment-cell {
+    display: flex;
+    flex-direction: column;
+}
+
+.create-poll-tools {
+    display: flex;
+    gap: 0.35rem;
+}
+
+.create-poll-tool-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.create-poll-tool-btn:hover:not(:disabled) {
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+.create-poll-tool-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.create-poll-tool-btn--delete:hover:not(:disabled) {
+    border-color: var(--status-error);
+    color: var(--status-error);
+}
+
+.create-poll-note {
+    font-size: 0.8rem;
+    color: var(--color-text-tertiary);
+    margin: 0.25rem 0;
+}

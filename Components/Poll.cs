@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using HtmlTags;
 
@@ -21,12 +22,25 @@ namespace RotoMonsterUI
 
             headerRow.Append(new HtmlTag("span").AddClass("poll-creator").Text(_input.CreatorUsername));
 
-            if (_input.EndsInPercent.HasValue)
+            if (_input.DateCreated.HasValue && _input.PollLength.HasValue)
             {
-                var endsBadge = new HtmlTag("span")
-                    .AddClass("poll-ends-badge")
-                    .Text($"Ends {_input.EndsInPercent.Value:0.0}%");
-                headerRow.Append(endsBadge);
+                var endsAt = _input.DateCreated.Value.Add(_input.PollLength.Value);
+                var remaining = endsAt - DateTime.UtcNow;
+
+                if (remaining <= TimeSpan.Zero)
+                {
+                    var closedBadge = new HtmlTag("span")
+                        .AddClass("poll-ends-badge poll-ends-badge--closed")
+                        .Text("Closed");
+                    headerRow.Append(closedBadge);
+                }
+                else
+                {
+                    var endsBadge = new HtmlTag("span").AddClass("poll-ends-badge");
+                    endsBadge.AppendHtml("Ends in ");
+                    endsBadge.AppendHtml(new TimeSince(remaining).Render());
+                    headerRow.Append(endsBadge);
+                }
             }
 
             headerRow.Append(new HtmlTag("span").AddClass("poll-vote-count").Text($"{_input.TotalVoteCount} vote{(_input.TotalVoteCount == 1 ? "" : "s")}"));

@@ -17,7 +17,8 @@ namespace RotoMonsterUI
         public int PollId { get; set; }
         public string CreatorUsername { get; set; }
         public TimeSpan? TimeSinceCreated { get; set; }
-        public double? EndsInPercent { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public TimeSpan? PollLength { get; set; }
         public string Question { get; set; }
         public LeagueSettingsInput LeagueSettings { get; set; }
         public List<PollOptionInput> Options { get; set; } = new List<PollOptionInput>();
