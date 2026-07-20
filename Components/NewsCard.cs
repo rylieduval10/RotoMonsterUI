@@ -410,22 +410,6 @@ namespace RotoMonsterUI
 
             var headerLeft = new HtmlTag("div").AddClass("news-card-test-header-left");
 
-            var levelColor = LevelColor(_input.NewsLevel);
-            if (levelColor != null)
-            {
-                var levelBadge = new HtmlTag("span")
-                    .AddClass("news-card-test-level")
-                    .Attr("style", $"background:{levelColor}")
-                    .Text(_input.NewsLevel.ToString().ToLower());
-                headerLeft.Append(levelBadge);
-            }
-
-            if (_input.TimeSinceCreated.HasValue)
-            {
-                var timeBadge = new HtmlTag("span").AppendHtml(new TimeSinceBadge(_input.TimeSinceCreated.Value).Render());
-                headerLeft.Append(timeBadge);
-            }
-
             if (!string.IsNullOrEmpty(_input.SourceURL))
             {
                 var sourceLink = new HtmlTag("a")
@@ -436,6 +420,22 @@ namespace RotoMonsterUI
                     .Attr("aria-label", "Source");
                 sourceLink.AppendHtml(new Icon(new IconInput { Type = IconType.ExternalLink, Size = 18, Color = "currentColor" }).Render());
                 headerLeft.Append(sourceLink);
+            }
+
+            if (_input.TimeSinceCreated.HasValue)
+            {
+                var timeBadge = new HtmlTag("span").AppendHtml(new TimeSinceBadge(_input.TimeSinceCreated.Value).Render());
+                headerLeft.Append(timeBadge);
+            }
+
+            var levelColor = LevelColor(_input.NewsLevel);
+            if (levelColor != null)
+            {
+                var levelBadge = new HtmlTag("span")
+                    .AddClass("news-card-test-level")
+                    .Attr("style", $"background:{levelColor}")
+                    .Text(_input.NewsLevel.ToString().ToLower());
+                headerLeft.Append(levelBadge);
             }
 
             headerRow.Append(headerLeft);
