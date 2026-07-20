@@ -592,10 +592,10 @@ footer a:hover { color: var(--brand-primary-light); }
     box-shadow: 0 10px 25px rgba(0,0,0,0.15); max-height: 420px; overflow-y: auto;
     z-index: 9999; padding: 0.25rem; margin-top: 0.25rem;
 }
-.listItem { padding: 0.6rem 1rem; cursor: pointer; font-size: 0.875rem; color: #e2e8f0; border-radius: 6px; transition: background 0.15s ease, color 0.15s ease; }
+.listItem { padding: 0.6rem 1rem; cursor: pointer; font-size: 0.875rem; color: #1e293b; border-radius: 6px; transition: background 0.15s ease, color 0.15s ease; }
 .listItem:hover, .itemHighlighted {
-    background: rgba(255,255,255,0.1);
-    color: #ffffff;
+    background: #f1f5f9;
+    color: #1e293b;
 }
 .completionList::-webkit-scrollbar { width: 8px; }
 .completionList::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
@@ -4217,8 +4217,5 @@ a.modern-filter-btn:hover {
 }
 
 .page-title-row-search .bm-search-box {
-    border: 1px solid var(--color-border); background: transparent; box-shadow: none;
-}
-.page-title-row-search .bm-search-box:focus {
-    border-color: var(--brand-primary); box-shadow: none;
+    background: transparent; color: var(--color-text-primary);
 }

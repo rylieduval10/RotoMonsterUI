@@ -4255,8 +4255,5 @@ a.modern-filter-btn:hover {
 }
 
 .page-title-row-search .bm-search-box {
-    border: 1px solid var(--color-border); background: transparent; box-shadow: none;
-}
-.page-title-row-search .bm-search-box:focus {
-    border-color: var(--brand-primary); box-shadow: none;
+    background: transparent; color: var(--color-text-primary);
 }
