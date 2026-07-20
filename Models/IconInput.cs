@@ -74,7 +74,10 @@ namespace RotoMonsterUI
         Success,
         Plus,
         Moon,
-        Sun
+        Sun,
+        Ai,
+        Grok,
+        Gemini
     }
 
     public class IconInput

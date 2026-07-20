@@ -3725,10 +3725,11 @@ a.modern-filter-btn:hover {
     color: var(--color-text-primary);
 }
 
+
 .news-card-test-corner-group {
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -3750,14 +3751,15 @@ a.modern-filter-btn:hover {
     font-weight: 600;
     letter-spacing: 0.4px;
     color: white;
-    border-radius: 0 10px 0 10px;
+    border-radius: 10px 0 10px 0;
 }
 
 .news-card-test-header {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     margin-bottom: 8px;
-    padding-right: 80px;
+    padding-left: 80px;
 }
 
 .news-card-test-header-left {
