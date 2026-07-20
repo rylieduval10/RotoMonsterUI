@@ -31,7 +31,7 @@ namespace RotoMonsterUI
                     .WithSelectedValue(_input.SelectedLeagueValue);
 
                 foreach (var league in _input.Leagues)
-                    leagueDd.AddItem(league.text, league.value);
+                    leagueDd.AddItem(league.Text, league.Value);
 
                 var leagueWrap = new HtmlTag("span")
                     .AddClass("page-title-row-league")

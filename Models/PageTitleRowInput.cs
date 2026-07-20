@@ -2,6 +2,12 @@ using System.Collections.Generic;
 
 namespace RotoMonsterUI
 {
+    public class LeagueOption
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
     public class PageTitleRowInput
     {
         // Pass in the actual rendered PageHeader output (e.g.
@@ -11,7 +17,7 @@ namespace RotoMonsterUI
         public string HeaderHtml { get; set; }
 
         // LEAGUE SELECTOR - hand over the list, the row builds a normal Dropdown.
-        public List<(string text, string value)> Leagues { get; set; }
+        public List<LeagueOption> Leagues { get; set; }
         public string SelectedLeagueValue { get; set; }
         public string LeagueDropdownName { get; set; } = "leagueSelect";
         public string LeagueDropdownLabel { get; set; } = "League";
