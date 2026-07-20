@@ -4191,7 +4191,7 @@ a.modern-filter-btn:hover {
 .favorites-toolbar-pill {
     display: inline-flex; align-items: center; gap: 4px;
     background: var(--color-bg-secondary); border: 1px solid var(--color-border);
-    border-radius: 6px; padding: 4px 6px 4px 10px; font-size: 0.8rem;
+    border-radius: 6px; padding: 4px 10px; font-size: 0.8rem;
 }
 .favorites-toolbar-link {
     color: var(--color-text-secondary); text-decoration: none; font-weight: 500;
@@ -4230,3 +4230,41 @@ a.modern-filter-btn:hover {
 .page-title-row-search .bm-search-box:focus {
     background: transparent; border: none; box-shadow: none; color: var(--color-text-primary);
 }
+/* ============================================
+   SEASON HIGH/LOW TABLE (PlayerStats)
+   ============================================ */
+.season-highlow { width: 100%; }
+.season-highlow-title {
+    font-weight: 600; font-size: 0.95rem; margin-bottom: 0.5rem;
+    color: var(--color-text-primary);
+}
+.season-highlow-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.season-highlow-table th {
+    text-align: left; padding: 0.4rem 0.75rem; font-weight: 600;
+    color: var(--color-text-secondary); border-bottom: 2px solid var(--color-border);
+}
+.season-highlow-table td {
+    padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+}
+.season-highlow-table tr:last-child td { border-bottom: none; }
+.season-highlow-table .shl-stat { font-weight: 600; color: var(--color-text-primary); }
+.season-highlow-table .shl-val { font-weight: 700; }
+.season-highlow-table .shl-high .shl-val { color: var(--brand-primary); }
+.season-highlow-table .shl-low .shl-val { color: var(--color-text-secondary); }
+.season-highlow-table .shl-ctx {
+    display: block; font-size: 0.72rem; color: var(--color-text-secondary); margin-top: 1px;
+}
+
+/* Match the add/remove toggle size to the favorite pills */
+.favorites-toolbar-current-btn {
+    padding: 4px 10px; border-width: 1px; border-radius: 6px; font-weight: 500;
+}
+
+/* ============================================
+   FAVORITES ADD/REMOVE TOGGLE TINTS
+   ============================================ */
+.favorites-toolbar-add { background: #e8f5e9; border-color: #a5d6a7; color: #2e7d32; }
+.favorites-toolbar-add:hover { background: #d7eeda; border-color: #81c784; }
+.favorites-toolbar-remove { background: #fdecea; border-color: #f5b7b1; color: #c0392b; }
+.favorites-toolbar-remove:hover { background: #f9dcd8; border-color: #ef9a9a; }

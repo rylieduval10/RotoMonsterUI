@@ -13,6 +13,12 @@ namespace RotoMonsterUI
 
         public string Render()
         {
+            // Nothing to show: no favorites AND the current page can't be
+            // favorited - hide the whole bar.
+            bool hasCurrent = _input.CurrentPage != null && !string.IsNullOrEmpty(_input.CurrentPage.PageId);
+            if ((_input.Pages == null || _input.Pages.Count == 0) && !hasCurrent)
+                return "";
+
             var wrapper = new HtmlTag("div").AddClass("favorites-toolbar");
 
             var label = new HtmlTag("span").AddClass("favorites-toolbar-label").Text("Favorites");
@@ -40,27 +46,27 @@ namespace RotoMonsterUI
                 if (isFavorited)
                 {
                     var removeBtn = new HtmlTag("button")
-                        .AddClass("modern-filter-btn modern-filter-btn-secondary favorites-toolbar-current-btn")
+                        .AddClass("modern-filter-btn favorites-toolbar-current-btn favorites-toolbar-remove")
                         .Attr("type", "button")
                         .Attr("name", $"{_input.Id}_hide_{_input.CurrentPage.PageId}")
-                        .Attr("aria-label", "Remove this page from favorites")
+                        .Attr("aria-label", $"Remove {_input.CurrentPage.Name} from favorites")
                         .Attr("onclick", $"TriggerPostBack(this, '{_input.Id}_hide_', 'data-pageid')")
                         .Attr("data-pageid", _input.CurrentPage.PageId);
-                    removeBtn.AppendHtml(new Icon(new IconInput { Type = IconType.Close, Size = 14, Color = "currentColor" }).Render());
-                    removeBtn.AppendHtml("<span style='margin-left:0.35rem;'>Remove from favorites</span>");
+                    removeBtn.AppendHtml(new Icon(new IconInput { Type = IconType.Close, Size = 12, Color = "currentColor" }).Render());
+                    removeBtn.AppendHtml($"<span style='margin-left:0.35rem;'>Remove {System.Net.WebUtility.HtmlEncode(_input.CurrentPage.Name)}</span>");
                     wrapper.Append(removeBtn);
                 }
                 else if (_input.Pages.Count < _input.MaxPages)
                 {
                     var addBtn = new HtmlTag("button")
-                        .AddClass("modern-filter-btn modern-filter-btn-secondary favorites-toolbar-current-btn")
+                        .AddClass("modern-filter-btn favorites-toolbar-current-btn favorites-toolbar-add")
                         .Attr("type", "button")
                         .Attr("name", $"{_input.Id}_addcurrent_{_input.CurrentPage.PageId}")
-                        .Attr("aria-label", "Add this page to favorites")
+                        .Attr("aria-label", $"Add {_input.CurrentPage.Name} to favorites")
                         .Attr("onclick", $"TriggerPostBack(this, '{_input.Id}_addcurrent_', 'data-pageid')")
                         .Attr("data-pageid", _input.CurrentPage.PageId);
-                    addBtn.AppendHtml(new Icon(new IconInput { Type = IconType.Plus, Size = 14, Color = "currentColor" }).Render());
-                    addBtn.AppendHtml("<span style='margin-left:0.35rem;'>Add to favorites</span>");
+                    addBtn.AppendHtml(new Icon(new IconInput { Type = IconType.Plus, Size = 12, Color = "currentColor" }).Render());
+                    addBtn.AppendHtml($"<span style='margin-left:0.35rem;'>Add {System.Net.WebUtility.HtmlEncode(_input.CurrentPage.Name)}</span>");
                     wrapper.Append(addBtn);
                 }
                 // else: at MaxPages and not favorited - no add toggle shown.
