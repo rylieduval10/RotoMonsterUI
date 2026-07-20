@@ -4170,7 +4170,12 @@ a.modern-filter-btn:hover {
     padding: 0.6rem 1rem; background: var(--color-bg-secondary);
     border-bottom: 1px solid var(--color-border);
 }
-.page-title-row-search .player-search { display: block; width: 100%; }
+.page-title-row-search .player-search {
+    display: block;
+    width: 100%;
+    background-color: var(--color-bg-secondary);
+    border: none;
+}
 .page-title-row-search { flex: 0 1 320px; min-width: 100px; }
 .page-title-row-season { max-width: 160px; flex-shrink: 0; }
 
@@ -4216,6 +4221,7 @@ a.modern-filter-btn:hover {
     position: absolute; top: 100%; left: 0; min-width: 100%; width: max-content; max-width: 340px;
 }
 
-.page-title-row-search .bm-search-box {
-    background: transparent; color: var(--color-text-primary);
+.page-title-row-search .bm-search-box,
+.page-title-row-search .bm-search-box:focus {
+    background: transparent; border: none; box-shadow: none; color: var(--color-text-primary);
 }

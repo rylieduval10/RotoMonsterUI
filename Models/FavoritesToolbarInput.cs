@@ -12,11 +12,9 @@ namespace RotoMonsterUI
     public class FavoritesToolbarInput
     {
         public string Id { get; set; }
-        // Pages the user has manually added, in display order.
+        // Pages the user has favorited, in display order.
         public List<FavoritePageItem> Pages { get; set; } = new List<FavoritePageItem>();
-        // Pages not currently favorited that the user can pick from the
-        // "Add a page" dropdown.
-        public List<FavoritePageItem> AvailablePages { get; set; } = new List<FavoritePageItem>();
+        public FavoritePageItem CurrentPage { get; set; }
         public int MaxPages { get; set; } = 5;
     }
 }

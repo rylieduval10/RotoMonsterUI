@@ -27,8 +27,7 @@ namespace RotoMonsterUI
 
             result.HidePageId = ExtractPageId(hidePrefix);
 
-            if (params_.TryGetValue($"{id}_addpage_select", out var addedPageId) && !string.IsNullOrEmpty(addedPageId))
-                result.AddPageId = addedPageId;
+            result.AddPageId = ExtractPageId($"{id}_addcurrent_");
 
             return result;
         }
