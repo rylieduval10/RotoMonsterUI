@@ -4174,7 +4174,12 @@ a.modern-filter-btn:hover {
     display: block;
     width: 100%;
     background-color: var(--color-bg-secondary);
-    border: none;
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    transition: border-color 0.2s ease;
+}
+.page-title-row-search .player-search:hover {
+    border-color: var(--brand-primary);
 }
 .page-title-row-search { flex: 0 1 320px; min-width: 100px; }
 .page-title-row-season { max-width: 160px; flex-shrink: 0; }
