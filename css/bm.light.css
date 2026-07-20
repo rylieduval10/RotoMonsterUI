@@ -4215,3 +4215,10 @@ a.modern-filter-btn:hover {
 .player-search .player-search-results {
     position: absolute; top: 100%; left: 0; min-width: 100%; width: max-content; max-width: 340px;
 }
+
+.page-title-row-search .bm-search-box {
+    border: 1px solid var(--color-border); background: transparent; box-shadow: none;
+}
+.page-title-row-search .bm-search-box:focus {
+    border-color: var(--brand-primary); box-shadow: none;
+}

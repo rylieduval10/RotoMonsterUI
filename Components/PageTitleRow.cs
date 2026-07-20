@@ -15,12 +15,6 @@ namespace RotoMonsterUI
         {
             var output = new System.Text.StringBuilder();
 
-            if (_input.FavoritesToolbar != null)
-            {
-                _input.FavoritesToolbar.Id = PageTitleRowService.FavoritesId;
-                output.Append(new FavoritesToolbar(_input.FavoritesToolbar).Render());
-            }
-
             var row = new HtmlTag("div").AddClass("page-title-row");
 
             if (!string.IsNullOrEmpty(_input.HeaderHtml))
@@ -91,6 +85,12 @@ namespace RotoMonsterUI
             }
 
             output.Append(row.ToString());
+
+            if (_input.FavoritesToolbar != null)
+            {
+                _input.FavoritesToolbar.Id = PageTitleRowService.FavoritesId;
+                output.Append(new FavoritesToolbar(_input.FavoritesToolbar).Render());
+            }
 
             return output.ToString();
         }
