@@ -4,49 +4,46 @@ namespace RotoMonsterUI
 {
     public class PageTitleRowService
     {
+        public const string LeagueDropdownName = "pageTitleRowLeague";
+        public const string RefreshRostersName = "pageTitleRowRefresh";
+        public const string PlayerSearchId = "pageTitleRowSearch";
+        public const string FavoritesId = "pageTitleRowFavorites";
+        public const string DarkModeToggleName = "pageTitleRowDarkToggle";
+
         private readonly PlayerSearchService _playerSearchService = new PlayerSearchService();
         private readonly FavoritesToolbarService _favoritesToolbarService = new FavoritesToolbarService();
 
-        public PageTitleRowResult Process(PageTitleRowInput input, Dictionary<string, string> formValues)
+        public PageTitleRowResult Process(Dictionary<string, string> formValues)
         {
             var result = new PageTitleRowResult();
 
-            if (input == null || formValues == null)
+            if (formValues == null)
                 return result;
 
-            // League selection
-            if (!string.IsNullOrEmpty(input.LeagueDropdownName)
-                && formValues.TryGetValue(input.LeagueDropdownName, out var leagueValue)
+            // League selection.
+            if (formValues.TryGetValue(LeagueDropdownName, out var leagueValue)
                 && !string.IsNullOrEmpty(leagueValue))
             {
                 result.SelectedLeagueValue = leagueValue;
             }
 
-            // Refresh rosters 
-            if (input.ShowRefreshRosters && !string.IsNullOrEmpty(input.RefreshRostersName))
-            {
-                formValues.TryGetValue("__EVENTTARGET", out var eventTarget);
-                if (formValues.ContainsKey(input.RefreshRostersName)
-                    || eventTarget == input.RefreshRostersName)
-                {
-                    result.RefreshRostersClicked = true;
-                }
-            }
+            // Refresh rosters
+            formValues.TryGetValue("__EVENTTARGET", out var eventTarget);
+            if (formValues.ContainsKey(RefreshRostersName) || eventTarget == RefreshRostersName)
+                result.RefreshRostersClicked = true;
 
-            // Player search
-            if (input.PlayerSearch != null)
-            {
-                var playerResult = _playerSearchService.Process(input.PlayerSearch.Id, formValues);
-                result.SelectedPlayerId = playerResult.SelectedPlayerId;
-            }
+            // Dark mode toggle 
+            if (formValues.ContainsKey(DarkModeToggleName) || eventTarget == DarkModeToggleName)
+                result.DarkModeTogglePressed = true;
 
-            // Favorites toolbar
-            if (input.FavoritesToolbar != null)
-            {
-                var favResult = _favoritesToolbarService.Process(input.FavoritesToolbar.Id, formValues);
-                result.AddFavoritePageId = favResult.AddPageId;
-                result.HideFavoritePageId = favResult.HidePageId;
-            }
+            // Player search 
+            var playerResult = _playerSearchService.Process(PlayerSearchId, formValues);
+            result.SelectedPlayerId = playerResult.SelectedPlayerId;
+
+            // Favorites toolbar 
+            var favResult = _favoritesToolbarService.Process(FavoritesId, formValues);
+            result.AddFavoritePageId = favResult.AddPageId;
+            result.HideFavoritePageId = favResult.HidePageId;
 
             return result;
         }

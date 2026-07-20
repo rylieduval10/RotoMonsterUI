@@ -8,6 +8,10 @@ namespace RotoMonsterUI
         // True when the user clicked the refresh-rosters button.
         public bool RefreshRostersClicked { get; set; }
 
+        // True when the user clicked the dark/light mode toggle. The caller
+        // flips their own setting, since they already know the current mode.
+        public bool DarkModeTogglePressed { get; set; }
+
         // The player the user picked from the search box, if any.
         public int? SelectedPlayerId { get; set; }
 

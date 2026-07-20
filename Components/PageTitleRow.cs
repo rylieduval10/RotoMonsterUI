@@ -16,7 +16,10 @@ namespace RotoMonsterUI
             var output = new System.Text.StringBuilder();
 
             if (_input.FavoritesToolbar != null)
+            {
+                _input.FavoritesToolbar.Id = PageTitleRowService.FavoritesId;
                 output.Append(new FavoritesToolbar(_input.FavoritesToolbar).Render());
+            }
 
             var row = new HtmlTag("div").AddClass("page-title-row");
 
@@ -27,7 +30,7 @@ namespace RotoMonsterUI
             if (_input.Leagues != null && _input.Leagues.Count > 0)
             {
                 var leagueDd = new Dropdown(_input.LeagueDropdownLabel)
-                    .WithName(_input.LeagueDropdownName)
+                    .WithName(PageTitleRowService.LeagueDropdownName)
                     .WithSelectedValue(_input.SelectedLeagueValue);
 
                 foreach (var league in _input.Leagues)
@@ -46,7 +49,7 @@ namespace RotoMonsterUI
             if (_input.ShowRefreshRosters)
             {
                 var refreshBtn = new IconButton("Refresh Rosters", IconType.RefreshRosters)
-                    .WithName(_input.RefreshRostersName)
+                    .WithName(PageTitleRowService.RefreshRostersName)
                     .WithStyle(ButtonStyle.Secondary)
                     .WithIconOnly()
                     .Render();
@@ -55,6 +58,7 @@ namespace RotoMonsterUI
 
             if (_input.PlayerSearch != null)
             {
+                _input.PlayerSearch.Id = PageTitleRowService.PlayerSearchId;
                 var searchWrap = new HtmlTag("span")
                     .AddClass("page-title-row-search")
                     .AppendHtml(new PlayerSearch(_input.PlayerSearch).Render());
@@ -72,7 +76,7 @@ namespace RotoMonsterUI
                 // (switch to light) when currently dark.
                 var toggleIcon = _input.IsDarkMode ? IconType.Sun : IconType.Moon;
                 var darkToggle = new IconButton(_input.IsDarkMode ? "Switch to light mode" : "Switch to dark mode", toggleIcon)
-                    .WithUrl(_input.DarkModeToggleUrl)
+                    .WithName(PageTitleRowService.DarkModeToggleName)
                     .WithStyle(ButtonStyle.Secondary)
                     .WithIconOnly()
                     .Render();
