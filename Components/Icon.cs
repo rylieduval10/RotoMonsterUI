@@ -195,11 +195,14 @@ namespace RotoMonsterUI
                 case IconType.NoBackToBack:
                     return WrapSvg(@"<circle cx=""10"" cy=""7"" r=""3""/><path d=""M5 20c0-4 2-7 5-7s5 3 5 7""/><path d=""M17 8l4 4""/><path d=""M21 8l-4 4""/>");
                 case IconType.TankCandidate:
-                    // Source: Font Awesome Free "turtle", CC BY 4.0 - https://fontawesome.com/license/free
-                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""{_input.Color}"">
-                        <path d=""M14.5 13.5A5.5 5.5 0 0 0 9 8a5.5 5.5 0 0 0-5.5 5.5H3a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h11.2a4 4 0 0 0 3.3-1.7l1.7-.2a2.3 2.3 0 0 0 2.3-2.3v-.8a2.5 2.5 0 0 0-2.5-2.5h-.7a4 4 0 0 0-3.8 3.5Zm4.5-1.5a.8.8 0 1 1 .8-.8.8.8 0 0 1-.8.8Z""/>
-                        <rect x=""5"" y=""17"" width=""3"" height=""3"" rx=""1.2""/>
-                        <rect x=""10"" y=""17"" width=""3"" height=""3"" rx=""1.2""/>
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 100 84"" fill=""none"">
+                        <rect x=""56"" y=""33"" width=""38"" height=""6"" rx=""1"" fill=""{_input.Color}""/>
+                        <path d=""M26 44 V22 H40 V29 H58 V44"" fill=""none"" stroke=""{_input.Color}"" stroke-width=""5"" stroke-linejoin=""round"" stroke-linecap=""round""/>
+                        <path d=""M24 44 H70 A16 16 0 0 1 70 76 H24 A16 16 0 0 1 24 44 Z"" fill=""none"" stroke=""{_input.Color}"" stroke-width=""5""/>
+                        <circle cx=""28"" cy=""64"" r=""5.5"" fill=""{_input.Color}""/>
+                        <circle cx=""42"" cy=""64"" r=""5.5"" fill=""{_input.Color}""/>
+                        <circle cx=""56"" cy=""64"" r=""5.5"" fill=""{_input.Color}""/>
+                        <circle cx=""70"" cy=""64"" r=""5.5"" fill=""{_input.Color}""/>
                     </svg>";
                 case IconType.Sleeper:
                     return WrapSvg(@"<path d=""M4 6h8l-8 8h8""/><path d=""M15 14h4l-4 4h4""/>");
@@ -221,6 +224,20 @@ namespace RotoMonsterUI
 
                 case IconType.Kebab:
                     return WrapSvg(@"<circle cx=""12"" cy=""5"" r=""1.5""/><circle cx=""12"" cy=""12"" r=""1.5""/><circle cx=""12"" cy=""19"" r=""1.5""/>");
+
+                case IconType.DragHandle:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"" fill=""{_input.Color}"">
+                        <circle cx=""9"" cy=""6"" r=""1.6""/><circle cx=""15"" cy=""6"" r=""1.6""/>
+                        <circle cx=""9"" cy=""12"" r=""1.6""/><circle cx=""15"" cy=""12"" r=""1.6""/>
+                        <circle cx=""9"" cy=""18"" r=""1.6""/><circle cx=""15"" cy=""18"" r=""1.6""/>
+                    </svg>";
+
+                case IconType.Favorite:
+                    return $@"<svg xmlns=""http://www.w3.org/2000/svg"" width=""{_input.Size}"" height=""{_input.Size}"" viewBox=""0 0 24 24"">
+                        <polygon points=""12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"" fill=""#F5B301"" stroke=""#B37A00"" stroke-width=""1"" stroke-linejoin=""round""/>
+                    </svg>";
+                case IconType.FavoriteOutline:
+                    return WrapSvg(@"<polygon points=""12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26""/>");
 
                 case IconType.LimitedMinutes:
                     return WrapSvg(@"<circle cx=""12"" cy=""12"" r=""9""/><path d=""M12 7v5h4""/>");

@@ -60,6 +60,7 @@ namespace RotoMonsterUI
             switch (level)
             {
                 case NewsLevel.Low: return "#8c8c8c";
+                case NewsLevel.Medium: return "#6699ff";
                 case NewsLevel.High: return "#e68a00";
                 case NewsLevel.Monster: return "#cc3300";
                 default: return null;

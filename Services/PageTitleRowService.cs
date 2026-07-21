@@ -44,6 +44,7 @@ namespace RotoMonsterUI
             var favResult = _favoritesToolbarService.Process(FavoritesId, formValues);
             result.AddFavoritePageId = favResult.AddPageId;
             result.HideFavoritePageId = favResult.HidePageId;
+            result.ReorderedFavoritePageIds = favResult.ReorderedPageIds;
 
             return result;
         }

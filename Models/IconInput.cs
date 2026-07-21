@@ -77,7 +77,10 @@ namespace RotoMonsterUI
         Sun,
         Ai,
         Grok,
-        Gemini
+        Gemini,
+        Favorite,
+        FavoriteOutline, 
+        DragHandle
     }
 
     public class IconInput

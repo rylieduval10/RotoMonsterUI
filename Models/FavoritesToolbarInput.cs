@@ -16,5 +16,8 @@ namespace RotoMonsterUI
         public List<FavoritePageItem> Pages { get; set; } = new List<FavoritePageItem>();
         public FavoritePageItem CurrentPage { get; set; }
         public int MaxPages { get; set; } = 5;
+        // When true (and there are 2+ pages), each pill gets a drag handle so
+        // the user can reorder favorites. New order posts back on drop.
+        public bool AllowReorder { get; set; } = true;
     }
 }

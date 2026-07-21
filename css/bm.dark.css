@@ -636,7 +636,7 @@ body {
 }
 .card-based:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(45, 122, 62, 0.15);
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 107, 0, 0.15);
 }
 .card-based h3, .card-based h5 { color: #60a5fa; text-shadow: 0 0 15px rgba(96,165,250,0.3); }
 .card-based a { color: #38bdf8; }
@@ -4306,3 +4306,28 @@ a.modern-filter-btn:hover {
 .favorites-toolbar-add:hover { background: rgba(76,175,80,0.25); border-color: rgba(76,175,80,0.7); }
 .favorites-toolbar-remove { background: rgba(229,57,53,0.15); border-color: rgba(229,57,53,0.5); color: #ef9a9a; }
 .favorites-toolbar-remove:hover { background: rgba(229,57,53,0.25); border-color: rgba(229,57,53,0.7); }
+
+.favorites-toolbar-pill {
+    display: inline-flex;
+    align-items: center;
+}
+
+.favorites-toolbar-handle {
+    display: inline-flex;
+    align-items: center;
+    cursor: grab;
+    color: var(--color-text-secondary);
+    margin-right: 0.25rem;
+    touch-action: none;
+}
+
+.favorites-toolbar-handle:active {
+    cursor: grabbing;
+}
+
+.favorites-toolbar-pill--dragging {
+    opacity: 0.5;
+}
+
+.bm-tooltip-content { display: none; }
+.bm-tooltip-content.bm-tooltip-visible { display: block; }

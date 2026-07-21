@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HtmlTags;
 
 namespace RotoMonsterUI
@@ -19,16 +20,37 @@ namespace RotoMonsterUI
             if ((_input.Pages == null || _input.Pages.Count == 0) && !hasCurrent)
                 return "";
 
-            var wrapper = new HtmlTag("div").AddClass("favorites-toolbar");
+            // Drag reorder only makes sense with 2+ pages.
+            bool allowReorder = _input.AllowReorder && _input.Pages != null && _input.Pages.Count >= 2;
 
-            var label = new HtmlTag("span").AddClass("favorites-toolbar-label").Text("Favorites");
+            var wrapper = new HtmlTag("div").AddClass("favorites-toolbar");
+            if (allowReorder)
+                wrapper.Attr("data-favorites-id", _input.Id);
+
+            var starIcon = new Icon(new IconInput { Type = IconType.Favorite, Size = 20 }).Render();
+            var label = new HtmlTag("span")
+                .AddClass("favorites-toolbar-label")
+                .AppendHtml(new CustomTooltip(starIcon, "Favorites").WithHoverTrigger().Render());
             wrapper.Append(label);
 
             // Favorited pages - links only, no per-pill remove button. Removal
             // happens via the current-page toggle when the user is on that page.
             foreach (var page in _input.Pages)
             {
-                var pill = new HtmlTag("span").AddClass("favorites-toolbar-pill");
+                var pill = new HtmlTag("span")
+                    .AddClass("favorites-toolbar-pill")
+                    .Attr("data-pageid", page.PageId);
+
+                if (allowReorder)
+                {
+                    var handle = new HtmlTag("span")
+                        .AddClass("favorites-toolbar-handle")
+                        .Attr("draggable", "true")
+                        .Attr("aria-label", $"Drag to reorder {page.Name}");
+                    handle.AppendHtml(new Icon(new IconInput { Type = IconType.DragHandle, Size = 14, Color = "currentColor" }).Render());
+                    pill.Append(handle);
+                }
+
                 var link = new HtmlTag("a")
                     .AddClass("favorites-toolbar-link")
                     .Attr("href", page.Url)
@@ -70,6 +92,23 @@ namespace RotoMonsterUI
                     wrapper.Append(addBtn);
                 }
                 // else: at MaxPages and not favorited - no add toggle shown.
+            }
+
+            // Hidden field holding the current page order, updated by the drag JS
+            // on drop. Pre-seeded with the rendered order so a no-op drag (drop in
+            // the same spot) can be detected client-side and skip the postback.
+            if (allowReorder)
+            {
+                var ids = new List<string>();
+                foreach (var p in _input.Pages)
+                    ids.Add(p.PageId);
+
+                var orderField = new HtmlTag("input")
+                    .Attr("type", "hidden")
+                    .Attr("id", $"{_input.Id}_order")
+                    .Attr("name", $"{_input.Id}_order")
+                    .Attr("value", string.Join(",", ids));
+                wrapper.Append(orderField);
             }
 
             return wrapper.ToString();

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace RotoMonsterUI
 {
     public class PageTitleRowResult
@@ -20,5 +22,9 @@ namespace RotoMonsterUI
 
         // Set when the user removed a page from the favorites bar.
         public string HideFavoritePageId { get; set; }
+
+        // Set when the user drag-reordered the favorites bar - the full new
+        // page order. Caller persists this. Null when no reorder happened.
+        public List<string> ReorderedFavoritePageIds { get; set; }
     }
 }

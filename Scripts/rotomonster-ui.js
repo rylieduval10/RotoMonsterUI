@@ -1811,3 +1811,83 @@ document.addEventListener('click', function (e) {
         resizeTimer = setTimeout(drawAllCharts, 200);
     });
 })();
+
+// Favorites toolbar - drag a pill's handle to reorder. Reorders the DOM live
+// during drag, then posts the new order back on drop (skips if unchanged).
+(function () {
+    var dragEl = null;
+
+    document.addEventListener('dragstart', function (e) {
+        var handle = e.target.closest('.favorites-toolbar-handle[draggable="true"]');
+        if (!handle) return;
+        dragEl = handle.closest('.favorites-toolbar-pill');
+        if (!dragEl) return;
+        dragEl.classList.add('favorites-toolbar-pill--dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        // Firefox needs setData to start a drag; use the pill as the drag image.
+        try { e.dataTransfer.setData('text/plain', dragEl.getAttribute('data-pageid') || ''); } catch (err) {}
+        try { e.dataTransfer.setDragImage(dragEl, 10, 10); } catch (err) {}
+    });
+
+    document.addEventListener('dragover', function (e) {
+        if (!dragEl) return;
+        var bar = e.target.closest('.favorites-toolbar');
+        if (!bar || dragEl.closest('.favorites-toolbar') !== bar) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+
+        var afterEl = getDragAfterElement(bar, e.clientX);
+        if (afterEl == null) {
+            // Keep the add/remove toggle button pinned at the end.
+            var toggle = bar.querySelector('.favorites-toolbar-current-btn');
+            if (toggle) bar.insertBefore(dragEl, toggle);
+            else bar.appendChild(dragEl);
+        } else {
+            bar.insertBefore(dragEl, afterEl);
+        }
+    });
+
+    document.addEventListener('dragend', function () {
+        if (!dragEl) return;
+        dragEl.classList.remove('favorites-toolbar-pill--dragging');
+        var bar = dragEl.closest('.favorites-toolbar');
+        dragEl = null;
+        if (bar) commitOrder(bar);
+    });
+
+    function getDragAfterElement(bar, x) {
+        var pills = Array.prototype.slice.call(
+            bar.querySelectorAll('.favorites-toolbar-pill:not(.favorites-toolbar-pill--dragging)')
+        );
+        var closest = null;
+        var closestOffset = Number.NEGATIVE_INFINITY;
+        pills.forEach(function (pill) {
+            var box = pill.getBoundingClientRect();
+            var offset = x - box.left - box.width / 2;
+            if (offset < 0 && offset > closestOffset) {
+                closestOffset = offset;
+                closest = pill;
+            }
+        });
+        return closest;
+    }
+
+    function commitOrder(bar) {
+        var id = bar.getAttribute('data-favorites-id');
+        if (!id) return;
+
+        var ids = Array.prototype.slice.call(bar.querySelectorAll('.favorites-toolbar-pill'))
+            .map(function (p) { return p.getAttribute('data-pageid'); })
+            .filter(function (v) { return v; });
+        var next = ids.join(',');
+
+        var hidden = document.getElementById(id + '_order');
+        var prev = hidden ? hidden.value : '';
+        if (hidden) hidden.value = next;
+
+        if (next === prev) return; // dropped in the same place - no postback
+        if (typeof __doPostBack === 'function') {
+            __doPostBack(id + '_reorder', next, bar.closest('form'));
+        }
+    }
+})();
