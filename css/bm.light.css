@@ -398,7 +398,7 @@ body {
 }
 .rankings-table td:first-child, .modern-stats-table td:first-child { padding-left: 0.5rem; text-align: left; }
 .rankings-table td:last-child, .modern-stats-table td:last-child { padding-right: 0.5rem; }
-.rankings-table tbody tr:hover, .modern-stats-table tbody tr:hover { background: var(--color-bg-primary); }
+.rankings-table tbody tr:hover, .modern-stats-table tbody tr:hover { background: #dbe3ee; }
 .rankings-table a, .modern-stats-table a { color: #2563eb; font-weight: 600; text-decoration: none; }
 .rankings-table a:hover, .modern-stats-table a:hover { color: #1d4ed8; }
 .value-cell { color: var(--table-value-color); font-weight: 700; }
@@ -3127,7 +3127,7 @@ a.modern-filter-btn:hover {
     padding: 0 !important;
     box-shadow: none !important;
     margin-top: 1rem;
-    margin-left: 1rem;
+    margin-left: 0rem;
     margin-bottom: 1rem;
 }
 .page-header.page-header--compact h1 {

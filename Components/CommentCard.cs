@@ -56,10 +56,12 @@ namespace RotoMonsterUI
                     var viewAll = new HtmlTag("a")
                         .AddClass("comment-card-viewall")
                         .Attr("href", $"/usercomments.aspx?i={_input.DisplayPlayerInput.PlayerId}")
-                        .Attr("aria-label", "View all comments");
+                        .Attr("aria-label", "Filter player comments");
                     if (isShaded) viewAll.AddClass("color-shaded");
                     viewAll.AppendHtml(new Icon(new IconInput { Type = IconType.Filter, Size = 14, Color = "currentColor" }).Render());
-                    playerTitle.Append(viewAll);
+
+                    var viewAllTooltip = new CustomTooltip(viewAll.ToString(), "Filter player comments").WithHoverTrigger().Render();
+                    playerTitle.AppendHtml(viewAllTooltip);
                 }
 
                 titleRow.Append(playerTitle);

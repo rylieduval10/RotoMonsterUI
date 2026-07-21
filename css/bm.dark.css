@@ -587,7 +587,7 @@ body {
 .rankings-table td:first-child, .modern-stats-table td:first-child { padding-left: 0.5rem; text-align: left; }
 .rankings-table td:last-child, .modern-stats-table td:last-child { padding-right: 0.5rem; }
 .rankings-table tbody tr:hover, .modern-stats-table tbody tr:hover {
-    background: rgba(var(--brand-primary-rgb), 0.05);
+    background: rgba(var(--brand-primary-rgb), 0.1);
     box-shadow: 0 0 20px rgba(var(--brand-primary-rgb), 0.1);
 }
 .rankings-table a, .modern-stats-table a { color: #38bdf8; font-weight: 600; text-decoration: none; transition: all 0.2s ease; }
@@ -3165,7 +3165,7 @@ a.modern-filter-btn:hover {
     padding: 0 !important;
     box-shadow: none !important;
     margin-top: 1rem;
-    margin-left: 1rem;
+    margin-left: 0rem;
     margin-bottom: 1rem;
 }
 .page-header.page-header--compact h1 {
