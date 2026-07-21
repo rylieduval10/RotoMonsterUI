@@ -30,7 +30,7 @@ namespace RotoMonsterUI
             var starIcon = new Icon(new IconInput { Type = IconType.Favorite, Size = 20 }).Render();
             var label = new HtmlTag("span")
                 .AddClass("favorites-toolbar-label")
-                .AppendHtml(new CustomTooltip(starIcon, "Favorites").WithHoverTrigger().Render());
+                .AppendHtml(new CustomTooltip(starIcon, "Favorites").Render());
             wrapper.Append(label);
 
             // Favorited pages - links only, no per-pill remove button. Removal

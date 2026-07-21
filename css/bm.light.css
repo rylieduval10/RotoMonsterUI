@@ -1466,6 +1466,7 @@ a.modern-filter-btn:hover {
     max-width: 350px;
     pointer-events: none;
     min-width: 120px;
+    text-align: center;
 }
 
 .bm-tooltip-content.bm-tooltip-visible {
