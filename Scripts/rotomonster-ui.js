@@ -751,9 +751,24 @@ document.addEventListener('input', function (e) {
     var players;
     try { players = JSON.parse(dataEl.textContent); } catch (err) { return; }
 
-    var matches = players.filter(function (p) {
-        return p.name.toLowerCase().indexOf(query) !== -1;
-    }).slice(0, 8);
+    // Match on player name first, then on any alias (aliases are searchable but never shown).
+    var nameMatches = [];
+    var aliasMatches = [];
+    for (var pi = 0; pi < players.length; pi++) {
+        var candidate = players[pi];
+        if (candidate.name && candidate.name.toLowerCase().indexOf(query) !== -1) {
+            nameMatches.push(candidate);
+            continue;
+        }
+        var aliases = candidate.aliases || [];
+        for (var ai = 0; ai < aliases.length; ai++) {
+            if (aliases[ai] && aliases[ai].toLowerCase().indexOf(query) !== -1) {
+                aliasMatches.push(candidate);
+                break;
+            }
+        }
+    }
+    var matches = nameMatches.concat(aliasMatches).slice(0, 8);
 
     if (matches.length === 0) { resultsEl.style.display = 'none'; return; }
 
