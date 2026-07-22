@@ -18,6 +18,23 @@ namespace RotoMonsterUI
             return s.Replace("\\", "\\\\").Replace("\"", "\\\"");
         }
 
+        private string SerializeAliasesJson(System.Collections.Generic.List<string> aliases)
+        {
+            if (aliases == null || aliases.Count == 0) return "[]";
+
+            var sb = new StringBuilder("[");
+            var wrote = 0;
+            for (int i = 0; i < aliases.Count; i++)
+            {
+                if (string.IsNullOrEmpty(aliases[i])) continue;
+                if (wrote > 0) sb.Append(",");
+                sb.Append($"\"{EscapeJson(aliases[i])}\"");
+                wrote++;
+            }
+            sb.Append("]");
+            return sb.ToString();
+        }
+
         private string SerializePlayersJson()
         {
             var sb = new StringBuilder("[");
@@ -32,7 +49,8 @@ namespace RotoMonsterUI
                 sb.Append($"\"id\":{p.PlayerId},");
                 sb.Append($"\"name\":\"{EscapeJson(p.PlayerName)}\",");
                 sb.Append($"\"team\":\"{EscapeJson(p.TeamCode)}\",");
-                sb.Append($"\"pos\":\"{EscapeJson(posText)}\"");
+                sb.Append($"\"pos\":\"{EscapeJson(posText)}\",");
+                sb.Append($"\"aliases\":{SerializeAliasesJson(p.Aliases)}");
                 sb.Append("}");
             }
             sb.Append("]");

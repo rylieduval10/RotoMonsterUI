@@ -2662,9 +2662,16 @@ a.modern-filter-btn:hover {
 }.season-progress {
     position: relative; width: 100%; height: 2rem; border-radius: 0.5rem;
     overflow: hidden; background: var(--season-progress-track);
+    border: 2px solid transparent; box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .season-progress--pending {
-    border: 1px solid var(--season-progress-pending-border);
+    border-color: var(--season-progress-pending-border);
+}
+.season-progress:hover {
+    border-width: 3px;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.15);
 }
 .season-progress-fill {
     position: absolute; top: 0; left: 0; bottom: 0; z-index: 1;
@@ -4158,14 +4165,19 @@ a.modern-filter-btn:hover {
     width: 100%;
 }
 
-
 .modern-filter-btn-icon-only {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px; padding: 0; border-radius: 6px;
+    width: 36px; height: 36px; padding: 0; border-radius: 6px;
+    box-sizing: border-box;
     background: var(--color-bg-secondary); border-color: var(--color-border);
     color: var(--color-text-secondary);
 }
-.modern-filter-btn-icon-only:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+.modern-filter-btn-icon-only:hover {
+    border-width: 3px;
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(var(--brand-primary-rgb), 0.15);
+}
 .page-title-row {
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
     padding: 0.6rem 1rem; background: var(--color-bg-secondary);

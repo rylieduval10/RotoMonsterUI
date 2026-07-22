@@ -10,5 +10,8 @@ namespace RotoMonsterUI
         public string TeamColor { get; set; }
 
         public List<DisplayPosition> Positions { get; set; } = new List<DisplayPosition>();
+
+        // Alternate names a player can be searched by 
+        public List<string> Aliases { get; set; } = new List<string>();
     }
 }
